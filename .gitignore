@@ -1,6 +1,14 @@
-# Local Netlify folder
-.netlify
-.firebase/
-*.log
-__pycache__/
-*.pyc
+*
+!.gitignore
+!README.md
+!index.html
+!fmds_v5_completo.html
+!firebase.json
+!.firebaserc
+!firebase.runtime-config.js
+!inmet_proxy.py
+!run_vps_sync.ps1
+!vps_connector.py
+!data/
+!data/vps/
+!data/vps/**
