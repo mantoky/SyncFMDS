@@ -85,7 +85,7 @@ Use o radio em emergencias: acione o botao vermelho e comunique-se na faixa dos 
 Contatos: CECOM 0800 2850 193 - Bombeiros 193 - SAMU 192.
 
 A vida em primeiro lugar. Iniciando o FMDS.`;
-const EVAC_ROTAS_BASE=`O G1 (guia 1) conduzira a evacuacao, seguindo pela porta de emergencia mais proxima, em fila indiana. Todos deverao seguir pela area externa do predio Infratech, passando pelo predio de Sondagem. Havera uma curva suave a esquerda, contornando o inicio das rampas de onibus. Manter a direcao em linha reta (exceto quando houver obstrucoes por pessoas, materiais, bloqueios etc.). Ao fim deste corredor, havera uma saida da area coberta (curva suave a esquerda), que direcionara todos a Praca da Bandeira. Seguindo adiante, havera uma escada dividida por um corrimao, e todos deverao, ordenadamente, direcionar-se ao PONTO DE ENCONTRO (PE N78), logo apos o estacionamento do CCO, ao lado do Heliponto.
+const EVAC_ROTAS_BASE=`G1 conduzira a evacuacao, seguindo pela porta de emergencia mais proxima, em fila indiana. Todos deverao seguir pela area externa do predio Infratech, passando pelo predio de Sondagem. Havera uma curva suave a esquerda, contornando o inicio das rampas de onibus. Manter a direcao em linha reta (exceto quando houver obstrucoes por pessoas, materiais, bloqueio etc.). Ao fim deste corredor, havera uma saida da area coberta (curva suave a esquerda), onde direcionara todos a Praca da Bandeira. Seguindo adiante, havera uma escada dividida por um corrimao; todos deverao, ordenadamente, direcionar-se ao PONTO DE ENCONTRO (PE N78), logo apos o estacionamento do CCO, ao lado do Heliponto.
 
 Obs:
 Caso o G1 (guia 1) entenda que outro caminho seguro (atalho - rota estabelecida) seja a melhor opcao, todos deverao segui-lo, conforme este plano estabelece.`;
@@ -164,6 +164,13 @@ const EVAC_FIELDS_BASE_KEY="fmds_evac_fields_base_v1";
 const APP_STATE_KEY="fmds_app_state_v2";
 const VPS_PAYLOAD_URL="data/vps/vps_payload_latest.json";
 const VPS_INDEX_URL="data/vps/index.json";
+const FB_CFG=(window.FMDS_FIREBASE_CONFIG&&window.FMDS_FIREBASE_CONFIG.projectId&&window.FMDS_FIREBASE_CONFIG.apiKey)
+  ?window.FMDS_FIREBASE_CONFIG
+  :{
+    apiKey:"AIzaSyBMsnrsuNKatnLLtAIgsC0nXsvHRP7uC2w",
+    projectId:"syncfmds"
+  };
+const EVAC_BASE_DOC_PATH="fmds_config/plano_evac_base";
 const ADMIN_USER="Admin";
 const ADMIN_PASS="FrontForBack**updapte%%editorFull%";
 const ADMIN_RECOVERY_EMAIL="mantoky@gmail.com";
@@ -201,6 +208,76 @@ function readStore(k,fb){
 function writeStore(k,v){
   try{localStorage.setItem(k,JSON.stringify(v));}catch(_){}
 }
+const isNonEmptyText=v=>typeof v==="string"&&v.trim().length>0;
+function normalizeEvacFields(obj){
+  const src=(obj&&typeof obj==="object")?obj:{};
+  return{
+    guias:String(src.guias||""),
+    rotas:String(src.rotas||""),
+    ponto:String(src.ponto||""),
+    obs:String(src.obs||"")
+  };
+}
+function hydrateEvacFields(baseFields){
+  const cur=normalizeEvacFields(S.data["plano_evac"]);
+  const base=normalizeEvacFields(baseFields);
+  const def=normalizeEvacFields(EVAC_DEFAULT_FIELDS);
+  const next={...cur};
+  Object.keys(def).forEach(k=>{
+    next[k]=isNonEmptyText(cur[k])?cur[k]:(isNonEmptyText(base[k])?base[k]:def[k]);
+  });
+  S.data["plano_evac"]=next;
+}
+function fsDocUrl(path){
+  return `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FB_CFG.projectId)}/databases/(default)/documents/${path}?key=${encodeURIComponent(FB_CFG.apiKey)}`;
+}
+function fromFsFields(fields){
+  const out={};
+  const src=(fields&&typeof fields==="object")?fields:{};
+  Object.keys(src).forEach(k=>{
+    const v=src[k]||{};
+    if(typeof v.stringValue==="string")out[k]=v.stringValue;
+    else if(typeof v.integerValue==="string")out[k]=v.integerValue;
+    else if(typeof v.doubleValue==="number")out[k]=String(v.doubleValue);
+    else if(typeof v.booleanValue==="boolean")out[k]=v.booleanValue?"true":"false";
+  });
+  return out;
+}
+function toFsFields(obj){
+  const n=normalizeEvacFields(obj);
+  return{
+    guias:{stringValue:n.guias},
+    rotas:{stringValue:n.rotas},
+    ponto:{stringValue:n.ponto},
+    obs:{stringValue:n.obs},
+    updatedAt:{timestampValue:new Date().toISOString()},
+    updatedBy:{stringValue:S.role==="admin"?"admin":"editor"}
+  };
+}
+async function loadEvacFieldsBaseCloud(){
+  try{
+    const r=await fetch(fsDocUrl(EVAC_BASE_DOC_PATH),{cache:"no-store"});
+    if(!r.ok)return null;
+    const j=await r.json();
+    if(!j||!j.fields)return null;
+    return normalizeEvacFields(fromFsFields(j.fields));
+  }catch(_){
+    return null;
+  }
+}
+async function saveEvacFieldsBaseCloud(){
+  try{
+    const payload={fields:toFsFields(S.data["plano_evac"])};
+    const r=await fetch(fsDocUrl(EVAC_BASE_DOC_PATH),{
+      method:"PATCH",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+    return r.ok;
+  }catch(_){
+    return false;
+  }
+}
 function loadEvacState(){
   const imgs=readStore(EVAC_IMG_KEY,null);
   const txt=readStore(EVAC_SCRIPT_KEY,null);
@@ -209,12 +286,13 @@ function loadEvacState(){
   if(Array.isArray(imgs)&&imgs.length===3)S.evacImages=imgs;
   if(typeof txt==="string"&&txt.trim())S.evacScript=txt;
   if(typeof base!=="string"||!base.trim())writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);
-  if(fieldsBase&&typeof fieldsBase==="object")S.data["plano_evac"]={...EVAC_DEFAULT_FIELDS,...fieldsBase,...S.data["plano_evac"]};
+  hydrateEvacFields(fieldsBase);
+  if(!fieldsBase||typeof fieldsBase!=="object")saveEvacFieldsBase();
 }
 function saveEvacImages(){writeStore(EVAC_IMG_KEY,S.evacImages);}
 function saveEvacScript(){writeStore(EVAC_SCRIPT_KEY,S.evacScript);}
 function saveEvacBase(){writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);}
-function saveEvacFieldsBase(){writeStore(EVAC_FIELDS_BASE_KEY,S.data["plano_evac"]);}
+function saveEvacFieldsBase(){writeStore(EVAC_FIELDS_BASE_KEY,normalizeEvacFields(S.data["plano_evac"]));}
 function restoreEvacBase(){
   const base=readStore(EVAC_SCRIPT_BASE_KEY,SCRIPT_SEG);
   S.evacScript=typeof base==="string"&&base.trim()?base:SCRIPT_SEG;
@@ -222,7 +300,15 @@ function restoreEvacBase(){
 }
 function restoreEvacFieldsBase(){
   const base=readStore(EVAC_FIELDS_BASE_KEY,EVAC_DEFAULT_FIELDS);
-  if(base&&typeof base==="object")S.data["plano_evac"]={...S.data["plano_evac"],...EVAC_DEFAULT_FIELDS,...base};
+  hydrateEvacFields(base);
+}
+async function syncEvacBaseFromCloudOnBoot(){
+  const cloudBase=await loadEvacFieldsBaseCloud();
+  if(cloudBase){
+    writeStore(EVAC_FIELDS_BASE_KEY,cloudBase);
+    hydrateEvacFields(cloudBase);
+    re();
+  }
 }
 function allModalImages(){
   const evac=S.evacImages.filter(Boolean).map(x=>x.url);
@@ -258,7 +344,7 @@ function loadAppState(){
   if(st.role==="admin"||st.role==="editor")S.role=st.role;
   if(typeof st.vpsSelected==="string"&&st.vpsSelected.trim())S.vps.selectedVersion=st.vpsSelected;
   if(st.weather&&typeof st.weather==="object")S.weather={...S.weather,...st.weather};
-  S.data["plano_evac"]={...EVAC_DEFAULT_FIELDS,...S.data["plano_evac"]};
+  hydrateEvacFields(readStore(EVAC_FIELDS_BASE_KEY,EVAC_DEFAULT_FIELDS));
 }
 function weatherSummary(v){
   if(!v)return"-";
@@ -888,7 +974,17 @@ function nextModalImage(){
 }
 function closeModal(){S.modalImg=null;S.modalList=[];S.modalIdx=0;re();}
 function resetScript(){restoreEvacBase();restoreEvacFieldsBase();re();}
-function saveScriptBase(){if(S.role!=="admin")return;saveEvacBase();saveEvacFieldsBase();re();}
+async function saveScriptBase(){
+  if(S.role!=="admin"){
+    alert("Somente Administrador pode salvar como base.");
+    return;
+  }
+  saveEvacBase();
+  saveEvacFieldsBase();
+  const cloudOk=await saveEvacFieldsBaseCloud();
+  if(!cloudOk)alert("Base salva no cache local. A sincronizacao com Firebase nao respondeu.");
+  re();
+}
 function handleImg(id,inp){Array.from(inp.files).forEach(f=>{const r=new FileReader();r.onload=e=>{S.imgs[id].push({name:f.name,url:e.target.result});re();};r.readAsDataURL(f);});}
 function rmImg(id,i){S.imgs[id].splice(i,1);re();}
 function openWS(id){stopSpeak();S.selId=id;S.view="workspace";re();}
@@ -955,6 +1051,7 @@ const _re=re;
 re=function(){_re();saveAppState();};
 loadAppState();
 loadEvacState();
+syncEvacBaseFromCloudOnBoot();
 loadVpsPayload(S.vps.selectedVersion==="latest"?VPS_PAYLOAD_URL:`data/vps/${S.vps.selectedVersion}`,S.vps.selectedVersion);
 loadVpsIndex();
 fetchWeatherFromInmet();
