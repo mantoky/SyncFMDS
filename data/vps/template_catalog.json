@@ -1,0 +1,62 @@
+{
+  "vps_d1d": {
+    "title": "Programacao D-1 / D (VPS)",
+    "tipo_bloco": "capa",
+    "template": "slide_capa"
+  },
+  "vps_agenda_diaria": {
+    "title": "Proposta de Agenda - Diario",
+    "tipo_bloco": "agenda",
+    "template": "tabela_agenda"
+  },
+  "vps_cronograma_dss": {
+    "title": "Cronograma DSS Diario - Maio",
+    "tipo_bloco": "dss",
+    "template": "tabela_dss"
+  },
+  "vps_ausencias": {
+    "title": "Ausencias",
+    "tipo_bloco": "ausencias",
+    "template": "tabela_ausencias"
+  },
+  "vps_sobreaviso_s1": {
+    "title": "Sobreaviso S+1 - Vale",
+    "tipo_bloco": "sobreaviso_vale",
+    "template": "grade_sobreaviso"
+  },
+  "vps_sobreaviso_sonda": {
+    "title": "Sobreaviso Sonda",
+    "tipo_bloco": "sobreaviso_sonda",
+    "template": "tabela_sobreaviso_sonda"
+  },
+  "vps_organograma_sonda": {
+    "title": "Organograma Sonda",
+    "tipo_bloco": "organograma_sonda",
+    "template": "organograma"
+  },
+  "vps_organograma_parceiros": {
+    "title": "Organograma Integrado - Parceiros",
+    "tipo_bloco": "organograma_parceiros",
+    "template": "organograma"
+  },
+  "vps_aniversariantes": {
+    "title": "Aniversariantes de Maio - 2026",
+    "tipo_bloco": "aniversariantes",
+    "template": "mural_aniversariantes"
+  },
+  "vps_ferias": {
+    "title": "Calendario de Ferias - Maio",
+    "tipo_bloco": "ferias",
+    "template": "cards_ferias"
+  },
+  "vps_veiculos": {
+    "title": "Gestao de Veiculos CKS",
+    "tipo_bloco": "veiculos",
+    "template": "tabela_veiculos"
+  },
+  "vps_checklist": {
+    "title": "Checklist obrigatorios mes de Maio - 06 postos",
+    "tipo_bloco": "checklist",
+    "template": "tabela_checklist"
+  }
+}

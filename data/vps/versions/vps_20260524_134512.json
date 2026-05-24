@@ -1,0 +1,143 @@
+{
+  "meta": {
+    "version_id": "vps_20260524_134512",
+    "generated_at": "2026-05-24T16:45:12.040866+00:00",
+    "source": "seed_manual",
+    "notes": "Gerado por conector VPS (ordem + tipo_bloco)."
+  },
+  "blocks": [
+    {
+      "order": 1,
+      "block_id": "vps_d1d",
+      "title": "Programacao D-1 / D (VPS)",
+      "tipo_bloco": "capa",
+      "template": "slide_capa",
+      "source_ref": "vw_vps_programacao_d1d",
+      "data": {
+        "tempo_referencia": "02:00min",
+        "descricao": "Tela de abertura do bloco VPS."
+      }
+    },
+    {
+      "order": 2,
+      "block_id": "vps_agenda_diaria",
+      "title": "Proposta de Agenda - Diario",
+      "tipo_bloco": "agenda",
+      "template": "tabela_agenda",
+      "source_ref": "vw_vps_agenda_diaria",
+      "data": {
+        "descricao": "Agenda semanal por dia e tempo."
+      }
+    },
+    {
+      "order": 3,
+      "block_id": "vps_cronograma_dss",
+      "title": "Cronograma DSS Diario - Maio",
+      "tipo_bloco": "dss",
+      "template": "tabela_dss",
+      "source_ref": "vw_vps_cronograma_dss",
+      "data": {
+        "descricao": "Responsaveis diarios e links de reuniao/registro."
+      }
+    },
+    {
+      "order": 4,
+      "block_id": "vps_ausencias",
+      "title": "Ausencias",
+      "tipo_bloco": "ausencias",
+      "template": "tabela_ausencias",
+      "source_ref": "vw_vps_ausencias",
+      "data": {
+        "descricao": "Funcionarios ausentes, motivo e periodo."
+      }
+    },
+    {
+      "order": 5,
+      "block_id": "vps_sobreaviso_s1",
+      "title": "Sobreaviso S+1 - Vale",
+      "tipo_bloco": "sobreaviso_vale",
+      "template": "grade_sobreaviso",
+      "source_ref": "vw_vps_sobreaviso_vale",
+      "data": {
+        "descricao": "Escala mensal e contatos de plantao."
+      }
+    },
+    {
+      "order": 6,
+      "block_id": "vps_sobreaviso_sonda",
+      "title": "Sobreaviso Sonda",
+      "tipo_bloco": "sobreaviso_sonda",
+      "template": "tabela_sobreaviso_sonda",
+      "source_ref": "vw_vps_sobreaviso_sonda",
+      "data": {
+        "descricao": "Escala por site e tecnicos de suporte."
+      }
+    },
+    {
+      "order": 7,
+      "block_id": "vps_organograma_sonda",
+      "title": "Organograma Sonda",
+      "tipo_bloco": "organograma_sonda",
+      "template": "organograma",
+      "source_ref": "vw_vps_organograma_sonda",
+      "data": {
+        "descricao": "Estrutura de equipes e quantitativo de pessoas."
+      }
+    },
+    {
+      "order": 8,
+      "block_id": "vps_organograma_parceiros",
+      "title": "Organograma Integrado - Parceiros",
+      "tipo_bloco": "organograma_parceiros",
+      "template": "organograma",
+      "source_ref": "vw_vps_organograma_parceiros",
+      "data": {
+        "descricao": "Estrutura integrada Alcon, Stefanini e Minas Laser."
+      }
+    },
+    {
+      "order": 9,
+      "block_id": "vps_aniversariantes",
+      "title": "Aniversariantes de Maio - 2026",
+      "tipo_bloco": "aniversariantes",
+      "template": "mural_aniversariantes",
+      "source_ref": "vw_vps_aniversariantes",
+      "data": {
+        "descricao": "Mural de aniversarios do mes."
+      }
+    },
+    {
+      "order": 10,
+      "block_id": "vps_ferias",
+      "title": "Calendario de Ferias - Maio",
+      "tipo_bloco": "ferias",
+      "template": "cards_ferias",
+      "source_ref": "vw_vps_ferias",
+      "data": {
+        "descricao": "Periodos de ferias e substituicoes."
+      }
+    },
+    {
+      "order": 11,
+      "block_id": "vps_veiculos",
+      "title": "Gestao de Veiculos CKS",
+      "tipo_bloco": "veiculos",
+      "template": "tabela_veiculos",
+      "source_ref": "vw_vps_veiculos",
+      "data": {
+        "descricao": "Tags, status e observacoes de manutencao."
+      }
+    },
+    {
+      "order": 12,
+      "block_id": "vps_checklist",
+      "title": "Checklist obrigatorios mes de Maio - 06 postos",
+      "tipo_bloco": "checklist",
+      "template": "tabela_checklist",
+      "source_ref": "vw_vps_checklist",
+      "data": {
+        "descricao": "Maturidade e pendencias por posto."
+      }
+    }
+  ]
+}

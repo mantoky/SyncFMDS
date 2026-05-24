@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VPS Payload",
+  "type": "object",
+  "required": ["meta", "blocks"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["version_id", "generated_at", "source"],
+      "properties": {
+        "version_id": { "type": "string" },
+        "generated_at": { "type": "string" },
+        "source": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["order", "block_id", "title", "tipo_bloco", "template", "source_ref", "data"],
+        "properties": {
+          "order": { "type": "integer", "minimum": 1 },
+          "block_id": { "type": "string" },
+          "title": { "type": "string" },
+          "tipo_bloco": { "type": "string" },
+          "template": { "type": "string" },
+          "source_ref": { "type": "string" },
+          "data": { "type": "object" }
+        }
+      }
+    }
+  }
+}
+

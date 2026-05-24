@@ -1,0 +1,1 @@
+VPS_SQLSERVER_CONN=Driver={ODBC Driver 17 for SQL Server};Server=SEU_SERVIDOR;Database=SUA_BASE;UID=SEU_USUARIO;PWD=SUA_SENHA;TrustServerCertificate=yes;
