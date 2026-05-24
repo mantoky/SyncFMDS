@@ -162,6 +162,8 @@ const EVAC_SCRIPT_KEY="fmds_evac_script_v1";
 const EVAC_SCRIPT_BASE_KEY="fmds_evac_script_base_v1";
 const EVAC_FIELDS_BASE_KEY="fmds_evac_fields_base_v1";
 const APP_STATE_KEY="fmds_app_state_v2";
+const APP_DB_NAME="fmds_local_db_v1";
+const APP_DB_STORE="kv";
 const VPS_PAYLOAD_URL="data/vps/vps_payload_latest.json";
 const VPS_INDEX_URL="data/vps/index.json";
 const FB_CFG=(window.FMDS_FIREBASE_CONFIG&&window.FMDS_FIREBASE_CONFIG.projectId&&window.FMDS_FIREBASE_CONFIG.apiKey)
@@ -207,6 +209,42 @@ function readStore(k,fb){
 }
 function writeStore(k,v){
   try{localStorage.setItem(k,JSON.stringify(v));}catch(_){}
+}
+function openLocalDb(){
+  return new Promise((resolve,reject)=>{
+    if(!window.indexedDB){reject(new Error("indexeddb_unavailable"));return;}
+    const req=indexedDB.open(APP_DB_NAME,1);
+    req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(APP_DB_STORE))db.createObjectStore(APP_DB_STORE);};
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error("indexeddb_open_error"));
+  });
+}
+async function idbSet(key,val){
+  const db=await openLocalDb();
+  await new Promise((resolve,reject)=>{
+    const tx=db.transaction(APP_DB_STORE,"readwrite");
+    tx.objectStore(APP_DB_STORE).put(val,key);
+    tx.oncomplete=()=>resolve(true);
+    tx.onerror=()=>reject(tx.error||new Error("indexeddb_put_error"));
+  });
+}
+async function idbGet(key){
+  const db=await openLocalDb();
+  return await new Promise((resolve,reject)=>{
+    const tx=db.transaction(APP_DB_STORE,"readonly");
+    const req=tx.objectStore(APP_DB_STORE).get(key);
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error("indexeddb_get_error"));
+  });
+}
+async function idbDelete(key){
+  const db=await openLocalDb();
+  await new Promise((resolve,reject)=>{
+    const tx=db.transaction(APP_DB_STORE,"readwrite");
+    tx.objectStore(APP_DB_STORE).delete(key);
+    tx.oncomplete=()=>resolve(true);
+    tx.onerror=()=>reject(tx.error||new Error("indexeddb_delete_error"));
+  });
 }
 const isNonEmptyText=v=>typeof v==="string"&&v.trim().length>0;
 function normalizeEvacFields(obj){
@@ -289,7 +327,10 @@ function loadEvacState(){
   hydrateEvacFields(fieldsBase);
   if(!fieldsBase||typeof fieldsBase!=="object")saveEvacFieldsBase();
 }
-function saveEvacImages(){writeStore(EVAC_IMG_KEY,S.evacImages);}
+function saveEvacImages(){
+  writeStore(EVAC_IMG_KEY,S.evacImages);
+  idbSet(EVAC_IMG_KEY,S.evacImages).catch(()=>{});
+}
 function saveEvacScript(){writeStore(EVAC_SCRIPT_KEY,S.evacScript);}
 function saveEvacBase(){writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);}
 function saveEvacFieldsBase(){writeStore(EVAC_FIELDS_BASE_KEY,normalizeEvacFields(S.data["plano_evac"]));}
@@ -310,6 +351,15 @@ async function syncEvacBaseFromCloudOnBoot(){
     re();
   }
 }
+async function syncEvacImagesFromIdbOnBoot(){
+  try{
+    const imgs=await idbGet(EVAC_IMG_KEY);
+    if(Array.isArray(imgs)&&imgs.length===3){
+      S.evacImages=imgs;
+      re();
+    }
+  }catch(_){}
+}
 function allModalImages(){
   const evac=S.evacImages.filter(Boolean).map(x=>x.url);
   const block=Object.values(S.imgs).flat().map(x=>x.url);
@@ -318,7 +368,7 @@ function allModalImages(){
 function saveAppState(){
   writeStore(APP_STATE_KEY,{
     enabled:S.enabled,data:S.data,imgs:S.imgs,
-    evacImages:S.evacImages,evacScript:S.evacScript,
+    evacScript:S.evacScript,
     theme:S.theme,role:S.role,
     vpsSelected:S.vps.selectedVersion
   });
@@ -338,7 +388,6 @@ function loadAppState(){
   if(st.enabled&&typeof st.enabled==="object")S.enabled={...S.enabled,...st.enabled};
   if(st.data&&typeof st.data==="object")S.data={...S.data,...st.data};
   if(st.imgs&&typeof st.imgs==="object")S.imgs={...S.imgs,...st.imgs};
-  if(Array.isArray(st.evacImages)&&st.evacImages.length===3)S.evacImages=st.evacImages;
   if(typeof st.evacScript==="string"&&st.evacScript.trim())S.evacScript=st.evacScript;
   if(st.theme==="day"||st.theme==="night")S.theme=st.theme;
   if(st.role==="admin"||st.role==="editor")S.role=st.role;
@@ -1014,6 +1063,7 @@ function resetLocalCache(){
   [
     EVAC_IMG_KEY,EVAC_SCRIPT_KEY,EVAC_SCRIPT_BASE_KEY,EVAC_FIELDS_BASE_KEY,APP_STATE_KEY
   ].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});
+  idbDelete(EVAC_IMG_KEY).catch(()=>{});
   S.enabled=Object.fromEntries(COMPANIES.map(c=>[c.id,true]));
   S.data=Object.fromEntries(COMPANIES.map(c=>[c.id,Object.fromEntries(c.fields.map(f=>[f.k,""]))]));
   S.data["plano_evac"]={...EVAC_DEFAULT_FIELDS,...S.data["plano_evac"]};
@@ -1051,6 +1101,7 @@ const _re=re;
 re=function(){_re();saveAppState();};
 loadAppState();
 loadEvacState();
+syncEvacImagesFromIdbOnBoot();
 syncEvacBaseFromCloudOnBoot();
 loadVpsPayload(S.vps.selectedVersion==="latest"?VPS_PAYLOAD_URL:`data/vps/${S.vps.selectedVersion}`,S.vps.selectedVersion);
 loadVpsIndex();
