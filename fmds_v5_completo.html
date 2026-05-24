@@ -149,6 +149,7 @@ S.weather={
 S.vps={
   loading:false,error:"",
   selectedVersion:"latest",
+  simpleMode:true,
   payload:{meta:{version_id:"-",generated_at:"",source:"-",notes:""},blocks:[]},
   index:{versions:[]}
 };
@@ -370,7 +371,8 @@ function saveAppState(){
     enabled:S.enabled,data:S.data,imgs:S.imgs,
     evacScript:S.evacScript,
     theme:S.theme,role:S.role,
-    vpsSelected:S.vps.selectedVersion
+    vpsSelected:S.vps.selectedVersion,
+    vpsSimpleMode:!!S.vps.simpleMode
   });
 }
 function askAdminLogin(){
@@ -392,6 +394,7 @@ function loadAppState(){
   if(st.theme==="day"||st.theme==="night")S.theme=st.theme;
   if(st.role==="admin"||st.role==="editor")S.role=st.role;
   if(typeof st.vpsSelected==="string"&&st.vpsSelected.trim())S.vps.selectedVersion=st.vpsSelected;
+  if(typeof st.vpsSimpleMode==="boolean")S.vps.simpleMode=st.vpsSimpleMode;
   if(st.weather&&typeof st.weather==="object")S.weather={...S.weather,...st.weather};
   hydrateEvacFields(readStore(EVAC_FIELDS_BASE_KEY,EVAC_DEFAULT_FIELDS));
 }
@@ -455,6 +458,88 @@ function parseVpsBlockData(v){
   }catch(_){
     return{raw:v};
   }
+}
+function escHtml(v){
+  return String(v??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+function ensureVpsBlockData(i){
+  const b=S.vps.payload.blocks?.[i];
+  if(!b)return{};
+  if(!b.data||typeof b.data!=="object"||Array.isArray(b.data))b.data={};
+  return b.data;
+}
+function parseTabularText(txt){
+  const src=String(txt||"").trim();
+  if(!src)return[];
+  const rows=src.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  const header=rows[0]||"";
+  const tabCount=(header.match(/\t/g)||[]).length;
+  const semiCount=(header.match(/;/g)||[]).length;
+  const commaCount=(header.match(/,/g)||[]).length;
+  const delim=tabCount>0?"\t":(semiCount>=commaCount?";":",");
+  return rows.map(r=>r.split(delim).map(c=>c.trim()));
+}
+function gridToPasteText(grid){
+  const g=Array.isArray(grid)?grid:[];
+  return g.map(row=>(Array.isArray(row)?row:[]).join("\t")).join("\n");
+}
+function renderGridPreview(grid){
+  const g=Array.isArray(grid)?grid:[];
+  if(!g.length)return`<div style="font-size:10px;color:var(--cm);font-style:italic">Sem tabela</div>`;
+  const head=g[0]||[];
+  const body=g.slice(1);
+  const th=head.map(c=>`<th style="border:.5px solid var(--cc);padding:4px 6px;background:#F8FAFC;font-size:10px;color:var(--gr);text-align:left">${escHtml(c)}</th>`).join("");
+  const tr=body.map(r=>`<tr>${(Array.isArray(r)?r:[]).map(c=>`<td style="border:.5px solid var(--cc);padding:4px 6px;font-size:10px;color:var(--gr)">${escHtml(c)}</td>`).join("")}</tr>`).join("");
+  return`<div style="overflow:auto;border:.5px solid var(--cc);border-radius:6px;background:var(--wh)"><table style="border-collapse:collapse;width:100%;min-width:420px"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>`;
+}
+function updateVpsSimpleField(i,key,val){
+  const data=ensureVpsBlockData(i);
+  data[key]=val;
+  saveAppState();
+}
+function applyVpsTableFromPaste(i){
+  const ta=document.querySelector(`textarea[data-vps-grid-source="${i}"]`);
+  if(!ta)return;
+  const data=ensureVpsBlockData(i);
+  data.tabela=parseTabularText(ta.value);
+  saveAppState();
+  re();
+}
+function handleVpsTableFile(i,inp){
+  const f=inp?.files?.[0];
+  if(!f)return;
+  const rd=new FileReader();
+  rd.onload=e=>{
+    const text=String(e?.target?.result||"");
+    const data=ensureVpsBlockData(i);
+    data.tabela=parseTabularText(text);
+    saveAppState();
+    re();
+  };
+  rd.readAsText(f);
+}
+function handleVpsBlockImage(i,inp){
+  const f=inp?.files?.[0];
+  if(!f)return;
+  const rd=new FileReader();
+  rd.onload=e=>{
+    const data=ensureVpsBlockData(i);
+    data.imagem=String(e?.target?.result||"");
+    saveAppState();
+    re();
+  };
+  rd.readAsDataURL(f);
+}
+function removeVpsBlockImage(i){
+  const data=ensureVpsBlockData(i);
+  delete data.imagem;
+  saveAppState();
+  re();
 }
 async function fetchWeatherFromInmet(){
   S.weather.loading=true;S.weather.error="";re();
@@ -721,7 +806,14 @@ function renderVpsWS(){
   const versions=(S.vps.index.versions||[]).slice().reverse();
   const versionOpts=versions.map(v=>`<option value="${v.file}" ${S.vps.selectedVersion===v.file?"selected":""}>${v.version_id} | ${new Date(v.generated_at).toLocaleString("pt-BR")}</option>`).join("");
   const list=blocks.map((b,i)=>{
-    const dataText=JSON.stringify(b.data||{},null,2);
+    const data=(b.data&&typeof b.data==="object"&&!Array.isArray(b.data))?b.data:{};
+    const dataText=JSON.stringify(data,null,2);
+    const desc=String(data.descricao||"");
+    const tempo=String(data.tempo_referencia||"");
+    const texto=String(data.texto||data.raw||"");
+    const tabela=Array.isArray(data.tabela)?data.tabela:[];
+    const tabelaTxt=gridToPasteText(tabela);
+    const imagem=String(data.imagem||"");
     return`<div style="background:var(--wh);border:.5px solid var(--cc);border-left:3px solid ${c.ac};border-radius:8px;padding:.65rem .75rem;margin-bottom:.5rem">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:.4rem">
         <div style="font-size:12px;font-weight:600;color:var(--gr)">${b.order}. ${b.title}</div>
@@ -732,8 +824,51 @@ function renderVpsWS(){
         <span style="font-size:9px;padding:2px 7px;border-radius:999px;background:#F0FDF4;border:.5px solid #BBF7D0;color:var(--gv)">template fixo: ${b.template}</span>
         <span style="font-size:9px;padding:2px 7px;border-radius:999px;background:#FEF9F0;border:.5px solid #FDE68A;color:#92400E">origem: ${b.source_ref}</span>
       </div>
+      ${S.vps.simpleMode?`
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+        <div>
+          <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Resumo curto</div>
+          <input data-vps-desc="${i}" value="${escHtml(desc)}" placeholder="Ex: Agenda semanal por dia e tempo" style="width:100%;height:30px;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:0 .6rem;color:var(--gr);font-size:12px"/>
+        </div>
+        <div>
+          <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Tempo de referencia</div>
+          <input data-vps-tempo="${i}" value="${escHtml(tempo)}" placeholder="Ex: 02:00min" style="width:100%;height:30px;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:0 .6rem;color:var(--gr);font-size:12px"/>
+        </div>
+      </div>
+      <div style="margin-bottom:6px">
+        <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Texto livre</div>
+        <textarea data-vps-texto="${i}" rows="3" placeholder="Cole aqui o texto do bloco" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${escHtml(texto)}</textarea>
+      </div>
+      <div style="margin-bottom:6px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px">
+          <div style="font-size:9px;color:${c.ac};text-transform:uppercase">Tabela (cole do Excel / CSV)</div>
+          <div style="display:flex;gap:5px">
+            <label style="font-size:9px;padding:3px 8px;border:.5px solid var(--cc);border-radius:5px;background:var(--wh);color:var(--cm);cursor:pointer">
+              Importar arquivo
+              <input type="file" accept=".csv,.txt" style="display:none" onchange="handleVpsTableFile(${i},this)"/>
+            </label>
+            <button onclick="applyVpsTableFromPaste(${i})" style="font-size:9px;padding:3px 8px;border:.5px solid #BFDBFE;border-radius:5px;background:#EFF6FF;color:var(--bt);cursor:pointer">Aplicar tabela</button>
+          </div>
+        </div>
+        <textarea data-vps-grid-source="${i}" rows="3" placeholder="Cole tabela aqui (Ctrl+V)..." style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:11px;line-height:1.35;resize:vertical">${escHtml(tabelaTxt)}</textarea>
+      </div>
+      <div style="margin-bottom:6px">
+        <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Imagem</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${imagem?`<img src="${imagem}" style="width:120px;height:70px;object-fit:cover;border:.5px solid var(--cc);border-radius:6px;cursor:pointer" onclick="openModal('${imagem}')"/>`:`<div style="width:120px;height:70px;border:.5px dashed var(--cc);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--cm)">Sem imagem</div>`}
+          <label style="font-size:9px;padding:4px 8px;border:.5px solid #BFDBFE;border-radius:5px;background:#EFF6FF;color:var(--bt);cursor:pointer">
+            Inserir imagem
+            <input type="file" accept="image/*" style="display:none" onchange="handleVpsBlockImage(${i},this)"/>
+          </label>
+          <button onclick="removeVpsBlockImage(${i})" style="font-size:9px;padding:4px 8px;border:.5px solid var(--cc);border-radius:5px;background:var(--wh);color:var(--cm);cursor:pointer">Remover</button>
+        </div>
+      </div>
+      <div style="font-size:9px;color:var(--cm);margin-bottom:4px">Pre-visualizacao da tabela</div>
+      ${renderGridPreview(tabela)}
+      `:`
       <div style="font-size:9px;font-weight:500;color:${c.ac};letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px">Dados variaveis (JSON)</div>
       <textarea data-vps-idx="${i}" rows="4" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${dataText}</textarea>
+      `}
     </div>`;
   }).join("");
   return`<div>
@@ -746,6 +881,10 @@ function renderVpsWS(){
           <div style="font-size:10px;color:var(--cm)">Gerado em: ${S.vps.payload.meta.generated_at?new Date(S.vps.payload.meta.generated_at).toLocaleString("pt-BR"):"-"}</div>
         </div>
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <div class="theme-dual" title="Modo de edicao VPS">
+            <button onclick="setVpsEditMode('simple')" class="${S.vps.simpleMode?'active':''}">Modo Simples</button>
+            <button onclick="setVpsEditMode('json')" class="${!S.vps.simpleMode?'active':''}">JSON</button>
+          </div>
           <button onclick="refreshVpsPayload()" class="top-btn" style="padding:4px 10px">Recarregar payload</button>
           ${versions.length?`<select id="vps-version-sel" style="height:26px;min-width:210px;border:.5px solid var(--cc);border-radius:7px;background:var(--wh);color:var(--gr);font-size:10px;padding:0 6px">${versionOpts}</select>
           <button onclick="applyVpsVersion()" class="top-btn" style="padding:4px 10px">Rollback rapido</button>`:""}
@@ -968,6 +1107,24 @@ function attachEv(){
       if(sc)sc.addEventListener("input",e=>{S.evacScript=e.target.value;saveEvacScript();saveAppState();});
       COMPANIES[0].fields.forEach(f=>{const el=document.getElementById("f_"+f.k);if(el)el.addEventListener("input",e=>{S.data["plano_evac"][f.k]=e.target.value;saveAppState();});});
     } else if(S.selId==="vale_vps"){
+      document.querySelectorAll("input[data-vps-desc]").forEach(el=>{
+        el.addEventListener("input",e=>{
+          const i=Number(e.target.getAttribute("data-vps-desc"));
+          if(Number.isInteger(i))updateVpsSimpleField(i,"descricao",e.target.value);
+        });
+      });
+      document.querySelectorAll("input[data-vps-tempo]").forEach(el=>{
+        el.addEventListener("input",e=>{
+          const i=Number(e.target.getAttribute("data-vps-tempo"));
+          if(Number.isInteger(i))updateVpsSimpleField(i,"tempo_referencia",e.target.value);
+        });
+      });
+      document.querySelectorAll("textarea[data-vps-texto]").forEach(el=>{
+        el.addEventListener("input",e=>{
+          const i=Number(e.target.getAttribute("data-vps-texto"));
+          if(Number.isInteger(i))updateVpsSimpleField(i,"texto",e.target.value);
+        });
+      });
       document.querySelectorAll("textarea[data-vps-idx]").forEach(el=>{
         el.addEventListener("input",e=>{
           const i=Number(e.target.getAttribute("data-vps-idx"));
@@ -1049,6 +1206,7 @@ function toggleManual(){S.manual=!S.manual;re();}
 function toggleOverflow(){S.overflow=!S.overflow;re();}
 function setTheme(mode){if(mode!=="day"&&mode!=="night")return;S.theme=mode;re();}
 function toggleTheme(){S.theme=S.theme==="night"?"day":"night";re();}
+function setVpsEditMode(mode){S.vps.simpleMode=(mode!=="json");saveAppState();re();}
 function refreshVpsPayload(){loadVpsPayload(VPS_PAYLOAD_URL,"latest");loadVpsIndex();}
 function applyVpsVersion(){
   const sel=document.getElementById("vps-version-sel");
@@ -1070,7 +1228,7 @@ function resetLocalCache(){
   S.imgs=Object.fromEntries(COMPANIES.map(c=>[c.id,[]]));
   S.evacImages=[null,null,null];
   S.evacScript=SCRIPT_SEG;
-  S.vps={loading:false,error:"",selectedVersion:"latest",payload:{meta:{version_id:"-",generated_at:"",source:"-",notes:""},blocks:[]},index:{versions:[]}};
+  S.vps={loading:false,error:"",selectedVersion:"latest",simpleMode:true,payload:{meta:{version_id:"-",generated_at:"",source:"-",notes:""},blocks:[]},index:{versions:[]}};
   S.theme="day";
   S.view="portal";
   S.selId=null;
