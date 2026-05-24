@@ -1,0 +1,33 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.zip",
+      "**/*.docx",
+      "**/*.odt",
+      "**/*.pdf",
+      "**/*_err.log",
+      "**/*_out.log",
+      "backups/**",
+      "Backup001_syncInfratech/**",
+      "Transicao_syncInfratech_preLoginSecurity_v16/**",
+      "Transicao_syncInfratech_prePRO_v15/**",
+      "Ultimas3Versoes_syncInfratech/**",
+      "_legacy_reportlte_app_redirect/**",
+      "ReportLTE_copia_trabalho_2026-05-16/**",
+      "Novo Manuel MOP Agenda infratech POWERAPPS/**",
+      "lte-app/**",
+      "sync-infratech-ckj/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
