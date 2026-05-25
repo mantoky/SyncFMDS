@@ -63,6 +63,36 @@ body.night .top-btn:hover{border-color:#60A5FA;color:#BFDBFE;background:#172554}
 .theme-dual button{padding:3px 11px;border:none;background:transparent;color:var(--cm);font-size:10px;cursor:pointer}
 .theme-dual button.active{background:#EAF3FF;color:#2563EB;font-weight:600}
 body.night .theme-dual button.active{background:#1E3A8A;color:#DBEAFE}
+.lte-model-shell{
+  border:.5px solid #B7DCCB;
+  border-radius:10px;
+  background:linear-gradient(180deg,#F8FAFC,#EEF8F3);
+  box-shadow:inset 0 0 0 1px rgba(0,107,63,.06),0 8px 20px rgba(15,23,42,.08);
+  padding:10px;
+}
+.lte-model-toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.lte-model-title{font-size:13px;font-weight:700;color:var(--gv);display:flex;align-items:center;gap:7px}
+.lte-model-btn{
+  padding:4px 10px;border-radius:9px;border:.5px solid #B7DCCB;background:#F7FBF9;color:#075E3C;font-size:10px;font-weight:700;cursor:pointer
+}
+.lte-model-btn:hover{border-color:#7FB6F5;color:#1D4ED8;background:#EEF6FF}
+.lte-model-count{margin-left:auto;font-size:10px;font-weight:700;color:#007A4D}
+.lte-model-wrap{overflow:auto;border:.5px solid #B7DCCB;border-radius:8px;background:#FFFFFF;max-height:380px}
+.lte-model-table{border-collapse:collapse;table-layout:fixed;min-width:1080px;width:100%}
+.lte-model-table th{border:.5px solid #C9DDD5;padding:5px;background:#E7F4EE;color:#075E3C;font-size:10px;text-align:left;letter-spacing:.03em}
+.lte-model-table td{border:.5px solid #D7E5DF;padding:4px;background:#FBFDFB}
+.lte-model-input,.lte-model-select{
+  width:100%;min-width:0;border:.5px solid #BDD6CC;border-radius:6px;padding:3px 5px;background:#FFFFFF;color:#243B53;font-size:10px
+}
+#app .lte-model-table .lte-model-input,
+#app .lte-model-table .lte-model-select{font-size:11px!important;line-height:1.15!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lte-model-table th,.lte-model-table td{overflow:hidden}
+.lte-model-chip{display:inline-block;min-width:42px;max-width:100%;padding:2px 5px;border-radius:999px;border:.5px solid currentColor;font-size:10px;font-weight:800;text-align:center}
+.lte-image-grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:8px}
+.lte-image-slot{border:.5px solid #D7E5DF;border-radius:8px;background:#FBFDFB;padding:7px}
+.lte-image-preview{width:100%;height:76px;object-fit:cover;border:.5px solid #BDD6CC;border-radius:6px;cursor:pointer;background:#F1F5F4}
+.lte-image-empty{width:100%;height:76px;border:.5px dashed #BDD6CC;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--cm);background:#F8FAFC}
+.lte-image-caption{width:100%;height:52px;margin-top:5px;resize:none;border:.5px solid #BDD6CC;border-radius:6px;background:#fff;color:var(--gr);padding:5px;font-size:10px;line-height:1.25}
 </style>
 
 <div id="app" style="position:relative;display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--cc);background:var(--bg)"></div>
@@ -117,11 +147,197 @@ const COMPANIES=[
    fields:[{k:"sesmt",l:"Comunicados SESMT",p:"Normas, alertas, campanhas..."},{k:"dir",l:"Diretivas do dia",p:"Prioridades, decisoes..."},{k:"alin",l:"Alinhamentos finais",p:"Pendentes, confirmacoes..."}]},
   {id:"sesmt",name:"SESMT",sub:"Saude - Seguranca - Alertas",ac:"#27AE60",mins:6,mode:"agent",init:"SE",script:"Bloco SESMT. Escopo: saude, seguranca ocupacional e alertas preventivos.",
    fields:[{k:"alertas",l:"Alertas de seguranca",p:"Alertas, desvios, campanhas..."},{k:"inspecoes",l:"Inspecoes e acoes",p:"Acoes realizadas e pendentes..."},{k:"treinamentos",l:"Treinamentos",p:"Programacao, vencimentos, publico..."},{k:"recomendacoes",l:"Recomendacoes",p:"Orientacoes para o dia..."}]},
-  {id:"sonda_lte",name:"Sonda LTE",sub:"LTE - Automacao - Mina",ac:"#2F80ED",mins:8,mode:"agent",init:"SL",script:"Bloco Sonda LTE. Escopo: LTE, automacao e operacoes de mina.",
-   fields:[{k:"seg",l:"Seguranca",p:"Desvios, riscos..."},{k:"d1",l:"Programacao D-1",p:"Site - Chamado - Status"},{k:"d",l:"Programacao D",p:"Site - Chamado - Status"},{k:"crit",l:"Tratativas criticas",p:"Links LTE, falhas..."},{k:"ajuda",l:"Pedidos de apoio",p:"Dependencias..."},{k:"sob",l:"Sobreaviso",p:"Nome - Cargo - Contato"}]},
+  {id:"sonda_lte",name:"Sonda LTE",sub:"FMDS - SONDA LTE",ac:"#2F80ED",mins:8,mode:"agent",init:"SL",script:"FMDS - SONDA LTE.",
+   fields:[]},
   {id:"kpis",name:"KPI'S",sub:"Indicadores - SLA - Tendencias",ac:"#F59E0B",mins:5,mode:"agent",init:"KP",script:"Bloco KPI'S. Escopo: indicadores operacionais, SLA e pontos de atencao.",
    fields:[{k:"disp",l:"Disponibilidade",p:"Disponibilidade, indisponibilidades, impactos..."},{k:"sla",l:"SLA",p:"Cumprimento, violacoes, tratativas..."},{k:"backlog",l:"Backlog",p:"Abertos, encerrados, criticos..."},{k:"tendencias",l:"Tendencias",p:"Evolucao dos indicadores e alertas..."}]},
 ];
+
+const PT_MONTHS=["Janeiro","Fevereiro","Marco","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+const VPS_BLOCK_TITLES=[
+  "Programacao D-1 / D (VPS)",
+  "Proposta de Agenda - Diario",
+  "Cronograma DSS Diario - Maio",
+  "Ausencias",
+  "Sobreaviso S+1 - Vale",
+  "Sobreaviso Sonda",
+  "Organograma Sonda",
+  "Organograma Integrado - Parceiros",
+  "Aniversariantes do Mes - 2026",
+  "Calendario de Ferias do Mes",
+  "Gestao de Veiculos CKS",
+  "Checklist obrigatorios do Mes - 06 postos"
+];
+const LTE_VIEWS_META=[
+  {id:"cont_d3",title:"Contingencia D-3",obsLabel:"Observacoes D-3",hasSheet:true,hasImage:true,canDisable:true},
+  {id:"cont_d2",title:"Contingencia D-2",obsLabel:"Observacoes D-2",hasSheet:true,hasImage:true,canDisable:true},
+  {id:"cont_d1",title:"Contingencia D-1",obsLabel:"Observacoes D-1",hasSheet:true,hasImage:true,canDisable:true},
+  {id:"cont_d0",title:"Contingencia D0",obsLabel:"Observacoes D0",hasSheet:true,hasImage:true,canDisable:false},
+  {id:"kpi_tntax31",title:"PAINEL INDICADORES DE KPI'S TNTAX31",obsLabel:"Observacoes KPI'S",hasSheet:false,hasImage:true,canDisable:true},
+  {id:"kpi_coord",title:"PAINEL INDICADORES DE KPI'S COORDENACAO",obsLabel:"Observacoes KPI'S",hasSheet:false,hasImage:true,canDisable:true}
+];
+const LTE_MODEL_BASE_HEADERS=[
+  "ESPECIALIDADE",
+  "TIPO",
+  "ORDEM",
+  "TEXTO BREVE",
+  "LOCAL DE INSTALACAO",
+  "DATA PROGRAMADA",
+  "TOLERANCIA MAXIMA",
+];
+const LTE_MODEL_IMPORT_INDEXES=[0,1,2,3,4,8,10];
+const LTE_IMAGE_SLOT_COUNT=4;
+const DEFAULT_LTE_STATUS_OPTIONS=[
+  "INICIADA","CONCLUIDA","LIB CONF","EM ATRASO","AGUARDANDO","REPROGRAMADA","FALTA H.H",
+  "CANCELADA","S/ AUT. CT TRAB.","FALTA RECURSO","ATIVO DESMOBILIZADO","BLOQUEIO DE ACESSO"
+];
+const LTE_STATUS_COLORS={
+  "INICIADA":"#60A5FA",
+  "CONCLUIDA":"#16A34A",
+  "LIB CONF":"#D9B834",
+  "EM ATRASO":"#DC2626",
+  "AGUARDANDO":"#64748B",
+  "REPROGRAMADA":"#94A3B8",
+  "FALTA H.H":"#7DD3FC",
+  "CANCELADA":"#6B7280",
+  "S/ AUT. CT TRAB.":"#0E7490",
+  "FALTA RECURSO":"#3B82F6",
+  "ATIVO DESMOBILIZADO":"#A16207",
+  "BLOQUEIO DE ACESSO":"#047857"
+};
+const currentMonthLabel=()=>PT_MONTHS[new Date().getMonth()]||"-";
+function buildDefaultVpsBlocks(){
+  return VPS_BLOCK_TITLES.map((title,i)=>({
+    id:`vps_${i+1}`,
+    order:i+1,
+    title,
+    text:"",
+    table:[],
+    image:null
+  }));
+}
+function buildDefaultLteState(){
+  return{
+    tempoSolicitado:"08:00",
+    statusOptions:[...DEFAULT_LTE_STATUS_OPTIONS],
+    views:LTE_VIEWS_META.map(v=>({
+      id:v.id,
+      enabled:true,
+      observacoes:"",
+      textoLivre:"",
+      planilha:{headers:[],rows:[]},
+      filtros:{dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""},
+      hiddenColumns:{"LOCAL DE INSTALACAO":true},
+      columnFilterOpen:false,
+      imagens:Array.from({length:LTE_IMAGE_SLOT_COUNT},()=>({url:"",name:"",text:""}))
+    }))
+  };
+}
+function normLteImage(v){
+  if(!v||typeof v!=="object")return null;
+  const url=typeof v.url==="string"?v.url.trim():"";
+  if(!url)return null;
+  return{
+    url,
+    name:typeof v.name==="string"&&v.name.trim()?v.name.trim():"imagem",
+    text:typeof v.text==="string"?v.text.slice(0,200):""
+  };
+}
+function normLteImageSlots(slots,legacy){
+  const arr=Array.from({length:LTE_IMAGE_SLOT_COUNT},()=>({url:"",name:"",text:""}));
+  const src=Array.isArray(slots)?slots:[];
+  src.slice(0,LTE_IMAGE_SLOT_COUNT).forEach((item,i)=>{
+    const img=normLteImage(item);
+    arr[i]=img?img:{url:"",name:typeof item?.name==="string"?item.name:"",text:typeof item?.text==="string"?item.text.slice(0,200):""};
+  });
+  const old=normLteImage(legacy);
+  if(old&&!arr.some(x=>x.url))arr[0]=old;
+  return arr;
+}
+function to2DPlanilha(p){
+  if(Array.isArray(p)){
+    const header=(p[0]||[]).map(x=>String(x??""));
+    const rows=p.slice(1).map(r=>Array.isArray(r)?r.map(x=>String(x??"")):[]);
+    return{headers:header,rows};
+  }
+  if(p&&typeof p==="object"){
+    return{
+      headers:Array.isArray(p.headers)?p.headers.map(x=>String(x??"")):[],
+      rows:Array.isArray(p.rows)?p.rows.map(r=>Array.isArray(r)?r.map(x=>String(x??"")):[]):[]
+    };
+  }
+  return{headers:[],rows:[]};
+}
+function migrateLtePlanilhaSchema(planilha){
+  const p=to2DPlanilha(planilha);
+  const headers=(p.headers||[]).map(h=>String(h||""));
+  const rows=(p.rows||[]).map(r=>Array.isArray(r)?r.map(c=>normalizeSpreadsheetCell(c)) : []);
+  if(!headers.length)return{headers,rows};
+  const wanted=LTE_MODEL_BASE_HEADERS.map(h=>headers.findIndex(x=>normalizeHeaderKey(x)===normalizeHeaderKey(h)));
+  const canMap=wanted.some(idx=>idx>-1);
+  if(!canMap&&!headers.some(h=>/DATA DE EXECUCAO|HH PLANEJADO|DURACAO|NUM|TOLERANCIA MINIMA/i.test(h)))return{headers,rows};
+  const statusIdx=headers.findIndex(h=>/status/i.test(h));
+  const dueIdx=headers.findIndex(h=>/data de vencimento/i.test(h));
+  const nextHeaders=[...LTE_MODEL_BASE_HEADERS];
+  if(statusIdx>-1)nextHeaders.push("Status");
+  if(dueIdx>-1)nextHeaders.push("Severidade");
+  const nextRows=rows.map(r=>{
+    const out=wanted.map((idx,pos)=>idx>-1?normalizeSpreadsheetCell(r[idx]||""):"");
+    if(statusIdx>-1)out.push(normalizeStatus(r[statusIdx]||""));
+    if(dueIdx>-1)out.push(String(r[dueIdx]||""));
+    return out;
+  });
+  return{headers:nextHeaders,rows:nextRows};
+}
+function normalizeLteState(raw){
+  const def=buildDefaultLteState();
+  const src=(raw&&typeof raw==="object")?raw:{};
+  const tempo=typeof src.tempoSolicitado==="string"&&src.tempoSolicitado.trim()?src.tempoSolicitado.trim():def.tempoSolicitado;
+  const statusOptions=Array.isArray(src.statusOptions)&&src.statusOptions.length
+    ?[...new Set(src.statusOptions.map(s=>normalizeStatus(s)).filter(Boolean))]
+    :[...DEFAULT_LTE_STATUS_OPTIONS];
+  const viewsSrc=Array.isArray(src.views)?src.views:[];
+  const views=def.views.map((d,i)=>{
+    const cur=(viewsSrc[i]&&typeof viewsSrc[i]==="object")?viewsSrc[i]:{};
+    const hiddenColumns=(cur.hiddenColumns&&typeof cur.hiddenColumns==="object")?{...cur.hiddenColumns}:{"LOCAL DE INSTALACAO":true};
+    if(!cur.hiddenColumns)hiddenColumns["LOCAL DE INSTALACAO"]=true;
+    return{
+      id:d.id,
+      enabled:cur.enabled===false?false:true,
+      observacoes:typeof cur.observacoes==="string"?cur.observacoes:"",
+      textoLivre:typeof cur.textoLivre==="string"?cur.textoLivre:"",
+      planilha:migrateLtePlanilhaSchema(cur.planilha),
+      filtros:{
+        dataProgramada:String(cur?.filtros?.dataProgramada||""),
+        localInstalacao:String(cur?.filtros?.localInstalacao||""),
+        toleranciaMax:String(cur?.filtros?.toleranciaMax||""),
+        dataVencimento:String(cur?.filtros?.dataVencimento||""),
+        status:String(cur?.filtros?.status||"")
+      },
+      hiddenColumns,
+      columnFilterOpen:!!cur.columnFilterOpen,
+      imagens:normLteImageSlots(cur.imagens,cur.imagem)
+    };
+  });
+  // D0 (indice 3) sempre ativo
+  if(views[3])views[3].enabled=true;
+  return{tempoSolicitado:tempo,statusOptions,views};
+}
+function normalizeVpsBlocks(raw){
+  const src=Array.isArray(raw)?raw:[];
+  const def=buildDefaultVpsBlocks();
+  return def.map((d,i)=>{
+    const cur=(src[i]&&typeof src[i]==="object")?src[i]:{};
+    return{
+      id:d.id,
+      order:d.order,
+      title:d.title,
+      text:typeof cur.text==="string"?cur.text:"",
+      table:Array.isArray(cur.table)?cur.table.map(r=>Array.isArray(r)?r.map(c=>String(c??"")):[]):[],
+      image:null
+    };
+  });
+}
 
 let S={
   view:"portal",selId:null,
@@ -146,27 +362,23 @@ S.weather={
     {name:"Mina de Ferro Carajas",now:"-",temp:"-",hum:"-",wind:"-",next3h:"-"}
   ]
 };
-S.vps={
-  loading:false,error:"",
-  selectedVersion:"latest",
-  simpleMode:true,
-  payload:{meta:{version_id:"-",generated_at:"",source:"-",notes:""},blocks:[]},
-  index:{versions:[]}
-};
+S.vps={blocks:buildDefaultVpsBlocks()};
+S.lte=buildDefaultLteState();
 S.data["plano_evac"]={...EVAC_DEFAULT_FIELDS,...S.data["plano_evac"]};
 
 let cInt=null,tInt=null;
 let wInt=null;
 const synth=window.speechSynthesis;
 const EVAC_IMG_KEY="fmds_evac_images_v1";
+const EVAC_IMG_SLOT_PREFIX="fmds_evac_img_slot_v1_";
+const LTE_STATE_KEY="fmds_lte_state_v1";
+const LTE_IMG_SLOT_PREFIX="fmds_lte_img_slot_v1_";
 const EVAC_SCRIPT_KEY="fmds_evac_script_v1";
 const EVAC_SCRIPT_BASE_KEY="fmds_evac_script_base_v1";
 const EVAC_FIELDS_BASE_KEY="fmds_evac_fields_base_v1";
 const APP_STATE_KEY="fmds_app_state_v2";
 const APP_DB_NAME="fmds_local_db_v1";
 const APP_DB_STORE="kv";
-const VPS_PAYLOAD_URL="data/vps/vps_payload_latest.json";
-const VPS_INDEX_URL="data/vps/index.json";
 const FB_CFG=(window.FMDS_FIREBASE_CONFIG&&window.FMDS_FIREBASE_CONFIG.projectId&&window.FMDS_FIREBASE_CONFIG.apiKey)
   ?window.FMDS_FIREBASE_CONFIG
   :{
@@ -182,6 +394,11 @@ const activeCompanies=()=>COMPANIES.filter(c=>S.enabled[c.id]);
 const totalSecs=()=>activeCompanies().reduce((s,c)=>s+c.mins*60,0);
 const filled=id=>{
   if(id==="plano_evac")return S.evacImages.some(Boolean)||COMPANIES[0].fields.some(f=>S.data[id][f.k]?.trim());
+  if(id==="vale_vps")return true;
+  if(id==="sonda_lte"){
+    const l=normalizeLteState(S.lte);
+    return !!l.tempoSolicitado||l.views.some(v=>v.enabled&&lteViewHasContent(v));
+  }
   return COMPANIES.find(c=>c.id===id)?.fields.some(f=>S.data[id][f.k]?.trim())||S.imgs[id]?.length>0;
 };
 const fCount=()=>COMPANIES.filter(c=>S.enabled[c.id]&&filled(c.id)).length;
@@ -189,6 +406,16 @@ const cIdx=id=>COMPANIES.findIndex(c=>c.id===id);
 
 function buildScript(c){
   if(c.id==="plano_evac")return S.evacScript;
+  if(c.id==="sonda_lte"){
+    const l=normalizeLteState(S.lte);
+    const parts=[`FMDS - SONDA LTE. Tempo solicitado ${l.tempoSolicitado||"nao informado"}.`];
+    l.views.forEach((v,i)=>{
+      const m=LTE_VIEWS_META[i];
+      if(v.observacoes?.trim())parts.push(`${m.title}. ${v.observacoes}.`);
+      if(v.textoLivre?.trim())parts.push(v.textoLivre+".");
+    });
+    return parts.join(" ");
+  }
   let t=c.script+" ";
   c.fields.forEach(f=>{if(S.data[c.id][f.k]?.trim())t+=f.l+": "+S.data[c.id][f.k]+". ";});
   return t;
@@ -246,6 +473,496 @@ async function idbDelete(key){
     tx.oncomplete=()=>resolve(true);
     tx.onerror=()=>reject(tx.error||new Error("indexeddb_delete_error"));
   });
+}
+function normEvacImage(v){
+  if(!v||typeof v!=="object")return null;
+  const url=typeof v.url==="string"?v.url.trim():"";
+  if(!url)return null;
+  return{
+    url,
+    name:typeof v.name==="string"&&v.name.trim()?v.name.trim():"imagem"
+  };
+}
+function readEvacImagesBySlotFromLocal(){
+  const imgs=[0,1,2].map(i=>normEvacImage(readStore(EVAC_IMG_SLOT_PREFIX+i,null)));
+  return imgs.some(Boolean)?imgs:null;
+}
+async function readEvacImagesBySlotFromIdb(){
+  const imgs=[null,null,null];
+  let hasAny=false;
+  for(let i=0;i<3;i++){
+    try{
+      imgs[i]=normEvacImage(await idbGet(EVAC_IMG_SLOT_PREFIX+i));
+      if(imgs[i])hasAny=true;
+    }catch(_){}
+  }
+  return hasAny?imgs:null;
+}
+async function readImageOptimized(file){
+  if(!file)throw new Error("image_missing");
+  const asDataUrl=()=>{
+    return new Promise((resolve,reject)=>{
+      const fr=new FileReader();
+      fr.onload=e=>resolve(e.target.result);
+      fr.onerror=()=>reject(new Error("read_file_error"));
+      fr.readAsDataURL(file);
+    });
+  };
+  if(!String(file.type||"").startsWith("image/"))return await asDataUrl();
+  const raw=await asDataUrl();
+  const img=await new Promise((resolve,reject)=>{
+    const i=new Image();
+    i.onload=()=>resolve(i);
+    i.onerror=()=>reject(new Error("load_image_error"));
+    i.src=raw;
+  });
+  const maxEdge=2200;
+  const ratio=Math.min(1,maxEdge/Math.max(img.width||1,img.height||1));
+  const w=Math.max(1,Math.round((img.width||1)*ratio));
+  const h=Math.max(1,Math.round((img.height||1)*ratio));
+  const cv=document.createElement("canvas");
+  cv.width=w;cv.height=h;
+  const ctx=cv.getContext("2d");
+  if(!ctx)return raw;
+  ctx.drawImage(img,0,0,w,h);
+  return cv.toDataURL("image/jpeg",0.88);
+}
+function parseTabularText(txt){
+  const src=String(txt||"").trim();
+  if(!src)return[];
+  const rows=src.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+  const header=rows[0]||"";
+  const tabCount=(header.match(/\t/g)||[]).length;
+  const semiCount=(header.match(/;/g)||[]).length;
+  const commaCount=(header.match(/,/g)||[]).length;
+  const delim=tabCount>0?"\t":(semiCount>=commaCount?";":",");
+  return rows.map(r=>r.split(delim).map(c=>c.trim()));
+}
+function pad2(n){return String(n).padStart(2,"0");}
+function formatDateBr(d){
+  if(!(d instanceof Date)||Number.isNaN(d.getTime()))return "";
+  return `${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()}`;
+}
+function normalizeSpreadsheetCell(v){
+  if(v instanceof Date)return formatDateBr(v);
+  const txt=String(v??"").trim();
+  if(!txt)return "";
+  const iso=txt.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:\s+\d{1,2}:\d{1,2}(?::\d{1,2})?)?$/);
+  if(iso){
+    const d=new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]));
+    return formatDateBr(d)||txt;
+  }
+  const slash=txt.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
+  if(slash){
+    let a=Number(slash[1]),b=Number(slash[2]),y=Number(slash[3]);
+    const shortYear=slash[3].length===2;
+    if(y<100)y+=2000;
+    const looksUs=shortYear||b>12;
+    const day=looksUs?b:a;
+    const month=looksUs?a:b;
+    const d=new Date(y,month-1,day);
+    if(d.getFullYear()===y&&d.getMonth()===month-1&&d.getDate()===day)return formatDateBr(d);
+  }
+  return txt;
+}
+let xlsxLibPromise=null;
+async function loadScriptWithTimeout(src,timeoutMs=12000){
+  return await new Promise((resolve,reject)=>{
+    const sc=document.createElement("script");
+    let done=false;
+    const tm=setTimeout(()=>{
+      if(done)return;
+      done=true;
+      sc.remove();
+      reject(new Error("timeout"));
+    },timeoutMs);
+    sc.src=src;
+    sc.async=true;
+    sc.onload=()=>{
+      if(done)return;
+      done=true;
+      clearTimeout(tm);
+      resolve(true);
+    };
+    sc.onerror=()=>{
+      if(done)return;
+      done=true;
+      clearTimeout(tm);
+      sc.remove();
+      reject(new Error("load_error"));
+    };
+    document.head.appendChild(sc);
+  });
+}
+function ensureXlsxLib(){
+  if(window.XLSX)return Promise.resolve(window.XLSX);
+  if(xlsxLibPromise)return xlsxLibPromise;
+  xlsxLibPromise=(async()=>{
+    const sources=[
+      "https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js",
+      "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js",
+      "https://unpkg.com/xlsx@0.18.5/dist/xlsx.full.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+    ];
+    for(const src of sources){
+      try{
+        await loadScriptWithTimeout(src,12000);
+        if(window.XLSX)return window.XLSX;
+      }catch(_){}
+    }
+    throw new Error("xlsx_load_all_sources_failed");
+  })();
+  return xlsxLibPromise;
+}
+function normalizeParsedGrid(grid){
+  const rows=(Array.isArray(grid)?grid:[])
+    .map(r=>Array.isArray(r)?r.map(c=>normalizeSpreadsheetCell(c)):[])
+    .filter(r=>r.some(c=>c!==""));
+  if(!rows.length)return [];
+  const firstDenseIdx=Math.max(0,rows.findIndex(r=>r.filter(Boolean).length>=3));
+  const cut=rows.slice(firstDenseIdx);
+  const maxCols=Math.max(...cut.map(r=>r.length),1);
+  return cut.map(r=>{
+    const out=r.slice(0,maxCols);
+    while(out.length<maxCols)out.push("");
+    return out;
+  });
+}
+async function parseSpreadsheetFileToGrid(file){
+  const name=String(file?.name||"");
+  let ext=name.includes(".")?name.split(".").pop().toLowerCase():"";
+  if(ext==="xllsm")ext="xlsm";
+  if(["csv","txt"].includes(ext)){
+    const txt=await file.text();
+    return normalizeParsedGrid(parseTabularText(txt));
+  }
+  if(["xlsx","xls","xlsm","xlsb"].includes(ext)){
+    const XLSX=await ensureXlsxLib();
+    const ab=await file.arrayBuffer();
+    const wb=XLSX.read(ab,{type:"array",cellDates:true});
+    if(!Array.isArray(wb.SheetNames)||!wb.SheetNames.length)return [];
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const aoa=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:""});
+    return normalizeParsedGrid(aoa);
+  }
+  if(["ods","odt"].includes(ext))throw new Error("unsupported_ods");
+  throw new Error("unsupported_spreadsheet_type");
+}
+function gridToPasteText(grid){
+  const p=to2DPlanilha(grid);
+  const g=[p.headers,...p.rows];
+  return g.map(row=>(Array.isArray(row)?row:[]).join("\t")).join("\n");
+}
+function renderGridPreview(grid){
+  const p=to2DPlanilha(grid);
+  const g=[p.headers,...p.rows];
+  if(!g.length)return`<div style="font-size:10px;color:var(--cm);font-style:italic">Sem planilha</div>`;
+  const head=g[0]||[];
+  const body=g.slice(1);
+  const th=head.map(c=>`<th style="border:.5px solid var(--cc);padding:4px 6px;background:#F8FAFC;font-size:10px;color:var(--gr);text-align:left">${escHtml(c)}</th>`).join("");
+  const tr=body.map(r=>`<tr>${(Array.isArray(r)?r:[]).map(c=>`<td style="border:.5px solid var(--cc);padding:4px 6px;font-size:10px;color:var(--gr)">${escHtml(c)}</td>`).join("")}</tr>`).join("");
+  return`<div style="overflow:auto;border:.5px solid var(--cc);border-radius:6px;background:var(--wh)"><table style="border-collapse:collapse;width:100%;min-width:420px"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>`;
+}
+function normalizeStatus(v){
+  return String(v||"").trim().toUpperCase();
+}
+function getLteStatusOptions(){
+  const src=Array.isArray(S?.lte?.statusOptions)?S.lte.statusOptions:DEFAULT_LTE_STATUS_OPTIONS;
+  const clean=src.map(s=>normalizeStatus(s)).filter(Boolean);
+  return [...new Set(clean)].length?[...new Set(clean)]:[...DEFAULT_LTE_STATUS_OPTIONS];
+}
+function normalizeHeaderKey(v){
+  return String(v||"")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .toUpperCase().replace(/[^A-Z0-9]+/g," ").trim();
+}
+function getStatusColor(status){
+  const key=normalizeStatus(status);
+  return LTE_STATUS_COLORS[key]||"#CBD5E1";
+}
+function parseBrDate(s){
+  const txt=String(s||"").trim();
+  const isoDateTime=txt.match(/^(\d{4})-(\d{1,2})-(\d{1,2})\s+\d{1,2}:\d{1,2}(:\d{1,2})?$/);
+  if(isoDateTime){
+    const y=Number(isoDateTime[1]),mo=Number(isoDateTime[2]),d=Number(isoDateTime[3]);
+    const dt=new Date(y,mo-1,d);
+    if(dt.getFullYear()===y&&dt.getMonth()===mo-1&&dt.getDate()===d)return dt;
+  }
+  const iso=txt.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if(iso){
+    const y=Number(iso[1]),mo=Number(iso[2]),d=Number(iso[3]);
+    const dt=new Date(y,mo-1,d);
+    if(dt.getFullYear()===y&&dt.getMonth()===mo-1&&dt.getDate()===d)return dt;
+  }
+  const m=txt.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(!m)return null;
+  const d=Number(m[1]),mo=Number(m[2]),y=Number(m[3].length===2?("20"+m[3]):m[3]);
+  if(!d||!mo||!y)return null;
+  const dt=new Date(y,mo-1,d);
+  if(dt.getFullYear()!==y||dt.getMonth()!==mo-1||dt.getDate()!==d)return null;
+  return dt;
+}
+function findLteColumnByHeader(headers,needle){
+  const n=String(needle||"").toLowerCase();
+  return headers.findIndex(h=>String(h||"").toLowerCase().includes(n));
+}
+function getLteProgrammedDateIndex(headers){
+  const terms=["data programada","programada","data exec","execucao","data"];
+  for(const t of terms){
+    const idx=findLteColumnByHeader(headers,t);
+    if(idx>-1)return idx;
+  }
+  return -1;
+}
+function inferVencimentoDays(row,headers){
+  const idx=getLteProgrammedDateIndex(headers);
+  if(idx<0)return "";
+  const dt=parseBrDate(row[idx]);
+  if(!dt)return "";
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const target=new Date(dt.getFullYear(),dt.getMonth(),dt.getDate());
+  return Math.round((target-today)/(24*60*60*1000));
+}
+function upsertLteStatusAndDueColumns(view){
+  const p=to2DPlanilha(view.planilha);
+  let headers=[...p.headers];
+  let rows=p.rows.map(r=>[...r]);
+  if(!headers.length&&rows.length){
+    headers=rows.shift();
+  }
+  if(!headers.length)headers=[...LTE_MODEL_BASE_HEADERS];
+  const statusIdx=findLteColumnByHeader(headers,"status");
+  let dueIdx=findLteColumnByHeader(headers,"severidade");
+  const oldDueIdx=findLteColumnByHeader(headers,"data de vencimento");
+  if(dueIdx<0&&oldDueIdx>-1){
+    headers[oldDueIdx]="Severidade";
+    dueIdx=oldDueIdx;
+  }
+  const sIdx=statusIdx>-1?statusIdx:headers.length;
+  if(statusIdx<0)headers.push("Status");
+  const dIdx=dueIdx>-1?dueIdx:headers.length;
+  if(dueIdx<0)headers.push("Severidade");
+  rows=rows.map(r=>{
+    const out=[...r];
+    while(out.length<headers.length)out.push("");
+    out[sIdx]=normalizeStatus(out[sIdx]);
+    out[dIdx]=String(inferVencimentoDays(out,headers));
+    return out;
+  });
+  view.planilha={headers,rows};
+}
+function modelLteGrid(rawGrid){
+  const cleaned=(Array.isArray(rawGrid)?rawGrid:[])
+    .map(r=>Array.isArray(r)?r.map(c=>String(c??"").trim()):[])
+    .filter(r=>r.some(c=>c!==""));
+  const headerIdx=cleaned.findIndex(r=>r.some(c=>/ORDEM/i.test(c))&&r.some(c=>/DATA\s*PROGRAMADA/i.test(c)));
+  const dataRows=(headerIdx>=0?cleaned.slice(headerIdx+1):cleaned.slice(1))
+    .filter(r=>!r.some(c=>/QTD\.?\s*OPER\.?/i.test(String(c||""))));
+  const rows=dataRows.map(r=>{
+    const out=LTE_MODEL_IMPORT_INDEXES.map(idx=>normalizeSpreadsheetCell(r[idx]||""));
+    while(out.length<LTE_MODEL_BASE_HEADERS.length)out.push("");
+    return out.slice(0,LTE_MODEL_BASE_HEADERS.length);
+  }).filter(r=>r.some(c=>c!==""));
+  const header=[...LTE_MODEL_BASE_HEADERS];
+  return{headers:header,rows};
+}
+function applyLteFilters(row,headers,f){
+  const statusIdx=findLteColumnByHeader(headers,"status");
+  const dueIdx=Math.max(findLteColumnByHeader(headers,"severidade"),findLteColumnByHeader(headers,"data de vencimento"));
+  const progIdx=getLteProgrammedDateIndex(headers);
+  const locIdx=findLteColumnByHeader(headers,"local");
+  if(f.status&&statusIdx>-1&&normalizeStatus(row[statusIdx])!==normalizeStatus(f.status))return false;
+  if(f.dataProgramada&&progIdx>-1&&!String(row[progIdx]||"").includes(f.dataProgramada))return false;
+  if(f.localInstalacao&&locIdx>-1&&!String(row[locIdx]||"").toLowerCase().includes(String(f.localInstalacao).toLowerCase()))return false;
+  if(f.dataVencimento&&dueIdx>-1&&!String(row[dueIdx]||"").includes(String(f.dataVencimento)))return false;
+  if(f.toleranciaMax&&dueIdx>-1){
+    const n=Number(f.toleranciaMax);
+    const d=Number(row[dueIdx]);
+    if(Number.isFinite(n)&&Number.isFinite(d)&&d>n)return false;
+  }
+  return true;
+}
+function getLteSheetStats(view){
+  const p=to2DPlanilha(view.planilha);
+  const headers=p.headers||[];
+  const rows=(p.rows||[]);
+  const statusIdx=findLteColumnByHeader(headers,"status");
+  const reviewed=rows.filter(r=>normalizeStatus(r[statusIdx])==="CONCLUIDA").length;
+  return{total:rows.length,reviewed,pending:Math.max(0,rows.length-reviewed)};
+}
+function lteClearFilters(i){
+  const row=ensureLteView(i);
+  row.filtros={dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""};
+  saveLteState();
+  re();
+}
+function lteMarkAllReviewed(i){
+  const row=ensureLteView(i);
+  upsertLteStatusAndDueColumns(row);
+  const statusIdx=findLteColumnByHeader(row.planilha.headers,"status");
+  if(statusIdx<0)return;
+  const allValidated=row.planilha.rows.length&&row.planilha.rows.every(r=>normalizeStatus(r[statusIdx])==="CONCLUIDA");
+  row.planilha.rows=row.planilha.rows.map(r=>{
+    const out=[...r];
+    out[statusIdx]=allValidated?"":"CONCLUIDA";
+    return out;
+  });
+  upsertLteStatusAndDueColumns(row);
+  saveLteState();
+  re();
+}
+function openLteStatusList(){
+  const atual=getLteStatusOptions().join("; ");
+  const txt=prompt("Atualize a Lista de Status. Separe por ponto e virgula ou por linha.",atual);
+  if(txt===null)return;
+  const next=[...new Set(String(txt).split(/[;\n,]+/).map(s=>normalizeStatus(s)).filter(Boolean))];
+  if(!next.length){alert("Informe pelo menos um status.");return;}
+  S.lte=normalizeLteState(S.lte);
+  S.lte.statusOptions=next;
+  saveLteState();
+  re();
+}
+function lteHiddenColumns(row){
+  return (row&&row.hiddenColumns&&typeof row.hiddenColumns==="object")?row.hiddenColumns:{};
+}
+function isLteColumnHidden(row,header){
+  return !!lteHiddenColumns(row)[normalizeHeaderKey(header)];
+}
+function toggleLteColumnFilter(i){
+  const row=ensureLteView(i);
+  row.columnFilterOpen=!row.columnFilterOpen;
+  saveLteState();
+  re();
+}
+function setLteColumnHidden(i,header,hidden){
+  const row=ensureLteView(i);
+  row.hiddenColumns=row.hiddenColumns||{};
+  row.hiddenColumns[normalizeHeaderKey(header)]=!!hidden;
+  saveLteState();
+  re();
+}
+function lteVisiblePlan(row){
+  const plan=to2DPlanilha(row?.planilha);
+  const idxs=plan.headers.map((h,idx)=>({h,idx})).filter(x=>!isLteColumnHidden(row,x.h)).map(x=>x.idx);
+  return{
+    headers:idxs.map(idx=>plan.headers[idx]),
+    rows:plan.rows.map(r=>idxs.map(idx=>r[idx]??""))
+  };
+}
+function lteColWidth(header){
+  const h=normalizeHeaderKey(header);
+  if(h==="ESPECIALIDADE")return 128;
+  if(h==="TIPO")return 76;
+  if(h==="ORDEM")return 142;
+  if(h==="TEXTO BREVE")return 250;
+  if(h==="LOCAL DE INSTALACAO")return 230;
+  if(h==="DATA PROGRAMADA")return 132;
+  if(h==="TOLERANCIA MAXIMA")return 142;
+  if(h==="STATUS")return 138;
+  if(h==="SEVERIDADE"||h==="DATA DE VENCIMENTO")return 96;
+  return 120;
+}
+function parseMmssToSecs(v){
+  const m=String(v||"").trim().match(/^(\d{1,2}):(\d{2})$/);
+  if(!m)return null;
+  const mm=Number(m[1]),ss=Number(m[2]);
+  if(!Number.isFinite(mm)||!Number.isFinite(ss)||ss>59)return null;
+  return mm*60+ss;
+}
+function fmtSignedSecs(sec){
+  const s=Number(sec)||0;
+  if(s===0)return "00:00";
+  return`${s>0?"+":"-"}${fmt(Math.abs(s))}`;
+}
+function lteViewHasContent(v){
+  if(!v)return false;
+  const p=to2DPlanilha(v.planilha);
+  return !!(
+    (typeof v.observacoes==="string"&&v.observacoes.trim())||
+    (typeof v.textoLivre==="string"&&v.textoLivre.trim())||
+    (Array.isArray(p.rows)&&p.rows.length)||
+    normLteImageSlots(v.imagens,v.imagem).some(img=>img.url||img.text)
+  );
+}
+function getEffectiveLteViewsForPresentation(){
+  const l=normalizeLteState(S.lte);
+  const d0=l.views[3];
+  const d0Active=!!(d0&&d0.enabled&&lteViewHasContent(d0));
+  return l.views.filter((v,i)=>{
+    if(!v.enabled)return false;
+    if(d0Active&&i>=0&&i<=2)return false;
+    return true;
+  });
+}
+function ensureLteView(i){
+  if(!S.lte||typeof S.lte!=="object")S.lte=buildDefaultLteState();
+  S.lte=normalizeLteState(S.lte);
+  if(!S.lte.views[i])S.lte.views[i]=buildDefaultLteState().views[i];
+  return S.lte.views[i];
+}
+function saveLteState(){
+  const state=normalizeLteState(S.lte);
+  const compact={
+    tempoSolicitado:state.tempoSolicitado,
+    statusOptions:state.statusOptions,
+    views:state.views.map(v=>({
+      ...v,
+      imagem:null,
+      imagens:normLteImageSlots(v.imagens).map(img=>({url:"",name:img.name||"",text:(img.text||"").slice(0,200)}))
+    }))
+  };
+  writeStore(LTE_STATE_KEY,compact);
+  S.lte=state;
+}
+function loadLteState(){
+  const st=readStore(LTE_STATE_KEY,null);
+  S.lte=normalizeLteState(st||buildDefaultLteState());
+}
+function hydrateLteImagesFromLocal(){
+  S.lte=normalizeLteState(S.lte);
+  S.lte.views.forEach((v,i)=>{
+    v.imagens=normLteImageSlots(v.imagens);
+    for(let j=0;j<LTE_IMAGE_SLOT_COUNT;j++){
+      const img=normLteImage(readStore(`${LTE_IMG_SLOT_PREFIX}${i}_${j}`,null));
+      if(img)v.imagens[j]={...v.imagens[j],...img,text:v.imagens[j]?.text||img.text||""};
+    }
+    const legacy=normLteImage(readStore(LTE_IMG_SLOT_PREFIX+i,null));
+    if(legacy&&!v.imagens.some(x=>x.url))v.imagens[0]={...v.imagens[0],...legacy,text:v.imagens[0]?.text||legacy.text||""};
+  });
+}
+function saveLteImageSlot(i,j=0){
+  const v=ensureLteView(i);
+  v.imagens=normLteImageSlots(v.imagens);
+  const key=`${LTE_IMG_SLOT_PREFIX}${i}_${j}`;
+  const img=normLteImage(v.imagens[j]);
+  writeStore(key,img);
+  if(img)idbSet(key,img).catch(()=>{});
+  else idbDelete(key).catch(()=>{});
+}
+async function syncLteImagesFromIdbOnBoot(){
+  try{
+    S.lte=normalizeLteState(S.lte);
+    let changed=false;
+    for(let i=0;i<S.lte.views.length;i++){
+      S.lte.views[i].imagens=normLteImageSlots(S.lte.views[i].imagens);
+      for(let j=0;j<LTE_IMAGE_SLOT_COUNT;j++){
+        const img=normLteImage(await idbGet(`${LTE_IMG_SLOT_PREFIX}${i}_${j}`));
+        if(img){
+          S.lte.views[i].imagens[j]={...S.lte.views[i].imagens[j],...img,text:S.lte.views[i].imagens[j]?.text||img.text||""};
+          writeStore(`${LTE_IMG_SLOT_PREFIX}${i}_${j}`,S.lte.views[i].imagens[j]);
+          changed=true;
+        }
+      }
+      const legacy=normLteImage(await idbGet(LTE_IMG_SLOT_PREFIX+i));
+      if(legacy&&!S.lte.views[i].imagens.some(x=>x.url)){
+        S.lte.views[i].imagens[0]={...S.lte.views[i].imagens[0],...legacy,text:S.lte.views[i].imagens[0]?.text||legacy.text||""};
+        writeStore(`${LTE_IMG_SLOT_PREFIX}${i}_0`,S.lte.views[i].imagens[0]);
+        changed=true;
+      }
+    }
+    if(changed)re();
+  }catch(_){}
 }
 const isNonEmptyText=v=>typeof v==="string"&&v.trim().length>0;
 function normalizeEvacFields(obj){
@@ -318,19 +1035,29 @@ async function saveEvacFieldsBaseCloud(){
   }
 }
 function loadEvacState(){
+  const slotImgs=readEvacImagesBySlotFromLocal();
   const imgs=readStore(EVAC_IMG_KEY,null);
   const txt=readStore(EVAC_SCRIPT_KEY,null);
   const base=readStore(EVAC_SCRIPT_BASE_KEY,null);
   const fieldsBase=readStore(EVAC_FIELDS_BASE_KEY,null);
-  if(Array.isArray(imgs)&&imgs.length===3)S.evacImages=imgs;
+  if(Array.isArray(slotImgs)&&slotImgs.length===3)S.evacImages=slotImgs;
+  else if(Array.isArray(imgs)&&imgs.length===3)S.evacImages=imgs.map(normEvacImage);
   if(typeof txt==="string"&&txt.trim())S.evacScript=txt;
   if(typeof base!=="string"||!base.trim())writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);
   hydrateEvacFields(fieldsBase);
   if(!fieldsBase||typeof fieldsBase!=="object")saveEvacFieldsBase();
 }
 function saveEvacImages(){
-  writeStore(EVAC_IMG_KEY,S.evacImages);
-  idbSet(EVAC_IMG_KEY,S.evacImages).catch(()=>{});
+  const imgs=[0,1,2].map(i=>normEvacImage(S.evacImages[i]));
+  S.evacImages=imgs;
+  imgs.forEach((img,i)=>{writeStore(EVAC_IMG_SLOT_PREFIX+i,img);});
+  imgs.forEach((img,i)=>{
+    if(img)idbSet(EVAC_IMG_SLOT_PREFIX+i,img).catch(()=>{});
+    else idbDelete(EVAC_IMG_SLOT_PREFIX+i).catch(()=>{});
+  });
+  // Compatibilidade com versoes antigas
+  writeStore(EVAC_IMG_KEY,imgs);
+  idbSet(EVAC_IMG_KEY,imgs).catch(()=>{});
 }
 function saveEvacScript(){writeStore(EVAC_SCRIPT_KEY,S.evacScript);}
 function saveEvacBase(){writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);}
@@ -354,9 +1081,12 @@ async function syncEvacBaseFromCloudOnBoot(){
 }
 async function syncEvacImagesFromIdbOnBoot(){
   try{
-    const imgs=await idbGet(EVAC_IMG_KEY);
+    let imgs=await readEvacImagesBySlotFromIdb();
+    if(!imgs)imgs=await idbGet(EVAC_IMG_KEY);
     if(Array.isArray(imgs)&&imgs.length===3){
-      S.evacImages=imgs;
+      S.evacImages=imgs.map(normEvacImage);
+      // Replica para slots locais para reforcar persistencia no proximo boot
+      S.evacImages.forEach((img,i)=>{writeStore(EVAC_IMG_SLOT_PREFIX+i,img);});
       re();
     }
   }catch(_){}
@@ -364,15 +1094,22 @@ async function syncEvacImagesFromIdbOnBoot(){
 function allModalImages(){
   const evac=S.evacImages.filter(Boolean).map(x=>x.url);
   const block=Object.values(S.imgs).flat().map(x=>x.url);
-  return [...new Set([...evac,...block])];
+  const lte=normalizeLteState(S.lte).views.flatMap(v=>normLteImageSlots(v.imagens).map(img=>img.url).filter(Boolean));
+  return [...new Set([...evac,...block,...lte])];
 }
 function saveAppState(){
   writeStore(APP_STATE_KEY,{
     enabled:S.enabled,data:S.data,imgs:S.imgs,
     evacScript:S.evacScript,
     theme:S.theme,role:S.role,
-    vpsSelected:S.vps.selectedVersion,
-    vpsSimpleMode:!!S.vps.simpleMode
+    lteState:{
+      ...normalizeLteState(S.lte),
+      views:normalizeLteState(S.lte).views.map(v=>({
+        ...v,
+        imagem:null,
+        imagens:normLteImageSlots(v.imagens).map(img=>({url:"",name:img.name||"",text:(img.text||"").slice(0,200)}))
+      }))
+    }
   });
 }
 function askAdminLogin(){
@@ -393,8 +1130,7 @@ function loadAppState(){
   if(typeof st.evacScript==="string"&&st.evacScript.trim())S.evacScript=st.evacScript;
   if(st.theme==="day"||st.theme==="night")S.theme=st.theme;
   if(st.role==="admin"||st.role==="editor")S.role=st.role;
-  if(typeof st.vpsSelected==="string"&&st.vpsSelected.trim())S.vps.selectedVersion=st.vpsSelected;
-  if(typeof st.vpsSimpleMode==="boolean")S.vps.simpleMode=st.vpsSimpleMode;
+  if(st.lteState&&typeof st.lteState==="object")S.lte=normalizeLteState(st.lteState);
   if(st.weather&&typeof st.weather==="object")S.weather={...S.weather,...st.weather};
   hydrateEvacFields(readStore(EVAC_FIELDS_BASE_KEY,EVAC_DEFAULT_FIELDS));
 }
@@ -406,59 +1142,6 @@ function weatherSummary(v){
   if(s.includes("sol"))return "Ensolarado";
   return String(v);
 }
-function normVpsPayload(j){
-  const blocks=Array.isArray(j?.blocks)?j.blocks:[];
-  const normalized=blocks.map((b,idx)=>({
-    order:Number.isFinite(Number(b?.order))?Number(b.order):(idx+1),
-    block_id:String(b?.block_id||`block_${idx+1}`),
-    title:String(b?.title||"Sem titulo"),
-    tipo_bloco:String(b?.tipo_bloco||"generico"),
-    template:String(b?.template||"generico"),
-    source_ref:String(b?.source_ref||"external_source"),
-    data:(b&&typeof b.data==="object"&&b.data!==null)?b.data:{raw:String(b?.data??"")}
-  })).sort((a,b)=>a.order-b.order);
-  return{
-    meta:{
-      version_id:String(j?.meta?.version_id||"-"),
-      generated_at:String(j?.meta?.generated_at||""),
-      source:String(j?.meta?.source||"-"),
-      notes:String(j?.meta?.notes||"")
-    },
-    blocks:normalized
-  };
-}
-async function loadVpsPayload(url=VPS_PAYLOAD_URL,selectedVersion="latest"){
-  S.vps.loading=true;S.vps.error="";re();
-  try{
-    const r=await fetch(url,{cache:"no-store"});
-    if(!r.ok)throw new Error("http_"+r.status);
-    const j=await r.json();
-    S.vps.payload=normVpsPayload(j);
-    S.vps.selectedVersion=selectedVersion;
-  }catch(_){
-    S.vps.error="Falha ao carregar payload VPS.";
-  }finally{
-    S.vps.loading=false;re();
-  }
-}
-async function loadVpsIndex(){
-  try{
-    const r=await fetch(VPS_INDEX_URL,{cache:"no-store"});
-    if(!r.ok)return;
-    const j=await r.json();
-    if(j&&Array.isArray(j.versions))S.vps.index={versions:j.versions};
-  }catch(_){}
-}
-function parseVpsBlockData(v){
-  if(!v.trim())return{};
-  try{
-    const parsed=JSON.parse(v);
-    if(parsed&&typeof parsed==="object")return parsed;
-    return{raw:v};
-  }catch(_){
-    return{raw:v};
-  }
-}
 function escHtml(v){
   return String(v??"")
     .replace(/&/g,"&amp;")
@@ -466,80 +1149,6 @@ function escHtml(v){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#39;");
-}
-function ensureVpsBlockData(i){
-  const b=S.vps.payload.blocks?.[i];
-  if(!b)return{};
-  if(!b.data||typeof b.data!=="object"||Array.isArray(b.data))b.data={};
-  return b.data;
-}
-function parseTabularText(txt){
-  const src=String(txt||"").trim();
-  if(!src)return[];
-  const rows=src.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
-  const header=rows[0]||"";
-  const tabCount=(header.match(/\t/g)||[]).length;
-  const semiCount=(header.match(/;/g)||[]).length;
-  const commaCount=(header.match(/,/g)||[]).length;
-  const delim=tabCount>0?"\t":(semiCount>=commaCount?";":",");
-  return rows.map(r=>r.split(delim).map(c=>c.trim()));
-}
-function gridToPasteText(grid){
-  const g=Array.isArray(grid)?grid:[];
-  return g.map(row=>(Array.isArray(row)?row:[]).join("\t")).join("\n");
-}
-function renderGridPreview(grid){
-  const g=Array.isArray(grid)?grid:[];
-  if(!g.length)return`<div style="font-size:10px;color:var(--cm);font-style:italic">Sem tabela</div>`;
-  const head=g[0]||[];
-  const body=g.slice(1);
-  const th=head.map(c=>`<th style="border:.5px solid var(--cc);padding:4px 6px;background:#F8FAFC;font-size:10px;color:var(--gr);text-align:left">${escHtml(c)}</th>`).join("");
-  const tr=body.map(r=>`<tr>${(Array.isArray(r)?r:[]).map(c=>`<td style="border:.5px solid var(--cc);padding:4px 6px;font-size:10px;color:var(--gr)">${escHtml(c)}</td>`).join("")}</tr>`).join("");
-  return`<div style="overflow:auto;border:.5px solid var(--cc);border-radius:6px;background:var(--wh)"><table style="border-collapse:collapse;width:100%;min-width:420px"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>`;
-}
-function updateVpsSimpleField(i,key,val){
-  const data=ensureVpsBlockData(i);
-  data[key]=val;
-  saveAppState();
-}
-function applyVpsTableFromPaste(i){
-  const ta=document.querySelector(`textarea[data-vps-grid-source="${i}"]`);
-  if(!ta)return;
-  const data=ensureVpsBlockData(i);
-  data.tabela=parseTabularText(ta.value);
-  saveAppState();
-  re();
-}
-function handleVpsTableFile(i,inp){
-  const f=inp?.files?.[0];
-  if(!f)return;
-  const rd=new FileReader();
-  rd.onload=e=>{
-    const text=String(e?.target?.result||"");
-    const data=ensureVpsBlockData(i);
-    data.tabela=parseTabularText(text);
-    saveAppState();
-    re();
-  };
-  rd.readAsText(f);
-}
-function handleVpsBlockImage(i,inp){
-  const f=inp?.files?.[0];
-  if(!f)return;
-  const rd=new FileReader();
-  rd.onload=e=>{
-    const data=ensureVpsBlockData(i);
-    data.imagem=String(e?.target?.result||"");
-    saveAppState();
-    re();
-  };
-  rd.readAsDataURL(f);
-}
-function removeVpsBlockImage(i){
-  const data=ensureVpsBlockData(i);
-  delete data.imagem;
-  saveAppState();
-  re();
 }
 async function fetchWeatherFromInmet(){
   S.weather.loading=true;S.weather.error="";re();
@@ -608,6 +1217,21 @@ function updTimer(){
   if(tb){tb.style.width=pct+"%";tb.style.background=pct>90?"var(--cr)":pct>70?"var(--al)":c.ac;}
   if(totb)totb.style.width=Math.min(100,S.tSecs/Math.max(total,1)*100)+"%";
   if(totd)totd.textContent=fmt(S.tSecs)+" / "+fmt(total);
+  if(c.id==="sonda_lte"){
+    const reqEl=document.getElementById("lte-req");
+    const realEl=document.getElementById("lte-real");
+    const diffEl=document.getElementById("lte-diff");
+    const diffWrap=document.getElementById("lte-diff-wrap");
+    const reqSecs=parseMmssToSecs(S.lte?.tempoSolicitado||"");
+    if(reqEl)reqEl.textContent=S.lte?.tempoSolicitado||"--:--";
+    if(realEl)realEl.textContent=fmt(S.bSecs);
+    if(diffEl){
+      diffEl.textContent=reqSecs===null?"Formato invalido":fmtSignedSecs(S.bSecs-reqSecs);
+    }
+    if(diffWrap){
+      diffWrap.style.color=reqSecs===null?"#B45309":((S.bSecs-reqSecs)>0?"#B91C1C":"#166534");
+    }
+  }
 }
 
 //  SIDEBAR 
@@ -802,98 +1426,152 @@ function renderGenericWS(){
 
 function renderVpsWS(){
   const c=COMPANIES.find(x=>x.id==="vale_vps");
-  const blocks=S.vps.payload.blocks||[];
-  const versions=(S.vps.index.versions||[]).slice().reverse();
-  const versionOpts=versions.map(v=>`<option value="${v.file}" ${S.vps.selectedVersion===v.file?"selected":""}>${v.version_id} | ${new Date(v.generated_at).toLocaleString("pt-BR")}</option>`).join("");
-  const list=blocks.map((b,i)=>{
-    const data=(b.data&&typeof b.data==="object"&&!Array.isArray(b.data))?b.data:{};
-    const dataText=JSON.stringify(data,null,2);
-    const desc=String(data.descricao||"");
-    const tempo=String(data.tempo_referencia||"");
-    const texto=String(data.texto||data.raw||"");
-    const tabela=Array.isArray(data.tabela)?data.tabela:[];
-    const tabelaTxt=gridToPasteText(tabela);
-    const imagem=String(data.imagem||"");
-    return`<div style="background:var(--wh);border:.5px solid var(--cc);border-left:3px solid ${c.ac};border-radius:8px;padding:.65rem .75rem;margin-bottom:.5rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:.4rem">
-        <div style="font-size:12px;font-weight:600;color:var(--gr)">${b.order}. ${b.title}</div>
-        <div style="font-size:9px;color:var(--cm);white-space:nowrap">${b.block_id}</div>
-      </div>
-      <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:.45rem">
-        <span style="font-size:9px;padding:2px 7px;border-radius:999px;background:#EFF6FF;border:.5px solid #BFDBFE;color:var(--bt)">tipo: ${b.tipo_bloco}</span>
-        <span style="font-size:9px;padding:2px 7px;border-radius:999px;background:#F0FDF4;border:.5px solid #BBF7D0;color:var(--gv)">template fixo: ${b.template}</span>
-        <span style="font-size:9px;padding:2px 7px;border-radius:999px;background:#FEF9F0;border:.5px solid #FDE68A;color:#92400E">origem: ${b.source_ref}</span>
-      </div>
-      ${S.vps.simpleMode?`
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
-        <div>
-          <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Resumo curto</div>
-          <input data-vps-desc="${i}" value="${escHtml(desc)}" placeholder="Ex: Agenda semanal por dia e tempo" style="width:100%;height:30px;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:0 .6rem;color:var(--gr);font-size:12px"/>
+  S.vps.blocks=normalizeVpsBlocks(S.vps.blocks);
+  const list=S.vps.blocks.map(b=>`<div style="background:var(--wh);border:.5px solid var(--cc);border-left:3px solid ${c.ac};border-radius:8px;padding:.7rem .8rem;margin-bottom:.45rem">
+    <div style="font-size:12px;font-weight:600;color:var(--gr)">${b.order}. ${b.title}</div>
+  </div>`).join("");
+  return`<div>
+    ${wsHeader(c)}
+    ${list}
+  </div>`;
+}
+function renderSondaLteWS(){
+  const c=COMPANIES.find(x=>x.id==="sonda_lte");
+  S.lte=normalizeLteState(S.lte);
+  const v1=`<div style="background:linear-gradient(110deg,#0B6FB8,#005E36);border:.5px solid #0EA5E9;border-radius:10px;padding:.75rem .85rem;margin-bottom:.55rem;box-shadow:0 8px 20px rgba(2,132,199,.18)">
+    <div style="font-size:19px;font-weight:800;color:#fff;letter-spacing:.03em;margin-bottom:.55rem">FMDS - SONDA LTE</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <div style="font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.18);border:.5px solid rgba(255,255,255,.45);color:#E0F2FE">Tempo Solicitado:</div>
+      <input id="lte_tempo_solicitado" value="${escHtml(S.lte.tempoSolicitado)}" oninput="setLteTempoSolicitado(this.value)" placeholder="08:00" style="width:90px;height:28px;background:#fff;border:1px solid #BFDBFE;border-radius:7px;padding:0 .55rem;color:#0F172A;font-size:12px;font-weight:700"/>
+      <div style="font-size:10px;color:#E2E8F0">mm:ss</div>
+    </div>
+  </div>`;
+  const cards=S.lte.views.map((row,i)=>{
+    const meta=LTE_VIEWS_META[i];
+    upsertLteStatusAndDueColumns(row);
+    const p=to2DPlanilha(row.planilha);
+    const headers=p.headers;
+    const filteredRows=p.rows.map((r,idx)=>({r,idx}));
+    const statusIdx=findLteColumnByHeader(headers,"status");
+    const dueIdx=Math.max(findLteColumnByHeader(headers,"severidade"),findLteColumnByHeader(headers,"data de vencimento"));
+    const statusOptions=getLteStatusOptions();
+    const allValidated=p.rows.length&&statusIdx>-1&&p.rows.every(r=>normalizeStatus(r[statusIdx])==="CONCLUIDA");
+    const visibleIndexes=headers.map((h,idx)=>({h,idx})).filter(x=>!isLteColumnHidden(row,x.h)).map(x=>x.idx);
+    const gridCols=visibleIndexes.map(idx=>`<col style="width:${lteColWidth(headers[idx])}px">`).join("")+`<col style="width:34px">`;
+    const columnPanel=row.columnFilterOpen?`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0 8px;padding:8px;border:.5px solid #B7DCCB;border-radius:8px;background:#F7FBF9">
+      ${headers.map(h=>`<label style="display:inline-flex;align-items:center;gap:5px;font-size:10px;color:#075E3C;border:.5px solid #BDD6CC;border-radius:999px;padding:3px 8px;background:#FFFFFF">
+        <input type="checkbox" ${!isLteColumnHidden(row,h)?"checked":""} onchange="setLteColumnHidden(${i},'${escHtml(h)}',!this.checked)"/>
+        ${escHtml(h)}
+      </label>`).join("")}
+    </div>`:"";
+    const gridHead=visibleIndexes.map(cIdx=>{
+      const h=headers[cIdx];
+      const lock=/status|severidade|data de vencimento/i.test(String(h||""));
+      return`<th title="${escHtml(h)}">
+        <input id="lte_h_${i}_${cIdx}" value="${escHtml(h)}" title="${escHtml(h)}" ${lock?"disabled":""} onchange="setLteHeader(${i},${cIdx},this.value)" class="lte-model-input" style="background:${lock?"#EEF8F3":"#FFFFFF"};color:${lock?"#075E3C":"#243B53"}"/>
+      </th>`;
+    }).join("");
+    const gridBody=filteredRows.map((obj,rIdx)=>{
+      const r=obj.r;
+      const sourceIdx=obj.idx;
+      const cells=visibleIndexes.map(cIdx=>{
+        const h=headers[cIdx];
+        const val=String(r[cIdx]??"");
+        if(cIdx===statusIdx){
+          const bg=getStatusColor(val);
+          return`<td style="background:${bg}1A">
+            <select id="lte_s_${i}_${sourceIdx}_${cIdx}" onchange="setLteCell(${i},${sourceIdx},${cIdx},this.value)" style="width:100%;border:.5px solid ${bg};border-radius:5px;padding:2px 4px;font-size:10px;background:#FFFFFF;color:#243B53">
+              <option value="">-</option>
+              ${statusOptions.map(s=>`<option value="${s}" ${normalizeStatus(val)===s?"selected":""}>${s}</option>`).join("")}
+            </select>
+          </td>`;
+        }
+        if(cIdx===dueIdx){
+          const n=Number(val);
+          let color="#EF4444";
+          if(Number.isFinite(n)){
+            if(n>5)color="#22C55E";
+            else if(n===4)color="#3B82F6";
+            else if(n===3)color="#EAB308";
+            else color="#EF4444";
+          }
+          return`<td style="text-align:center">
+            <span class="lte-model-chip" style="background:${color}22;color:${color}">${escHtml(val||"-")}</span>
+          </td>`;
+        }
+        return`<td>
+          <input id="lte_c_${i}_${sourceIdx}_${cIdx}" value="${escHtml(val)}" title="${escHtml(val)}" onchange="setLteCell(${i},${sourceIdx},${cIdx},this.value)" class="lte-model-input"/>
+        </td>`;
+      }).join("");
+      return`<tr>${cells}<td style="text-align:center;width:28px"><button onclick="removeLteRow(${i},${sourceIdx})" style="border:.5px solid #FCA5A5;background:#FFF1F2;color:#B91C1C;border-radius:5px;font-size:10px;cursor:pointer">x</button></td></tr>`;
+    }).join("");
+    row.imagens=normLteImageSlots(row.imagens,row.imagem);
+    const imageSlots=row.imagens.map((imgObj,j)=>{
+      const img=imgObj?.url||"";
+      const txt=imgObj?.text||"";
+      return`<div class="lte-image-slot">
+        ${img?`<img src="${img}" class="lte-image-preview" onclick="openModal('${img}')" title="${escHtml(imgObj.name||'Imagem '+(j+1))}"/>`:`<div class="lte-image-empty">Imagem ${j+1}</div>`}
+        <div style="display:flex;gap:4px;margin-top:5px;flex-wrap:wrap">
+          <label class="lte-model-btn" style="padding:3px 7px;font-size:9px;flex:1;text-align:center">
+            Inserir
+            <input type="file" accept="image/*" style="display:none" onchange="handleLteImage(${i},${j},this)"/>
+          </label>
+          <button onclick="removeLteImage(${i},${j})" class="lte-model-btn" style="padding:3px 7px;font-size:9px;flex:1">Remover</button>
         </div>
-        <div>
-          <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Tempo de referencia</div>
-          <input data-vps-tempo="${i}" value="${escHtml(tempo)}" placeholder="Ex: 02:00min" style="width:100%;height:30px;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:0 .6rem;color:var(--gr);font-size:12px"/>
-        </div>
+        <textarea maxlength="200" class="lte-image-caption" placeholder="Texto da imagem (ate 200 caracteres)" oninput="setLteImageText(${i},${j},this.value)">${escHtml(txt)}</textarea>
+      </div>`;
+    }).join("");
+    return`<div style="background:var(--wh);border:.5px solid ${row.enabled?c.ac+"66":"var(--cc)"};border-left:3px solid ${row.enabled?c.ac:"#94A3B8"};border-radius:8px;padding:.7rem .8rem;margin-bottom:.55rem;opacity:${row.enabled?1:.72}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:.45rem">
+        <div style="font-size:13px;font-weight:700;color:var(--gr)">${i+2}. ${meta.title}</div>
+        <button onclick="setLteViewEnabled(${i},${row.enabled?"false":"true"})" ${!meta.canDisable?"disabled":""} style="font-size:9px;padding:3px 9px;border-radius:20px;border:.5px solid ${!meta.canDisable?"#BFDBFE":(row.enabled?c.ac+"66":"#94A3B8")};background:${!meta.canDisable?"#EFF6FF":(row.enabled?c.ac+"14":"#F8FAFC")};color:${!meta.canDisable?"#1D4ED8":(row.enabled?c.ac:"#64748B")};cursor:${!meta.canDisable?"default":"pointer"};font-weight:600">${!meta.canDisable?"D0 fixo":(row.enabled?"Ligada":"Desligada")}</button>
       </div>
-      <div style="margin-bottom:6px">
-        <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Texto livre</div>
-        <textarea data-vps-texto="${i}" rows="3" placeholder="Cole aqui o texto do bloco" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${escHtml(texto)}</textarea>
-      </div>
-      <div style="margin-bottom:6px">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px">
-          <div style="font-size:9px;color:${c.ac};text-transform:uppercase">Tabela (cole do Excel / CSV)</div>
-          <div style="display:flex;gap:5px">
-            <label style="font-size:9px;padding:3px 8px;border:.5px solid var(--cc);border-radius:5px;background:var(--wh);color:var(--cm);cursor:pointer">
-              Importar arquivo
-              <input type="file" accept=".csv,.txt" style="display:none" onchange="handleVpsTableFile(${i},this)"/>
+      <div style="display:${row.enabled?"block":"none"}">
+      ${!meta.hasSheet?`<div style="margin-bottom:6px">
+        <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">${meta.obsLabel}</div>
+        <textarea id="lte_obs_${i}" rows="3" oninput="setLteObservacoes(${i},this.value)" placeholder="${meta.obsLabel}" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${escHtml(row.observacoes||"")}</textarea>
+      </div>`:""}
+      ${meta.hasSheet?`<div style="margin-bottom:8px">
+        <div class="lte-model-shell">
+          <div class="lte-model-toolbar">
+            <div class="lte-model-title">DataSet</div>
+            <label class="lte-model-btn">
+              Inserir Planilha
+              <input type="file" accept=".csv,.txt,.xlsx,.xls,.xlsm,.xllsm,.xlsb" style="display:none" onchange="handleLteTableFile(${i},this)"/>
             </label>
-            <button onclick="applyVpsTableFromPaste(${i})" style="font-size:9px;padding:3px 8px;border:.5px solid #BFDBFE;border-radius:5px;background:#EFF6FF;color:var(--bt);cursor:pointer">Aplicar tabela</button>
+            <button class="lte-model-btn" onclick="toggleLteColumnFilter(${i})">Filtro</button>
+            <button class="lte-model-btn" onclick="openLteStatusList()">Lista de Status</button>
+            <button class="lte-model-btn" onclick="lteMarkAllReviewed(${i})">Validar / Restaurar</button>
+            <button class="lte-model-btn" onclick="addLteRow(${i})">+ Linha</button>
+            <button class="lte-model-btn" onclick="addLteColumn(${i})">+ Coluna</button>
+            <button class="lte-model-btn" onclick="removeLteTable(${i})">Remover Planilha</button>
+            ${(()=>{const st=getLteSheetStats(row);return`<span class="lte-model-count">${st.total} linhas · ${st.reviewed} revisadas · ${st.pending} pendentes</span>`;})()}
+          </div>
+          ${columnPanel}
+          <div class="lte-model-wrap">
+            <table class="lte-model-table">
+              <colgroup>${gridCols}</colgroup>
+              <thead><tr>${gridHead}<th style="border:.5px solid #163556;padding:5px;background:#062540;width:32px"></th></tr></thead>
+              <tbody>${gridBody||`<tr><td colspan="${visibleIndexes.length+1}" style="padding:10px;text-align:center;font-size:10px;color:#93C5FD;background:#081a2d">Sem linhas na planilha.</td></tr>`}</tbody>
+            </table>
           </div>
         </div>
-        <textarea data-vps-grid-source="${i}" rows="3" placeholder="Cole tabela aqui (Ctrl+V)..." style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:11px;line-height:1.35;resize:vertical">${escHtml(tabelaTxt)}</textarea>
-      </div>
-      <div style="margin-bottom:6px">
+      </div>`:""}
+      ${meta.hasImage?`<div style="margin-bottom:6px">
         <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Imagem</div>
-        <div style="display:flex;gap:6px;align-items:center">
-          ${imagem?`<img src="${imagem}" style="width:120px;height:70px;object-fit:cover;border:.5px solid var(--cc);border-radius:6px;cursor:pointer" onclick="openModal('${imagem}')"/>`:`<div style="width:120px;height:70px;border:.5px dashed var(--cc);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--cm)">Sem imagem</div>`}
-          <label style="font-size:9px;padding:4px 8px;border:.5px solid #BFDBFE;border-radius:5px;background:#EFF6FF;color:var(--bt);cursor:pointer">
-            Inserir imagem
-            <input type="file" accept="image/*" style="display:none" onchange="handleVpsBlockImage(${i},this)"/>
-          </label>
-          <button onclick="removeVpsBlockImage(${i})" style="font-size:9px;padding:4px 8px;border:.5px solid var(--cc);border-radius:5px;background:var(--wh);color:var(--cm);cursor:pointer">Remover</button>
-        </div>
+        <div class="lte-image-grid">${imageSlots}</div>
+      </div>`:""}
+      <div>
+        <div style="font-size:9px;color:${c.ac};text-transform:uppercase;margin-bottom:3px">Texto livre</div>
+        <textarea id="lte_txt_${i}" rows="3" oninput="setLteTextoLivre(${i},this.value)" placeholder="Digite observacoes complementares" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${escHtml(row.textoLivre||"")}</textarea>
       </div>
-      <div style="font-size:9px;color:var(--cm);margin-bottom:4px">Pre-visualizacao da tabela</div>
-      ${renderGridPreview(tabela)}
-      `:`
-      <div style="font-size:9px;font-weight:500;color:${c.ac};letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px">Dados variaveis (JSON)</div>
-      <textarea data-vps-idx="${i}" rows="4" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${dataText}</textarea>
-      `}
+      </div>
     </div>`;
   }).join("");
   return`<div>
     ${wsHeader(c)}
-    <div style="background:var(--bg);border:.5px solid var(--cc);border-radius:8px;padding:.65rem .75rem;margin-bottom:.6rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
-        <div>
-          <div style="font-size:10px;color:var(--cm)">Conector VPS (ordem + tipo_bloco)</div>
-          <div style="font-size:12px;font-weight:600;color:var(--gr)">Versao: ${S.vps.payload.meta.version_id||"-"}</div>
-          <div style="font-size:10px;color:var(--cm)">Gerado em: ${S.vps.payload.meta.generated_at?new Date(S.vps.payload.meta.generated_at).toLocaleString("pt-BR"):"-"}</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-          <div class="theme-dual" title="Modo de edicao VPS">
-            <button onclick="setVpsEditMode('simple')" class="${S.vps.simpleMode?'active':''}">Modo Simples</button>
-            <button onclick="setVpsEditMode('json')" class="${!S.vps.simpleMode?'active':''}">JSON</button>
-          </div>
-          <button onclick="refreshVpsPayload()" class="top-btn" style="padding:4px 10px">Recarregar payload</button>
-          ${versions.length?`<select id="vps-version-sel" style="height:26px;min-width:210px;border:.5px solid var(--cc);border-radius:7px;background:var(--wh);color:var(--gr);font-size:10px;padding:0 6px">${versionOpts}</select>
-          <button onclick="applyVpsVersion()" class="top-btn" style="padding:4px 10px">Rollback rapido</button>`:""}
-        </div>
-      </div>
-      ${S.vps.loading?`<div style="font-size:10px;color:var(--cm);margin-top:.4rem">Carregando payload VPS...</div>`:""}
-      ${S.vps.error?`<div style="font-size:10px;color:#B45309;background:#FFFBEB;border:.5px solid #FDE68A;border-radius:6px;padding:.35rem .5rem;margin-top:.4rem">${S.vps.error}</div>`:""}
-    </div>
-    ${list||`<div style="font-size:11px;color:var(--cm);font-style:italic">Sem blocos no payload.</div>`}
+    ${v1}
+    ${cards}
     <button onclick="saveWS()" style="width:100%;padding:.55rem;border-radius:8px;background:var(--gv);border:none;color:#fff;font-weight:500;font-size:13px;cursor:pointer">Salvar</button>
   </div>`;
 }
@@ -973,6 +1651,7 @@ function renderPresent(){
   const c=actives[S.presIdx];
   const isEvac=c.id==="plano_evac";
   const isVps=c.id==="vale_vps";
+  const isLte=c.id==="sonda_lte";
   const flds=c.fields.filter(f=>S.data[c.id][f.k]?.trim());
   const evacBlock=isEvac?`
     <div style="background:#F0F7FF;border:.5px solid #BFDBFE;border-radius:7px;padding:.6rem .75rem;margin-bottom:.5rem">
@@ -991,20 +1670,54 @@ function renderPresent(){
       ).join("")}
     </div>`:"";
   const vpsHTML=isVps?`<div style="max-height:260px;overflow-y:auto;padding-right:2px">
-    ${(S.vps.payload.blocks||[]).map(b=>`<div style="background:var(--bg);border-radius:6px;padding:.4rem .65rem;border-left:2px solid ${c.ac}55;margin-bottom:4px">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:6px">
+    ${normalizeVpsBlocks(S.vps.blocks).map((b,i)=>`<div style="background:var(--bg);border-radius:6px;padding:.4rem .65rem;border-left:2px solid ${c.ac}55;margin-bottom:4px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap">
         <div style="font-size:9px;font-weight:500;color:${c.ac};text-transform:uppercase;letter-spacing:.05em">${b.order}. ${b.title}</div>
-        <div style="font-size:8px;color:var(--cm)">${b.tipo_bloco}</div>
+        ${[8,9,11].includes(i)?`<div style="font-size:8px;padding:1px 6px;border-radius:999px;background:#EFF6FF;border:.5px solid #BFDBFE;color:#1D4ED8">${currentMonthLabel()}</div>`:""}
       </div>
-      <div style="font-size:10px;color:var(--cm)">template: ${b.template}</div>
+      ${b.text?.trim()?`<div style="font-size:10px;color:var(--gr);line-height:1.35;white-space:pre-wrap;margin-top:2px">${escHtml(b.text).slice(0,240)}</div>`:`<div style="font-size:10px;color:var(--cm)">Sem texto</div>`}
     </div>`).join("")}
   </div>`:"";
-  const dataHTML=isVps?vpsHTML:(flds.length?flds.map(f=>`
+  const lteHTML=isLte?(()=>{
+    const l=normalizeLteState(S.lte);
+    const reqSecs=parseMmssToSecs(l.tempoSolicitado);
+    const diff=(reqSecs===null)?null:(S.bSecs-reqSecs);
+    const effective=getEffectiveLteViewsForPresentation();
+    const d0Active=!!(l.views[3]&&l.views[3].enabled&&lteViewHasContent(l.views[3]));
+    const metric=`<div style="background:linear-gradient(105deg,#0B6FB8,#005E36);border:.5px solid #0EA5E9;border-radius:8px;padding:.5rem .65rem;margin-bottom:.45rem;box-shadow:0 6px 16px rgba(2,132,199,.18)">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div style="font-size:10px;color:#DBEAFE"><b>Tempo solicitado:</b> <span id="lte-req">${escHtml(l.tempoSolicitado||"--:--")}</span></div>
+        <div style="font-size:10px;color:#F8FAFC"><b>Tempo real:</b> <span id="lte-real">${fmt(S.bSecs)}</span></div>
+        <div id="lte-diff-wrap" style="font-size:10px;color:${diff===null?'#FDE68A':(diff>0?'#FECACA':'#BBF7D0')}"><b>Diferenca:</b> <span id="lte-diff">${diff===null?'Formato invalido':fmtSignedSecs(diff)}</span></div>
+      </div>
+    </div>`;
+    const rows=effective.map((row)=>{
+      const i=l.views.findIndex(x=>x.id===row.id);
+      const m=LTE_VIEWS_META[i];
+      const imgs=normLteImageSlots(row.imagens,row.imagem).filter(x=>x.url||x.text);
+      const img=imgs.length?`<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px;margin-top:4px">${imgs.map(x=>`
+        <div style="border:.5px solid var(--cc);border-radius:6px;padding:4px;background:var(--wh)">
+          ${x.url?`<img src="${x.url}" onclick="openModal('${x.url}')" style="width:100%;height:52px;object-fit:cover;border-radius:5px;cursor:pointer"/>`:""}
+          ${x.text?`<div style="font-size:9px;color:var(--gr);line-height:1.25;margin-top:3px">${escHtml(x.text)}</div>`:""}
+        </div>`).join("")}</div>`:"";
+      const plan=lteVisiblePlan(row);
+      const tab=(Array.isArray(plan.rows)&&plan.rows.length)?`<div style="margin-top:4px">${renderGridPreview(plan)}</div>`:"";
+      return`<div style="background:var(--bg);border-radius:6px;padding:.45rem .65rem;border-left:2px solid ${c.ac}88;margin-bottom:4px">
+        <div style="font-size:9px;font-weight:600;color:${c.ac};text-transform:uppercase;letter-spacing:.05em">${m.title}</div>
+        ${(!m.hasSheet&&row.observacoes?.trim())?`<div style="font-size:10px;color:var(--gr);white-space:pre-wrap"><b>${m.obsLabel}:</b> ${escHtml(row.observacoes)}</div>`:""}
+        ${row.textoLivre?.trim()?`<div style="font-size:10px;color:var(--gr);white-space:pre-wrap">${escHtml(row.textoLivre)}</div>`:""}
+        ${tab}${img}
+      </div>`;
+    }).join("");
+    const badge=d0Active?`<div style="font-size:9px;color:#92400E;background:#FFFBEB;border:.5px solid #FDE68A;border-radius:6px;padding:.3rem .5rem;margin-bottom:.35rem">D0 ativo: views D-3, D-2 e D-1 ocultadas na apresentacao.</div>`:"";
+    return`<div style="max-height:260px;overflow-y:auto;padding-right:2px">${metric}${badge}${rows||`<div style="font-size:10px;color:var(--cm);font-style:italic">Nenhuma view LTE ligada para exibicao.</div>`}</div>`;
+  })():"";
+  const dataHTML=isVps?vpsHTML:(isLte?lteHTML:(flds.length?flds.map(f=>`
     <div style="background:var(--bg);border-radius:6px;padding:.4rem .65rem;border-left:2px solid ${c.ac}55;margin-bottom:4px">
       <div style="font-size:9px;font-weight:500;color:${c.ac};text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px">${f.l}</div>
       <div style="font-size:12px;color:var(--gr);line-height:1.5;white-space:pre-wrap">${S.data[c.id][f.k]}</div>
-    </div>`).join(""):(isEvac?"":(`<div style="font-size:11px;color:var(--cm);font-style:italic">Script padrao do agente.</div>`)));
-  const imgH=S.imgs[c.id]?.length?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">${S.imgs[c.id].map((img,i)=>`<img src="${img.url}" onclick="openModal('${img.url}')" style="height:48px;border-radius:6px;border:.5px solid var(--cc);cursor:pointer"/>`).join("")}</div>`:"";
+    </div>`).join(""):(isEvac?"":(`<div style="font-size:11px;color:var(--cm);font-style:italic">Script padrao do agente.</div>`))));
+  const imgH=(isLte||isVps)?"":(S.imgs[c.id]?.length?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">${S.imgs[c.id].map((img,i)=>`<img src="${img.url}" onclick="openModal('${img.url}')" style="height:48px;border-radius:6px;border:.5px solid var(--cc);cursor:pointer"/>`).join("")}</div>`:"");
   const ovH=S.overflow?`<div style="background:#FFFBEB;border:.5px solid var(--al);border-radius:8px;padding:.65rem;margin-bottom:.65rem">
     <div style="font-size:11px;font-weight:500;color:#92400E;margin-bottom:2px">Tempo Overflow Session</div>
     <div style="font-size:10px;color:#B45309">Tempo excedido. Sugestao: +10 min. Registre na ata.</div>
@@ -1083,6 +1796,7 @@ function renderMain(){
   if(S.view==="workspace"){
     if(S.selId==="plano_evac")return renderEvacWS();
     if(S.selId==="vale_vps")return renderVpsWS();
+    if(S.selId==="sonda_lte")return renderSondaLteWS();
     return renderGenericWS();
   }
   if(S.view==="present")return renderPresent();
@@ -1090,11 +1804,28 @@ function renderMain(){
 }
 
 function re(){
+  const prevMain=document.getElementById("main");
+  const prevScroll=prevMain?prevMain.scrollTop:0;
+  const ae=document.activeElement;
+  const focusId=(ae&&ae.id)?ae.id:"";
+  const selStart=(ae&&typeof ae.selectionStart==="number")?ae.selectionStart:null;
+  const selEnd=(ae&&typeof ae.selectionEnd==="number")?ae.selectionEnd:null;
   document.body.classList.toggle("night",S.theme==="night");
   const app=document.getElementById("app");
   app.innerHTML=renderSidebar()
     +`<div id="main" class="fade" style="flex:1;padding:.85rem;overflow-y:auto;background:var(--bg)">${renderMain()}</div>`
     +renderModal();
+  const nextMain=document.getElementById("main");
+  if(nextMain)nextMain.scrollTop=prevScroll;
+  if(focusId){
+    const target=document.getElementById(focusId);
+    if(target){
+      target.focus({preventScroll:true});
+      if(selStart!==null&&selEnd!==null&&typeof target.setSelectionRange==="function"){
+        try{target.setSelectionRange(selStart,selEnd);}catch(_){}
+      }
+    }
+  }
   attachEv();
   if(S.view==="present"&&S.running)updTimer();
   if(S.view==="present")updSUI();
@@ -1106,34 +1837,6 @@ function attachEv(){
       const sc=document.getElementById("evac-script");
       if(sc)sc.addEventListener("input",e=>{S.evacScript=e.target.value;saveEvacScript();saveAppState();});
       COMPANIES[0].fields.forEach(f=>{const el=document.getElementById("f_"+f.k);if(el)el.addEventListener("input",e=>{S.data["plano_evac"][f.k]=e.target.value;saveAppState();});});
-    } else if(S.selId==="vale_vps"){
-      document.querySelectorAll("input[data-vps-desc]").forEach(el=>{
-        el.addEventListener("input",e=>{
-          const i=Number(e.target.getAttribute("data-vps-desc"));
-          if(Number.isInteger(i))updateVpsSimpleField(i,"descricao",e.target.value);
-        });
-      });
-      document.querySelectorAll("input[data-vps-tempo]").forEach(el=>{
-        el.addEventListener("input",e=>{
-          const i=Number(e.target.getAttribute("data-vps-tempo"));
-          if(Number.isInteger(i))updateVpsSimpleField(i,"tempo_referencia",e.target.value);
-        });
-      });
-      document.querySelectorAll("textarea[data-vps-texto]").forEach(el=>{
-        el.addEventListener("input",e=>{
-          const i=Number(e.target.getAttribute("data-vps-texto"));
-          if(Number.isInteger(i))updateVpsSimpleField(i,"texto",e.target.value);
-        });
-      });
-      document.querySelectorAll("textarea[data-vps-idx]").forEach(el=>{
-        el.addEventListener("input",e=>{
-          const i=Number(e.target.getAttribute("data-vps-idx"));
-          if(Number.isInteger(i)&&S.vps.payload.blocks[i]){
-            S.vps.payload.blocks[i].data=parseVpsBlockData(e.target.value);
-            saveAppState();
-          }
-        });
-      });
     } else {
       const c=COMPANIES.find(x=>x.id===S.selId);
       if(c){
@@ -1151,13 +1854,157 @@ function attachEv(){
 }
 
 //  ACTIONS 
-function insertVpsImg(n,inp){
+async function insertVpsImg(n,inp){
   const f=inp.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{S.evacImages[n]={url:e.target.result,name:f.name};saveEvacImages();re();};
-  r.readAsDataURL(f);
+  try{
+    const dataUrl=await readImageOptimized(f);
+    S.evacImages[n]={url:dataUrl,name:f.name};
+    saveEvacImages();
+    re();
+  }catch(_){
+    alert("Falha ao carregar imagem. Tente novamente.");
+  }finally{
+    inp.value="";
+  }
 }
-function removeVpsImg(n){S.evacImages[n]=null;saveEvacImages();re();}
+function removeVpsImg(n){
+  S.evacImages[n]=null;
+  saveEvacImages();
+  re();
+}
+function setLteTempoSolicitado(v){
+  const txt=String(v||"").replace(/[^\d:]/g,"").slice(0,5);
+  S.lte.tempoSolicitado=txt;
+  saveLteState();
+}
+function setLteObservacoes(i,v){
+  const row=ensureLteView(i);
+  row.observacoes=String(v||"");
+  saveLteState();
+}
+function setLteTextoLivre(i,v){
+  const row=ensureLteView(i);
+  row.textoLivre=String(v||"");
+  saveLteState();
+}
+function setLteViewEnabled(i,on){
+  const row=ensureLteView(i);
+  if(i===3){row.enabled=true;saveLteState();re();return;}
+  row.enabled=!!on;
+  saveLteState();
+  re();
+}
+async function handleLteTableFile(i,inp){
+  const f=inp?.files?.[0];
+  if(!f)return;
+  try{
+    const grid=await parseSpreadsheetFileToGrid(f);
+    const row=ensureLteView(i);
+    row.planilha=modelLteGrid(grid);
+    upsertLteStatusAndDueColumns(row);
+    saveLteState();
+    re();
+  }catch(err){
+    console.error("Erro ao processar planilha LTE:",err);
+    const msg=(err&&err.message)?String(err.message):"erro_desconhecido";
+    alert("Falha ao ler planilha: "+msg+". Use CSV/XLSX/XLS/XLSM e tente novamente.");
+  }finally{
+    inp.value="";
+  }
+}
+function removeLteTable(i){
+  const row=ensureLteView(i);
+  row.planilha={headers:[],rows:[]};
+  saveLteState();
+  re();
+}
+function addLteRow(i){
+  const row=ensureLteView(i);
+  upsertLteStatusAndDueColumns(row);
+  const cols=row.planilha.headers.length||2;
+  row.planilha.rows.push(Array.from({length:cols},()=> ""));
+  upsertLteStatusAndDueColumns(row);
+  saveLteState();
+  re();
+}
+function removeLteRow(i,rIdx){
+  const row=ensureLteView(i);
+  if(!Array.isArray(row.planilha?.rows))return;
+  row.planilha.rows.splice(rIdx,1);
+  upsertLteStatusAndDueColumns(row);
+  saveLteState();
+  re();
+}
+function addLteColumn(i){
+  const row=ensureLteView(i);
+  upsertLteStatusAndDueColumns(row);
+  const name=prompt("Nome da nova coluna:");
+  if(name===null)return;
+  const h=String(name||"").trim();
+  if(!h)return;
+  row.planilha.headers.push(h);
+  row.planilha.rows.forEach(r=>r.push(""));
+  upsertLteStatusAndDueColumns(row);
+  saveLteState();
+  re();
+}
+function setLteHeader(i,cIdx,v){
+  const row=ensureLteView(i);
+  upsertLteStatusAndDueColumns(row);
+  const old=String(row.planilha.headers[cIdx]||"");
+  if(/status|severidade|data de vencimento/i.test(old))return;
+  row.planilha.headers[cIdx]=String(v||"");
+  upsertLteStatusAndDueColumns(row);
+  saveLteState();
+}
+function setLteCell(i,rIdx,cIdx,v){
+  const row=ensureLteView(i);
+  upsertLteStatusAndDueColumns(row);
+  const h=String(row.planilha.headers[cIdx]||"").toLowerCase();
+  if(h.includes("data de vencimento")||h.includes("severidade"))return;
+  if(!row.planilha.rows[rIdx])return;
+  row.planilha.rows[rIdx][cIdx]=h.includes("status")?normalizeStatus(v):String(v||"");
+  upsertLteStatusAndDueColumns(row);
+  saveLteState();
+}
+function setLteFilter(i,key,v){
+  const row=ensureLteView(i);
+  row.filtros=row.filtros||{};
+  row.filtros[key]=String(v||"");
+  saveLteState();
+  re();
+}
+function setLteImageText(i,j,v){
+  const row=ensureLteView(i);
+  row.imagens=normLteImageSlots(row.imagens,row.imagem);
+  row.imagens[j]={...row.imagens[j],text:String(v||"").slice(0,200)};
+  saveLteState();
+}
+async function handleLteImage(i,j,inp){
+  const f=inp?.files?.[0];
+  if(!f)return;
+  try{
+    const dataUrl=await readImageOptimized(f);
+    const row=ensureLteView(i);
+    row.imagens=normLteImageSlots(row.imagens,row.imagem);
+    row.imagens[j]={...(row.imagens[j]||{}),url:dataUrl,name:f.name,text:(row.imagens[j]?.text||"").slice(0,200)};
+    saveLteImageSlot(i,j);
+    saveLteState();
+    re();
+  }catch(_){
+    alert("Falha ao inserir imagem na Sonda LTE.");
+  }finally{
+    inp.value="";
+  }
+}
+function removeLteImage(i,j){
+  const row=ensureLteView(i);
+  row.imagens=normLteImageSlots(row.imagens,row.imagem);
+  row.imagens[j]={url:"",name:"",text:row.imagens[j]?.text||""};
+  saveLteImageSlot(i,j);
+  saveLteState();
+  re();
+}
 function exibirImg(n){if(S.evacImages[n])openModal(S.evacImages[n].url);}
 function openModal(url){
   const list=allModalImages();
@@ -1206,29 +2053,29 @@ function toggleManual(){S.manual=!S.manual;re();}
 function toggleOverflow(){S.overflow=!S.overflow;re();}
 function setTheme(mode){if(mode!=="day"&&mode!=="night")return;S.theme=mode;re();}
 function toggleTheme(){S.theme=S.theme==="night"?"day":"night";re();}
-function setVpsEditMode(mode){S.vps.simpleMode=(mode!=="json");saveAppState();re();}
-function refreshVpsPayload(){loadVpsPayload(VPS_PAYLOAD_URL,"latest");loadVpsIndex();}
-function applyVpsVersion(){
-  const sel=document.getElementById("vps-version-sel");
-  if(!sel||!sel.value)return;
-  const file=String(sel.value).replace(/^\/+/,"");
-  loadVpsPayload(`data/vps/${file}`,file);
-}
 function resetLocalCache(){
   if(S.role!=="admin")return;
   const ok=confirm("Reinicializar cache local desta aplicacao? Esta acao limpa bases, edicoes e imagens salvas no navegador.");
   if(!ok)return;
+  const evacSlotKeys=[0,1,2].map(i=>EVAC_IMG_SLOT_PREFIX+i);
+  const lteImgKeys=[
+    ...LTE_VIEWS_META.map((_,i)=>LTE_IMG_SLOT_PREFIX+i),
+    ...LTE_VIEWS_META.flatMap((_,i)=>Array.from({length:LTE_IMAGE_SLOT_COUNT},(__,j)=>`${LTE_IMG_SLOT_PREFIX}${i}_${j}`))
+  ];
   [
-    EVAC_IMG_KEY,EVAC_SCRIPT_KEY,EVAC_SCRIPT_BASE_KEY,EVAC_FIELDS_BASE_KEY,APP_STATE_KEY
+    EVAC_IMG_KEY,EVAC_SCRIPT_KEY,EVAC_SCRIPT_BASE_KEY,EVAC_FIELDS_BASE_KEY,LTE_STATE_KEY,APP_STATE_KEY,...evacSlotKeys,...lteImgKeys
   ].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});
   idbDelete(EVAC_IMG_KEY).catch(()=>{});
+  evacSlotKeys.forEach(k=>idbDelete(k).catch(()=>{}));
+  lteImgKeys.forEach(k=>idbDelete(k).catch(()=>{}));
   S.enabled=Object.fromEntries(COMPANIES.map(c=>[c.id,true]));
   S.data=Object.fromEntries(COMPANIES.map(c=>[c.id,Object.fromEntries(c.fields.map(f=>[f.k,""]))]));
   S.data["plano_evac"]={...EVAC_DEFAULT_FIELDS,...S.data["plano_evac"]};
   S.imgs=Object.fromEntries(COMPANIES.map(c=>[c.id,[]]));
   S.evacImages=[null,null,null];
   S.evacScript=SCRIPT_SEG;
-  S.vps={loading:false,error:"",selectedVersion:"latest",simpleMode:true,payload:{meta:{version_id:"-",generated_at:"",source:"-",notes:""},blocks:[]},index:{versions:[]}};
+  S.vps={blocks:buildDefaultVpsBlocks()};
+  S.lte=buildDefaultLteState();
   S.theme="day";
   S.view="portal";
   S.selId=null;
@@ -1236,8 +2083,6 @@ function resetLocalCache(){
   saveAppState();
   saveEvacScript();
   re();
-  loadVpsPayload(VPS_PAYLOAD_URL,"latest");
-  loadVpsIndex();
 }
 function toggleWeatherPanel(){S.weather.collapsed=!S.weather.collapsed;re();}
 function toggleRole(){
@@ -1258,11 +2103,12 @@ function toggleSpeak(){if(S.speaking){stopSpeak();return;}const c=activeCompanie
 const _re=re;
 re=function(){_re();saveAppState();};
 loadAppState();
+loadLteState();
+hydrateLteImagesFromLocal();
 loadEvacState();
 syncEvacImagesFromIdbOnBoot();
+syncLteImagesFromIdbOnBoot();
 syncEvacBaseFromCloudOnBoot();
-loadVpsPayload(S.vps.selectedVersion==="latest"?VPS_PAYLOAD_URL:`data/vps/${S.vps.selectedVersion}`,S.vps.selectedVersion);
-loadVpsIndex();
 fetchWeatherFromInmet();
 clearInterval(wInt);
 wInt=setInterval(fetchWeatherFromInmet,15*60*1000);
