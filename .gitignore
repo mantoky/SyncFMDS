@@ -4,6 +4,7 @@
 !index.html
 !fmds_v5_completo.html
 !firebase.json
+!netlify.toml
 !.firebaserc
 !firebase.runtime-config.js
 !inmet_proxy.py
@@ -12,3 +13,6 @@
 !data/
 !data/vps/
 !data/vps/**
+
+# Local Netlify folder
+.netlify
