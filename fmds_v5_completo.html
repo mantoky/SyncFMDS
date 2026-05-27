@@ -2475,6 +2475,17 @@ function renderPortal(){
   </div>`;
 }
 
+function renderExitScreen(){
+  return`<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem;background:linear-gradient(135deg,#F7FBF9,#EAF6F0)">
+    <div style="width:min(520px,92vw);background:var(--wh);border:.5px solid #B7DCCB;border-left:5px solid var(--gv);border-radius:12px;padding:1.25rem;box-shadow:0 18px 42px rgba(0,107,63,.14);text-align:center">
+      <div style="width:54px;height:54px;border-radius:50%;margin:0 auto .75rem;background:#E9F8EF;color:var(--gv);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900">⏻</div>
+      <div style="font-size:22px;font-weight:850;color:var(--gv);letter-spacing:.03em;text-transform:uppercase">Sessao encerrada</div>
+      <div style="font-size:13px;color:var(--cm);margin:.45rem 0 1rem;line-height:1.45">O acesso administrativo foi desconectado e os cronometros foram pausados.</div>
+      <button onclick="enterApp()" class="top-btn" style="background:var(--gv);border-color:var(--gv);color:#fff;padding:8px 18px;border-radius:8px;font-weight:800">Entrar no FMDS</button>
+    </div>
+  </div>`;
+}
+
 //  PRESENTATION 
 function renderPresent(){
   const actives=activeCompanies();
@@ -2670,6 +2681,7 @@ function renderModal(){
 
 //  MAIN RENDER 
 function renderMain(){
+  if(S.view==="exit")return renderExitScreen();
   if(S.view==="portal")return renderPortal();
   if(S.view==="workspace"){
     if(S.selId==="plano_evac")return renderEvacWS();
@@ -2692,6 +2704,11 @@ function re(){
   const selEnd=(ae&&typeof ae.selectionEnd==="number")?ae.selectionEnd:null;
   document.body.classList.toggle("night",S.theme==="night");
   const app=document.getElementById("app");
+  if(S.view==="exit"){
+    app.innerHTML=`<div id="main" class="fade" style="flex:1;padding:0;background:var(--bg);margin-left:0">${renderMain()}</div>`+renderModal();
+    attachEv();
+    return;
+  }
   const mainOffset=S.sidebarAutoCollapse?"56px":"0";
   app.innerHTML=renderSidebar()
     +`<div id="main" class="fade" style="flex:1;padding:0;background:var(--bg);margin-left:${mainOffset}">${renderMain()}</div>`
@@ -3037,10 +3054,17 @@ function exitApp(){
   stopTimer();
   clearFbAuth();
   S.role="editor";
-  S.view="portal";
+  S.view="exit";
   S.selId=null;
   S.modalImg=null;S.modalList=[];S.modalIdx=0;
-  S.presIdx=0;S.bSecs=0;S.tSecs=0;S.running=false;S.manual=false;S.overflow=false;S.speaking=false;S.speechRate=0.88;
+  S.presIdx=0;S.bSecs=0;S.tSecs=0;S.running=false;S.manual=false;S.overflow=false;S.speaking=false;S.speechRate=0.88;S.configOpen=null;S.sidebarHover=false;
+  re();
+}
+function enterApp(){
+  S.view="portal";
+  S.selId=null;
+  S.configOpen=null;
+  S.sidebarHover=false;
   re();
 }
 function saveWS(){S.view="portal";re();}
