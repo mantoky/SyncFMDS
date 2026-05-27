@@ -4,7 +4,8 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--gv:#006B3F;--g2:#2E8B57;--gs:#6FCF97;--bt:#2F80ED;--gr:#2F2F2F;--cm:#6B7280;--cc:#E5E7EB;--wh:#fff;--ok:#27AE60;--al:#F2C94C;--cr:#EB5757;--bg:#F7F9FB}
 body.night{--gr:#F8FAFC;--cm:#D1D9E6;--cc:#3A4A64;--wh:#0F172A;--bg:#0B1220}
-body{font-family:Arial,'Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html,body{height:100%;overflow:hidden}
+body{font-family:Arial,'Segoe UI',system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;background:var(--bg)}
 textarea,input,button{font-family:inherit}
 textarea:focus,input:focus{outline:2px solid var(--bt);outline-offset:-1px}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
@@ -47,12 +48,85 @@ body.night #app [style*="background:#F0FDF4"] *,
 body.night #app [style*="background:#FEF9F0"] *,
 body.night #app [style*="background:#FFFBEB"] *{color:#172033!important}
 body.night #app textarea,
-body.night #app input{color:var(--gr)!important}
+body.night #app input,
+body.night #app select{
+  background:#F8FAFC!important;
+  color:#0F172A!important;
+  border-color:#7FB6F5!important;
+  box-shadow:0 0 0 1px rgba(127,182,245,.12)!important
+}
+body.night #app textarea::placeholder,
+body.night #app input::placeholder{color:#64748B!important}
+body.night #app [style*="background:#F0F7FF"] textarea,
+body.night #app [style*="background:#EFF6FF"] textarea,
+body.night #app [style*="background:linear-gradient(90deg,#EFF6FF,#F0FDF4)"] textarea,
+body.night #app [style*="background:#FEF2F2"] textarea,
+body.night #app [style*="background:#F0FDF4"] textarea,
+body.night #app [style*="background:#FEF9F0"] textarea,
+body.night #app [style*="background:#FFFBEB"] textarea,
+body.night #app [style*="background:#F0F7FF"] input,
+body.night #app [style*="background:#EFF6FF"] input,
+body.night #app [style*="background:linear-gradient(90deg,#EFF6FF,#F0FDF4)"] input,
+body.night #app [style*="background:#FEF2F2"] input,
+body.night #app [style*="background:#F0FDF4"] input,
+body.night #app [style*="background:#FEF9F0"] input,
+body.night #app [style*="background:#FFFBEB"] input,
+body.night #app [style*="background:#F0F7FF"] select,
+body.night #app [style*="background:#EFF6FF"] select,
+body.night #app [style*="background:linear-gradient(90deg,#EFF6FF,#F0FDF4)"] select,
+body.night #app [style*="background:#FEF2F2"] select,
+body.night #app [style*="background:#F0FDF4"] select,
+body.night #app [style*="background:#FEF9F0"] select,
+body.night #app [style*="background:#FFFBEB"] select{
+  background:#F8FAFC!important;
+  color:#0F172A!important;
+  border-color:#7FB6F5!important
+}
+body.night #app [style*="background:linear-gradient(90deg,#EFF6FF,#F0FDF4)"] [style*="background:var(--wh)"],
+body.night #app [style*="background:#F0F7FF"] [style*="background:var(--wh)"],
+body.night #app [style*="background:#FEF9F0"] [style*="background:var(--wh)"],
+body.night #app [style*="background:#F0FDF4"] [style*="background:var(--wh)"],
+body.night #app [style*="background:#FEF2F2"] [style*="background:var(--wh)"]{
+  background:#F8FAFC!important
+}
 body.night #app [style*="background:var(--gv)"],
 body.night #app [style*="background:linear-gradient(90deg,var(--gv),var(--bt))"],
 body.night #app [style*="background:rgba(255,255,255,.15)"]{color:#fff!important}
 body.night #app{color:var(--gr)}
 body.night #app [style*="background:var(--wh)"]{box-shadow:0 4px 14px rgba(0,0,0,.2)}
+#app{
+  height:100vh;
+  max-height:100vh;
+  width:100%;
+  display:flex;
+  overflow:hidden
+}
+#main{
+  height:100vh;
+  min-width:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scroll-behavior:smooth
+}
+#main > div{padding:0 .85rem .85rem}
+#main > div > .shell-sticky,
+#main > div > .ws-sticky{margin-left:-.85rem!important;margin-right:-.85rem!important}
+.shell-sticky{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:var(--bg);
+  box-shadow:0 5px 12px rgba(15,23,42,.06)
+}
+body.night .shell-sticky{box-shadow:0 10px 24px rgba(0,0,0,.28)}
+.ws-sticky{
+  position:sticky;
+  top:0;
+  z-index:35;
+  background:var(--bg);
+  box-shadow:0 8px 18px rgba(15,23,42,.06)
+}
+body.night .ws-sticky{box-shadow:0 10px 24px rgba(0,0,0,.28)}
 .top-btn{
   padding:3px 9px;border-radius:8px;border:.5px solid var(--cc);background:var(--bg);
   color:var(--cm);font-size:11px;cursor:pointer;white-space:nowrap;transition:all .18s ease;
@@ -63,6 +137,184 @@ body.night .top-btn:hover{border-color:#60A5FA;color:#BFDBFE;background:#172554}
 .theme-dual button{padding:3px 11px;border:none;background:transparent;color:var(--cm);font-size:10px;cursor:pointer}
 .theme-dual button.active{background:#EAF3FF;color:#2563EB;font-weight:600}
 body.night .theme-dual button.active{background:#1E3A8A;color:#DBEAFE}
+.config-wrap{position:relative;display:inline-flex}
+.config-panel{
+  position:absolute;right:0;top:calc(100% + 6px);z-index:80;min-width:210px;
+  background:var(--wh);border:.5px solid var(--cc);border-radius:10px;
+  padding:9px;box-shadow:0 14px 32px rgba(15,23,42,.18)
+}
+body.night .config-panel{background:#111827;border-color:#3A4A64;box-shadow:0 18px 38px rgba(0,0,0,.38)}
+.config-label{font-size:10px;color:var(--cm);text-transform:uppercase;letter-spacing:.05em;margin:2px 0 6px}
+.config-row{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.config-action{width:100%;margin-top:8px;text-align:left;padding:6px 8px;border-radius:8px;border:.5px solid #FECACA;background:#FFF1F2;color:#B91C1C;font-size:11px;font-weight:700;cursor:pointer}
+body.night .config-action{background:#2A1215;color:#FCA5A5;border-color:#7F1D1D}
+#sidebar{
+  transition:width .22s ease,min-width .22s ease,max-width .22s ease,box-shadow .22s ease,transform .22s ease;
+  position:relative;
+}
+#sidebar.sidebar-auto{
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:90;
+  width:56px!important;
+  min-width:56px!important;
+  max-width:56px!important;
+  box-shadow:7px 0 20px rgba(0,107,63,.18)
+}
+#sidebar.sidebar-auto:hover{
+  width:252px!important;
+  min-width:252px!important;
+  max-width:252px!important;
+  box-shadow:18px 0 34px rgba(0,107,63,.22)
+}
+#sidebar.sidebar-auto .sidebar-head,
+#sidebar.sidebar-auto .sidebar-section-label,
+#sidebar.sidebar-auto .sidebar-scroll{
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .12s ease
+}
+#sidebar.sidebar-auto:hover .sidebar-head,
+#sidebar.sidebar-auto:hover .sidebar-section-label,
+#sidebar.sidebar-auto:hover .sidebar-scroll{
+  opacity:1;
+  pointer-events:auto;
+  transition:opacity .16s ease .08s
+}
+#sidebar.sidebar-auto::after{
+  content:"FMDS";
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(-90deg);
+  color:rgba(255,255,255,.84);
+  font-size:13px;
+  font-weight:850;
+  letter-spacing:.28em;
+  text-shadow:0 0 18px rgba(111,207,151,.32)
+}
+#sidebar.sidebar-auto:hover::after{opacity:0}
+#sidebar [style*="font-size:9px"]{font-size:10px!important;line-height:1.2!important}
+#sidebar [style*="font-size:10px"]{font-size:11px!important;line-height:1.2!important}
+#sidebar [style*="font-size:11px"]{font-size:12px!important;line-height:1.25!important}
+.sidebar-scroll{
+  flex:1;
+  min-height:0;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  padding-right:5px;
+  scrollbar-gutter:stable;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(143,211,255,.8) rgba(255,255,255,.08)
+}
+.sidebar-scroll::-webkit-scrollbar{width:8px}
+.sidebar-scroll::-webkit-scrollbar-track{background:rgba(255,255,255,.08);border-radius:10px}
+.sidebar-scroll::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#BFEAFF,#6FCF97);border-radius:10px;border:1px solid rgba(255,255,255,.18);box-shadow:0 1px 5px rgba(111,207,151,.35)}
+.sidebar-head{
+  min-height:128px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:8px 8px 12px;
+  position:relative;
+}
+.sidebar-head::after{
+  content:"";
+  position:absolute;
+  left:4px;
+  right:4px;
+  bottom:0;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,rgba(111,207,151,.08),rgba(191,234,255,.85),rgba(111,207,151,.08));
+  box-shadow:0 0 14px rgba(143,211,255,.32)
+}
+.sidebar-eyebrow{
+  font-size:10px;
+  letter-spacing:.14em;
+  color:rgba(255,255,255,.58);
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.sidebar-title{
+  color:#fff;
+  font-size:20px;
+  font-weight:850;
+  line-height:1.08;
+  letter-spacing:.01em;
+  text-shadow:0 2px 0 rgba(0,0,0,.08),0 0 18px rgba(111,207,151,.35)
+}
+.sidebar-section-label{
+  margin:10px 0 7px;
+  padding-left:8px;
+  font-size:10px;
+  letter-spacing:.1em;
+  color:rgba(255,255,255,.58);
+  text-transform:uppercase;
+}
+.portal-titlebar{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:10px;
+  min-height:48px;
+  border-bottom:.5px solid var(--cc);
+  background:linear-gradient(90deg,rgba(0,107,63,.08),rgba(47,128,237,.08),rgba(0,107,63,.08));
+  backdrop-filter:blur(8px)
+}
+.portal-title{
+  text-align:center;
+  font-size:18px;
+  font-weight:800;
+  letter-spacing:.04em;
+  color:var(--gv);
+  text-transform:uppercase;
+  text-shadow:0 1px 0 rgba(255,255,255,.7),0 8px 18px rgba(0,107,63,.12)
+}
+body.night .portal-titlebar{background:linear-gradient(90deg,rgba(0,107,63,.24),rgba(47,128,237,.16),rgba(0,107,63,.24))}
+body.night .portal-title{color:#D9FFF0;text-shadow:0 0 18px rgba(111,207,151,.22)}
+.portal-hero{
+  background:linear-gradient(105deg,#006B3F 0%,#078456 50%,#2F80ED 120%);
+  padding:1rem 1.25rem;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  box-shadow:0 14px 28px rgba(0,107,63,.18),inset 0 1px 0 rgba(255,255,255,.16);
+  position:relative;
+  overflow:hidden
+}
+.portal-hero::before{
+  content:"";
+  position:absolute;
+  inset:-60% auto auto -15%;
+  width:42%;
+  height:180%;
+  transform:rotate(18deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+  animation:heroSweep 5.5s ease-in-out infinite
+}
+@keyframes heroSweep{0%,65%{left:-35%;opacity:0}78%{opacity:1}100%{left:115%;opacity:0}}
+.portal-hero-main{position:relative;z-index:1;text-align:center;flex:1}
+.portal-kicker{
+  font-size:12px;
+  color:rgba(255,255,255,.78);
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-weight:700;
+  margin-bottom:2px
+}
+.portal-hero-title{
+  font-size:22px;
+  color:#fff;
+  font-weight:850;
+  line-height:1.12;
+  letter-spacing:.015em;
+  text-shadow:0 2px 0 rgba(0,0,0,.08),0 0 22px rgba(191,234,255,.22)
+}
+.portal-hero-meta{position:relative;z-index:1;text-align:right;min-width:150px}
 .lte-model-shell{
   border:.5px solid #B7DCCB;
   border-radius:10px;
@@ -95,26 +347,35 @@ body.night .theme-dual button.active{background:#1E3A8A;color:#DBEAFE}
 .lte-image-caption{width:100%;height:52px;margin-top:5px;resize:none;border:.5px solid #BDD6CC;border-radius:6px;background:#fff;color:var(--gr);padding:5px;font-size:10px;line-height:1.25}
 </style>
 
-<div id="app" style="position:relative;display:flex;border-radius:12px;overflow:hidden;border:1px solid var(--cc);background:var(--bg)"></div>
+<div id="app" style="position:relative;background:var(--bg)"></div>
 
 <script>
-const SCRIPT_SEG=`Sejam bem-vindos ao FMDS Infratech, Carajas - Corredor Norte.
+const SCRIPT_SEG=`Sejam bem-vindos ao FMDS Infratech, Carajás - Corredor Norte.
 
-Antes de iniciarmos, atencao as premissas de seguranca.
+Antes de iniciarmos, atenção às premissas de segurança:
 
-Em caso de emergencia nas operacoes da Vale, acione o CECOM: 0800 2850 193.
+Saídas de emergência
+Faça a validação das condições de fluxo das saídas e abertura das portas de emergência.
+Em caso de emergência nas operações da Vale, acione o CECOM: 0800 2850 193.
 
-Identifique as saidas de emergencia sinalizadas. Em caso de evacuacao, siga o trajeto definido. Nao improvise caminhos. Mantenha a calma.
+Use o rádio em emergências
+Pressione o botão vermelho por 3 segundos, aguarde o retorno do atendente dos Bombeiros. Informe a localização, tipo de ocorrência e número de pessoas envolvidas, direta ou indiretamente. Seja claro e objetivo com o relato.
 
-Guias de evacuacao:
-G1 - Guia de frente: abre o caminho e conduz o grupo ao Ponto de Encontro N78.
-G2 - Guia de retaguarda: ultimo a sair, certifica que ninguem ficou para tras.
+Guias de evacuação
+G1 - Guia de frente - abre o caminho e conduz o grupo ao Ponto de Encontro N78.
+G2 - Guia de retaguarda - será o último a sair, ele se certificará de que ninguém ficou para trás!
 
-Use o radio em emergencias: acione o botao vermelho e comunique-se na faixa dos Bombeiros. Informe localizacao, tipo de ocorrencia e numero de pessoas.
+Em caso de evacuação
+Siga o seguinte trajeto definido para Rota de Fuga:
+- G1 conduzirá a evacuação, seguindo pela porta de emergência mais próxima, e, em fila indiana, todos deverão seguir pela área externa do prédio Infratech. Passando pelo prédio de Sondagem, haverá uma curva suave à esquerda, contornando o início das rampas dos ônibus. Manter a direção em linha reta, exceto quando houver obstruções por pessoas, materiais, bloqueio etc. Ao fim deste corredor, vocês verão a saída da área coberta, com curva suave à esquerda, onde serão direcionados à Praça da Bandeira. Seguindo adiante, existe uma escada dividida por um corrimão; todos deverão utilizá-la ordenadamente, acompanhados pelo G2, direcionando-se ao PONTO DE ENCONTRO PE N78, logo após o estacionamento do CCO, ao lado do Heliponto.
 
-Contatos: CECOM 0800 2850 193 - Bombeiros 193 - SAMU 192.
+Observação
+Caso o G1, guia 1, entenda que um outro caminho seguro, atalho ou rota estabelecida, seja a melhor opção, todos deverão segui-lo, conforme este plano estabelece.
 
-A vida em primeiro lugar. Iniciando o FMDS.`;
+Lembrem-se: não improvisem caminhos, mantenham-se calmos!
+
+A vida em primeiro lugar. Iniciando o FMDS.
+Contatos: CECOM 0800 2850 193 - Bombeiros 193 - SAMU 192.`;
 const EVAC_ROTAS_BASE=`G1 conduzira a evacuacao, seguindo pela porta de emergencia mais proxima, em fila indiana. Todos deverao seguir pela area externa do predio Infratech, passando pelo predio de Sondagem. Havera uma curva suave a esquerda, contornando o inicio das rampas de onibus. Manter a direcao em linha reta (exceto quando houver obstrucoes por pessoas, materiais, bloqueio etc.). Ao fim deste corredor, havera uma saida da area coberta (curva suave a esquerda), onde direcionara todos a Praca da Bandeira. Seguindo adiante, havera uma escada dividida por um corrimao; todos deverao, ordenadamente, direcionar-se ao PONTO DE ENCONTRO (PE N78), logo apos o estacionamento do CCO, ao lado do Heliponto.
 
 Obs:
@@ -133,10 +394,16 @@ const COMPANIES=[
    fields:[{k:"agenda",l:"Agenda do dia",p:"Ordem dos blocos e tempos..."},{k:"staffs",l:"Staffs presentes",p:"Nome - Cargo - Empresa"},{k:"aniversariantes",l:"Aniversariantes",p:"Nome - DD/MM"},{k:"postos",l:"Postos de trabalho",p:"Mudancas, alocacoes..."},{k:"veiculos",l:"Veiculos CKS",p:"TAG - Status - Manutencao"},{k:"comunicados",l:"Comunicados gerais",p:"Avisos, eventos..."}]},
   {id:"sonda_net",name:"Sonda Network",sub:"Network - Corporativo",ac:"#6FCF97",mins:7,mode:"agent",init:"SN",script:"Bloco Sonda Network. Escopo: Rede corporativa.",
    fields:[{k:"seg",l:"Seguranca",p:"Desvios, riscos..."},{k:"d1",l:"Programacao D-1",p:"Chamado - Atividade - Status"},{k:"d",l:"Programacao D",p:"Chamado - Atividade - Status"},{k:"crit",l:"Tratativas criticas",p:"Links corporativos..."},{k:"ajuda",l:"Alinhamentos",p:"Dependencias..."},{k:"sob",l:"Sobreaviso",p:"Nome - Contato"}]},
-  {id:"sonda_cab",name:"Sonda Cabeamento",sub:"Cabling - Fibra Optica",ac:"#56CCF2",mins:7,mode:"agent",init:"SC",script:"Bloco Sonda Cabeamento. Escopo: Cabeamento e fibra optica.",
+  {id:"sonda_cab",name:"Sonda Cabling",sub:"Cabling - Fibra Optica",ac:"#56CCF2",mins:7,mode:"agent",init:"SC",script:"Bloco Sonda Cabeamento. Escopo: Cabeamento e fibra optica.",
    fields:[{k:"seg",l:"Seguranca",p:"Desvios, riscos..."},{k:"d1",l:"Programacao D-1",p:"Site - INC/OM - Status"},{k:"d",l:"Programacao D",p:"Site - INC/OM - Status"},{k:"fibra",l:"Visibilidade fibra",p:"Rompimentos, melhorias..."},{k:"crit",l:"Tratativas criticas",p:"Fibras criticas..."},{k:"sob",l:"Sobreaviso",p:"Nome - Contato"}]},
   {id:"sonda_adm",name:"Sonda Administrativo",sub:"ADM - Pessoas - SAP - Stratws",ac:"#8B5CF6",mins:5,mode:"agent",init:"SA",script:"Bloco Sonda Administrativo. Escopo: Administracao, pessoas e sistemas SAP/Stratws.",
    fields:[{k:"seg",l:"Seguranca",p:"Desvios, riscos..."},{k:"pessoas",l:"Pessoas",p:"Ferias, ausencias, aniversarios, treinamentos..."},{k:"sap",l:"Acoes SAP / Stratws",p:"OMs abertas, pendentes, encerradas..."},{k:"d1",l:"Atividades D-1",p:"Atividades administrativas realizadas..."},{k:"d",l:"Programacao D",p:"Atividades do dia..."},{k:"sob",l:"Sobreaviso ADM",p:"Nome - Contato"}]},
+  {id:"sonda_serra_leste",name:"Sonda Serra Leste",sub:"FMDS - SONDA SERRA LESTE",ac:"#2563EB",mins:8,mode:"agent",init:"SS",script:"FMDS - SONDA SERRA LESTE.",
+   fields:[]},
+  {id:"sonda_data_center",name:"Sonda Data Center",sub:"FMDS - SONDA DATA CENTER",ac:"#0F766E",mins:8,mode:"agent",init:"SD",script:"FMDS - SONDA DATA CENTER.",
+   fields:[]},
+  {id:"aldak",name:"Aldak",sub:"Operacao - Campo - Suporte",ac:"#0EA5A4",mins:7,mode:"agent",init:"AL",script:"Bloco Aldak. Escopo: operacao e suporte de campo.",
+   fields:[{k:"seg",l:"Seguranca",p:"Desvios, riscos..."},{k:"d1",l:"Programacao D-1",p:"Atividade - Status"},{k:"d",l:"Programacao D",p:"Atividade - Status"},{k:"crit",l:"Tratativas criticas",p:"Bloqueios, escalacoes..."},{k:"ajuda",l:"Apoios",p:"Dependencias e alinhamentos..."},{k:"sob",l:"Sobreaviso",p:"Nome - Contato"}]},
   {id:"engefame",name:"Engefame",sub:"Torres e Sites",ac:"#F2C94C",mins:7,mode:"agent",init:"EN",script:"Bloco Engefame. Escopo: Infraestrutura de torres e sites.",
    fields:[{k:"seg",l:"Seguranca",p:"Altura, espaco confinado..."},{k:"d1",l:"Atividades D-1",p:"Inspecoes, obras..."},{k:"d",l:"Atividades D",p:"Torres, sites..."},{k:"crit",l:"Tratativas criticas",p:"Risco estrutural..."},{k:"ajuda",l:"Pedidos de apoio",p:"Equipamentos, eletrica..."},{k:"sob",l:"Sobreaviso",p:"Nome - Contato"}]},
   {id:"minaslaser",name:"Minas Laser",sub:"COWs - Skids - Usinas",ac:"#EB5757",mins:7,mode:"agent",init:"ML",script:"Bloco Minas Laser. Escopo: COW, Baby Skid, Big Skid e Usinas Solares.",
@@ -153,6 +420,24 @@ const COMPANIES=[
    fields:[{k:"disp",l:"Disponibilidade",p:"Disponibilidade, indisponibilidades, impactos..."},{k:"sla",l:"SLA",p:"Cumprimento, violacoes, tratativas..."},{k:"backlog",l:"Backlog",p:"Abertos, encerrados, criticos..."},{k:"tendencias",l:"Tendencias",p:"Evolucao dos indicadores e alertas..."}]},
 ];
 
+const COMPANY_ORDER=[
+  "plano_evac",
+  "vale_vps",
+  "sonda_net",
+  "sonda_cab",
+  "sonda_serra_leste",
+  "sonda_data_center",
+  "sonda_adm",
+  "sesmt",
+  "vale_close",
+  "engefame",
+  "stefanini",
+  "minaslaser",
+  "aldak",
+  "sonda_lte",
+  "kpis"
+];
+COMPANIES.sort((a,b)=>COMPANY_ORDER.indexOf(a.id)-COMPANY_ORDER.indexOf(b.id));
 const PT_MONTHS=["Janeiro","Fevereiro","Marco","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
 const VPS_BLOCK_TITLES=[
   "Programacao D-1 / D (VPS)",
@@ -176,17 +461,26 @@ const LTE_VIEWS_META=[
   {id:"kpi_tntax31",title:"PAINEL INDICADORES DE KPI'S TNTAX31",obsLabel:"Observacoes KPI'S",hasSheet:false,hasImage:true,canDisable:true},
   {id:"kpi_coord",title:"PAINEL INDICADORES DE KPI'S COORDENACAO",obsLabel:"Observacoes KPI'S",hasSheet:false,hasImage:true,canDisable:true}
 ];
-const LTE_MODEL_BASE_HEADERS=[
-  "ESPECIALIDADE",
-  "TIPO",
-  "ORDEM",
-  "TEXTO BREVE",
-  "LOCAL DE INSTALACAO",
-  "DATA PROGRAMADA",
-  "TOLERANCIA MAXIMA",
+const LTE_IMPORT_COLUMN_MAP=[
+  {letter:"A",header:"ESPECIALIDADE"},
+  {letter:"B",header:"TIPO"},
+  {letter:"C",header:"ORDEM"},
+  {letter:"F",header:"TEXTO BREVE DA OPERACAO"},
+  {letter:"G",header:"LOCAL DE INSTALACAO"},
+  {letter:"J",header:"TRAB"},
+  {letter:"K",header:"DATA PROGRAMADA"},
+  {letter:"M",header:"TOLERANCIA MAXIMA"}
 ];
-const LTE_MODEL_IMPORT_INDEXES=[0,1,2,3,4,8,10];
+const LTE_MODEL_BASE_HEADERS=LTE_IMPORT_COLUMN_MAP.map(x=>x.header);
+const LTE_DEFAULT_HIDDEN_COLUMNS={};
 const LTE_IMAGE_SLOT_COUNT=4;
+const KPIS_IMAGE_SLOT_COUNT=4;
+const KPIS_VIEWS_META=[
+  {id:"kpi_tntax31",title:"PAINEL INDICADORES DE KPI'S TNTAX31",ac:"#2F80ED"},
+  {id:"kpi_coord",title:"PAINEL INDICADORES DE KPI'S COORDENACAO",ac:"#27AE60"}
+];
+const LTE_STRUCT_GUIDES=["sonda_lte","sonda_net","sonda_cab","aldak","engefame","minaslaser","sonda_serra_leste","sonda_data_center"];
+const isLteStructGuide=id=>LTE_STRUCT_GUIDES.includes(String(id||""));
 const DEFAULT_LTE_STATUS_OPTIONS=[
   "INICIADA","CONCLUIDA","LIB CONF","EM ATRASO","AGUARDANDO","REPROGRAMADA","FALTA H.H",
   "CANCELADA","S/ AUT. CT TRAB.","FALTA RECURSO","ATIVO DESMOBILIZADO","BLOQUEIO DE ACESSO"
@@ -211,10 +505,17 @@ function buildDefaultVpsBlocks(){
     id:`vps_${i+1}`,
     order:i+1,
     title,
+    enabled:true,
     text:"",
     table:[],
     image:null
   }));
+}
+function normVpsImage(v){
+  if(!v||typeof v!=="object")return null;
+  const url=typeof v.url==="string"?v.url.trim():"";
+  if(!url)return null;
+  return{url,name:typeof v.name==="string"&&v.name.trim()?v.name.trim():"imagem"};
 }
 function buildDefaultLteState(){
   return{
@@ -227,7 +528,7 @@ function buildDefaultLteState(){
       textoLivre:"",
       planilha:{headers:[],rows:[]},
       filtros:{dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""},
-      hiddenColumns:{"LOCAL DE INSTALACAO":true},
+      hiddenColumns:{...LTE_DEFAULT_HIDDEN_COLUMNS},
       columnFilterOpen:false,
       imagens:Array.from({length:LTE_IMAGE_SLOT_COUNT},()=>({url:"",name:"",text:""}))
     }))
@@ -241,6 +542,59 @@ function normLteImage(v){
     url,
     name:typeof v.name==="string"&&v.name.trim()?v.name.trim():"imagem",
     text:typeof v.text==="string"?v.text.slice(0,200):""
+  };
+}
+function buildDefaultKpisState(){
+  return{
+    instrucoes:"",
+    instrucoesBase:"",
+    views:KPIS_VIEWS_META.map(v=>({
+      id:v.id,
+      enabled:true,
+      observacoes:"",
+      textoLivre:"",
+      imagens:Array.from({length:KPIS_IMAGE_SLOT_COUNT},()=>({url:"",name:"",text:""}))
+    }))
+  };
+}
+function normKpisImage(v){
+  if(!v||typeof v!=="object")return null;
+  const url=typeof v.url==="string"?v.url.trim():"";
+  if(!url)return null;
+  return{
+    url,
+    name:typeof v.name==="string"&&v.name.trim()?v.name.trim():"imagem",
+    text:typeof v.text==="string"?v.text.slice(0,200):""
+  };
+}
+function normKpisImageSlots(slots){
+  const arr=Array.from({length:KPIS_IMAGE_SLOT_COUNT},()=>({url:"",name:"",text:""}));
+  const src=Array.isArray(slots)?slots:[];
+  src.slice(0,KPIS_IMAGE_SLOT_COUNT).forEach((item,i)=>{
+    const img=normKpisImage(item);
+    arr[i]=img?img:{url:"",name:typeof item?.name==="string"?item.name:"",text:typeof item?.text==="string"?item.text.slice(0,200):""};
+  });
+  return arr;
+}
+function normalizeKpisState(raw){
+  const src=(raw&&typeof raw==="object")?raw:{};
+  const def=buildDefaultKpisState();
+  const instrucoes=typeof src.instrucoes==="string"?src.instrucoes:def.instrucoes;
+  const base=typeof src.instrucoesBase==="string"&&src.instrucoesBase.trim()?src.instrucoesBase:instrucoes;
+  const srcViews=Array.isArray(src.views)?src.views:[];
+  return{
+    instrucoes,
+    instrucoesBase:base,
+    views:KPIS_VIEWS_META.map((m,i)=>{
+      const cv=(srcViews[i]&&typeof srcViews[i]==="object")?srcViews[i]:{};
+      return{
+        id:m.id,
+        enabled:cv.enabled!==false,
+        observacoes:typeof cv.observacoes==="string"?cv.observacoes:"",
+        textoLivre:typeof cv.textoLivre==="string"?cv.textoLivre:"",
+        imagens:normKpisImageSlots(cv.imagens)
+      };
+    })
   };
 }
 function normLteImageSlots(slots,legacy){
@@ -273,7 +627,16 @@ function migrateLtePlanilhaSchema(planilha){
   const headers=(p.headers||[]).map(h=>String(h||""));
   const rows=(p.rows||[]).map(r=>Array.isArray(r)?r.map(c=>normalizeSpreadsheetCell(c)) : []);
   if(!headers.length)return{headers,rows};
-  const wanted=LTE_MODEL_BASE_HEADERS.map(h=>headers.findIndex(x=>normalizeHeaderKey(x)===normalizeHeaderKey(h)));
+  const aliases={
+    "TEXTO BREVE DA OPERACAO":["TEXTO BREVE DA OPERACAO","TEXTO BREVE","DESCRICAO"],
+    "TRAB":["TRAB","HH PLANEJADO","HH"],
+    "TOLERANCIA MAXIMA":["TOLERANCIA MAXIMA","TOLERANCIA MAX","DATA DE VENCIMENTO","SEVERIDADE"]
+  };
+  const findModelIdx=h=>{
+    const keys=(aliases[h]||[h]).map(normalizeHeaderKey);
+    return headers.findIndex(x=>keys.includes(normalizeHeaderKey(x)));
+  };
+  const wanted=LTE_MODEL_BASE_HEADERS.map(findModelIdx);
   const canMap=wanted.some(idx=>idx>-1);
   if(!canMap&&!headers.some(h=>/DATA DE EXECUCAO|HH PLANEJADO|DURACAO|NUM|TOLERANCIA MINIMA/i.test(h)))return{headers,rows};
   const statusIdx=headers.findIndex(h=>/status/i.test(h));
@@ -299,8 +662,7 @@ function normalizeLteState(raw){
   const viewsSrc=Array.isArray(src.views)?src.views:[];
   const views=def.views.map((d,i)=>{
     const cur=(viewsSrc[i]&&typeof viewsSrc[i]==="object")?viewsSrc[i]:{};
-    const hiddenColumns=(cur.hiddenColumns&&typeof cur.hiddenColumns==="object")?{...cur.hiddenColumns}:{"LOCAL DE INSTALACAO":true};
-    if(!cur.hiddenColumns)hiddenColumns["LOCAL DE INSTALACAO"]=true;
+    const hiddenColumns=(cur.hiddenColumns&&typeof cur.hiddenColumns==="object")?{...LTE_DEFAULT_HIDDEN_COLUMNS,...cur.hiddenColumns}:{...LTE_DEFAULT_HIDDEN_COLUMNS};
     return{
       id:d.id,
       enabled:cur.enabled===false?false:true,
@@ -332,9 +694,10 @@ function normalizeVpsBlocks(raw){
       id:d.id,
       order:d.order,
       title:d.title,
+      enabled:cur.enabled===false?false:true,
       text:typeof cur.text==="string"?cur.text:"",
       table:Array.isArray(cur.table)?cur.table.map(r=>Array.isArray(r)?r.map(c=>String(c??"")):[]):[],
-      image:null
+      image:normVpsImage(cur.image)
     };
   });
 }
@@ -349,9 +712,12 @@ let S={
   modalImg:null,
   modalList:[],
   modalIdx:0,
-  presIdx:0,bSecs:0,tSecs:0,running:false,manual:false,overflow:false,speaking:false,
+  presIdx:0,bSecs:0,tSecs:0,running:false,manual:false,overflow:false,speaking:false,speechRate:0.88,
   theme:"day",
-  role:"editor"
+  role:"editor",
+  configOpen:null,
+  sidebarAutoCollapse:true,
+  sidebarCollapsed:false
 };
 S.weather={
   loading:false,error:"",source:"INMET",updatedAt:"",
@@ -362,8 +728,9 @@ S.weather={
     {name:"Mina de Ferro Carajas",now:"-",temp:"-",hum:"-",wind:"-",next3h:"-"}
   ]
 };
-S.vps={blocks:buildDefaultVpsBlocks()};
+S.vps={tempoSolicitado:"08:00",blocks:buildDefaultVpsBlocks()};
 S.lte=buildDefaultLteState();
+S.kpis=buildDefaultKpisState();
 S.data["plano_evac"]={...EVAC_DEFAULT_FIELDS,...S.data["plano_evac"]};
 
 let cInt=null,tInt=null;
@@ -373,6 +740,10 @@ const EVAC_IMG_KEY="fmds_evac_images_v1";
 const EVAC_IMG_SLOT_PREFIX="fmds_evac_img_slot_v1_";
 const LTE_STATE_KEY="fmds_lte_state_v1";
 const LTE_IMG_SLOT_PREFIX="fmds_lte_img_slot_v1_";
+const NET_STATE_KEY="fmds_net_state_v1";
+const NET_IMG_SLOT_PREFIX="fmds_net_img_slot_v1_";
+const KPIS_STATE_KEY="fmds_kpis_state_v1";
+const KPIS_IMG_SLOT_PREFIX="fmds_kpis_img_slot_v1_";
 const EVAC_SCRIPT_KEY="fmds_evac_script_v1";
 const EVAC_SCRIPT_BASE_KEY="fmds_evac_script_base_v1";
 const EVAC_FIELDS_BASE_KEY="fmds_evac_fields_base_v1";
@@ -386,17 +757,37 @@ const FB_CFG=(window.FMDS_FIREBASE_CONFIG&&window.FMDS_FIREBASE_CONFIG.projectId
     projectId:"syncfmds"
   };
 const EVAC_BASE_DOC_PATH="fmds_config/plano_evac_base";
-const ADMIN_USER="Admin";
-const ADMIN_PASS="FrontForBack**updapte%%editorFull%";
-const ADMIN_RECOVERY_EMAIL="mantoky@gmail.com";
+const EVAC_SCRIPT_DOC_PATH="fmds_config/plano_evac_script_base";
+const KPIS_BASE_DOC_PATH="fmds_config/kpis_base";
+const FB_AUTH_KEY="fmds_fb_auth_v1";
+const FIREBASE_ADMIN_EMAILS=["mantoky@gmail.com","mantokylac@gmail.com"];
+const lteStateKeyForGuide=id=>id==="sonda_lte"?LTE_STATE_KEY:`${NET_STATE_KEY}_${id}`;
+const lteImgKeyForGuide=(id,i,j)=>id==="sonda_lte"?`${LTE_IMG_SLOT_PREFIX}${i}_${j}`:`${NET_IMG_SLOT_PREFIX}${id}_${i}_${j}`;
+function getLteGuideState(id){
+  if(id==="sonda_lte"){S.lte=normalizeLteState(S.lte);return S.lte;}
+  if(!S.lteClones||typeof S.lteClones!=="object")S.lteClones={};
+  S.lteClones[id]=normalizeLteState(S.lteClones[id]||buildDefaultLteState());
+  return S.lteClones[id];
+}
+function setLteGuideState(id,state){
+  if(id==="sonda_lte")S.lte=normalizeLteState(state);
+  else{
+    if(!S.lteClones||typeof S.lteClones!=="object")S.lteClones={};
+    S.lteClones[id]=normalizeLteState(state);
+  }
+}
 const fmt=s=>`${String(Math.floor(Math.abs(s)/60)).padStart(2,"0")}:${String(Math.abs(s)%60).padStart(2,"0")}`;
 const activeCompanies=()=>COMPANIES.filter(c=>S.enabled[c.id]);
 const totalSecs=()=>activeCompanies().reduce((s,c)=>s+c.mins*60,0);
 const filled=id=>{
   if(id==="plano_evac")return S.evacImages.some(Boolean)||COMPANIES[0].fields.some(f=>S.data[id][f.k]?.trim());
   if(id==="vale_vps")return true;
-  if(id==="sonda_lte"){
-    const l=normalizeLteState(S.lte);
+  if(id==="kpis"){
+    const k=normalizeKpisState(S.kpis);
+    return !!(k.instrucoes.trim()||k.views.some(v=>v.enabled&&(v.observacoes.trim()||v.textoLivre.trim()||v.imagens.some(img=>img.url||img.text))));
+  }
+  if(isLteStructGuide(id)){
+    const l=getLteGuideState(id);
     return !!l.tempoSolicitado||l.views.some(v=>v.enabled&&lteViewHasContent(v));
   }
   return COMPANIES.find(c=>c.id===id)?.fields.some(f=>S.data[id][f.k]?.trim())||S.imgs[id]?.length>0;
@@ -406,24 +797,49 @@ const cIdx=id=>COMPANIES.findIndex(c=>c.id===id);
 
 function buildScript(c){
   if(c.id==="plano_evac")return S.evacScript;
-  if(c.id==="sonda_lte"){
-    const l=normalizeLteState(S.lte);
-    const parts=[`FMDS - SONDA LTE. Tempo solicitado ${l.tempoSolicitado||"nao informado"}.`];
-    l.views.forEach((v,i)=>{
+  if(isLteStructGuide(c.id)){
+    const l=getLteGuideState(c.id);
+    const parts=[`${c.name}. Tempo solicitado ${l.tempoSolicitado||"nao informado"}.`];
+    getEffectiveLteViewsForPresentation(l).forEach(v=>{
+      const i=l.views.findIndex(x=>x.id===v.id);
       const m=LTE_VIEWS_META[i];
+      if(!m)return;
       if(v.observacoes?.trim())parts.push(`${m.title}. ${v.observacoes}.`);
       if(v.textoLivre?.trim())parts.push(v.textoLivre+".");
     });
     return parts.join(" ");
   }
+  if(c.id==="kpis"){
+    const k=normalizeKpisState(S.kpis);
+    return[
+      "Bloco KPI'S.",
+      k.instrucoes?.trim()?`Instrucoes: ${k.instrucoes}.`:"",
+      ...k.views.filter(v=>v.enabled).map(v=>[v.observacoes?.trim()?`Observacoes: ${v.observacoes}.`:"",v.textoLivre?.trim()?`Resumo: ${v.textoLivre}.`:""].filter(Boolean).join(" "))
+    ].filter(Boolean).join(" ");
+  }
   let t=c.script+" ";
   c.fields.forEach(f=>{if(S.data[c.id][f.k]?.trim())t+=f.l+": "+S.data[c.id][f.k]+". ";});
   return t;
 }
+function isLegacyEvacScriptText(txt){
+  if(/[áàâãéêíóôõúçÁÀÂÃÉÊÍÓÔÕÚÇ]/.test(String(txt||"")))return false;
+  const n=String(txt||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+  return n.includes("sejam bem-vindos ao fmds infratech, carajas")&&
+    n.includes("atencao as premissas de seguranca")&&
+    n.includes("use o radio em emergencias")&&
+    n.includes("guias de evacuacao");
+}
+function normalizeEvacScriptText(txt){
+  if(typeof txt!=="string"||!txt.trim())return SCRIPT_SEG;
+  return isLegacyEvacScriptText(txt)?SCRIPT_SEG:txt;
+}
+function speechRateLabel(){
+  return `${Number(S.speechRate||0.88).toFixed(2).replace(/0$/,"").replace(/\.$/,"")}x`;
+}
 function doSpeak(txt){
   if(!synth)return;synth.cancel();
   const u=new SpeechSynthesisUtterance(txt);
-  u.lang="pt-BR";u.rate=0.88;
+  u.lang="pt-BR";u.rate=Math.max(0.6,Math.min(1.4,Number(S.speechRate)||0.88));
   const vs=synth.getVoices().filter(v=>v.lang.startsWith("pt"));
   if(vs.length)u.voice=vs[0];
   u.onend=u.onerror=()=>{S.speaking=false;updSUI();};
@@ -555,9 +971,8 @@ function normalizeSpreadsheetCell(v){
   const slash=txt.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/);
   if(slash){
     let a=Number(slash[1]),b=Number(slash[2]),y=Number(slash[3]);
-    const shortYear=slash[3].length===2;
     if(y<100)y+=2000;
-    const looksUs=shortYear||b>12;
+    const looksUs=a<=12&&b>12;
     const day=looksUs?b:a;
     const month=looksUs?a:b;
     const d=new Date(y,month-1,day);
@@ -642,7 +1057,7 @@ async function parseSpreadsheetFileToGrid(file){
     const wb=XLSX.read(ab,{type:"array",cellDates:true});
     if(!Array.isArray(wb.SheetNames)||!wb.SheetNames.length)return [];
     const ws=wb.Sheets[wb.SheetNames[0]];
-    const aoa=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,defval:""});
+    const aoa=XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:"",dateNF:"dd/mm/yyyy"});
     return normalizeParsedGrid(aoa);
   }
   if(["ods","odt"].includes(ext))throw new Error("unsupported_ods");
@@ -666,8 +1081,19 @@ function renderGridPreview(grid){
 function normalizeStatus(v){
   return String(v||"").trim().toUpperCase();
 }
+function columnLetterToIndex(letter){
+  const s=String(letter||"").trim().toUpperCase();
+  let n=0;
+  for(let i=0;i<s.length;i++)n=n*26+(s.charCodeAt(i)-64);
+  return Math.max(0,n-1);
+}
+function getLteImportIndexes(){
+  return LTE_IMPORT_COLUMN_MAP.map(x=>columnLetterToIndex(x.letter));
+}
 function getLteStatusOptions(){
-  const src=Array.isArray(S?.lte?.statusOptions)?S.lte.statusOptions:DEFAULT_LTE_STATUS_OPTIONS;
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
+  const st=getLteGuideState(gid);
+  const src=Array.isArray(st?.statusOptions)?st.statusOptions:DEFAULT_LTE_STATUS_OPTIONS;
   const clean=src.map(s=>normalizeStatus(s)).filter(Boolean);
   return [...new Set(clean)].length?[...new Set(clean)]:[...DEFAULT_LTE_STATUS_OPTIONS];
 }
@@ -703,8 +1129,8 @@ function parseBrDate(s){
   return dt;
 }
 function findLteColumnByHeader(headers,needle){
-  const n=String(needle||"").toLowerCase();
-  return headers.findIndex(h=>String(h||"").toLowerCase().includes(n));
+  const n=normalizeHeaderKey(needle);
+  return headers.findIndex(h=>normalizeHeaderKey(h).includes(n));
 }
 function getLteProgrammedDateIndex(headers){
   const terms=["data programada","programada","data exec","execucao","data"];
@@ -756,16 +1182,31 @@ function modelLteGrid(rawGrid){
   const cleaned=(Array.isArray(rawGrid)?rawGrid:[])
     .map(r=>Array.isArray(r)?r.map(c=>String(c??"").trim()):[])
     .filter(r=>r.some(c=>c!==""));
-  const headerIdx=cleaned.findIndex(r=>r.some(c=>/ORDEM/i.test(c))&&r.some(c=>/DATA\s*PROGRAMADA/i.test(c)));
-  const dataRows=(headerIdx>=0?cleaned.slice(headerIdx+1):cleaned.slice(1))
+  const withoutFirstLine=cleaned.slice(1);
+  const looksHeader=r=>{
+    const txt=(Array.isArray(r)?r:[]).map(normalizeHeaderKey).join(" ");
+    const hasId=/\bORDEM\b|\bESPECIALIDADE\b|\bTIPO\b/.test(txt);
+    const hasContext=/DATA|PROG|TEXTO|LOCAL|TOLERANCIA|PLANEJADO/.test(txt);
+    return hasId&&hasContext;
+  };
+  const headerIdx=withoutFirstLine.findIndex(looksHeader);
+  const importIndexes=getLteImportIndexes();
+  const headers=LTE_IMPORT_COLUMN_MAP.map(x=>x.header);
+  const sourceRows=(headerIdx>=0?withoutFirstLine.slice(headerIdx+1):withoutFirstLine)
+    .filter(r=>!looksHeader(r))
     .filter(r=>!r.some(c=>/QTD\.?\s*OPER\.?/i.test(String(c||""))));
+  const orderIdx=columnLetterToIndex("C");
+  const dataRows=sourceRows.filter(r=>{
+    const order=String(r[orderIdx]||"").trim();
+    if(!order||/ORDEM/i.test(order))return false;
+    return importIndexes.some(idx=>String(r[idx]||"").trim()!=="");
+  });
   const rows=dataRows.map(r=>{
-    const out=LTE_MODEL_IMPORT_INDEXES.map(idx=>normalizeSpreadsheetCell(r[idx]||""));
-    while(out.length<LTE_MODEL_BASE_HEADERS.length)out.push("");
-    return out.slice(0,LTE_MODEL_BASE_HEADERS.length);
+    const out=importIndexes.map(idx=>normalizeSpreadsheetCell(r[idx]||""));
+    while(out.length<headers.length)out.push("");
+    return out.slice(0,headers.length);
   }).filter(r=>r.some(c=>c!==""));
-  const header=[...LTE_MODEL_BASE_HEADERS];
-  return{headers:header,rows};
+  return{headers,rows};
 }
 function applyLteFilters(row,headers,f){
   const statusIdx=findLteColumnByHeader(headers,"status");
@@ -818,8 +1259,10 @@ function openLteStatusList(){
   if(txt===null)return;
   const next=[...new Set(String(txt).split(/[;\n,]+/).map(s=>normalizeStatus(s)).filter(Boolean))];
   if(!next.length){alert("Informe pelo menos um status.");return;}
-  S.lte=normalizeLteState(S.lte);
-  S.lte.statusOptions=next;
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
+  const st=getLteGuideState(gid);
+  st.statusOptions=next;
+  setLteGuideState(gid,st);
   saveLteState();
   re();
 }
@@ -855,8 +1298,9 @@ function lteColWidth(header){
   if(h==="ESPECIALIDADE")return 128;
   if(h==="TIPO")return 76;
   if(h==="ORDEM")return 142;
-  if(h==="TEXTO BREVE")return 250;
+  if(h==="TEXTO BREVE"||h==="TEXTO BREVE DA OPERACAO")return 320;
   if(h==="LOCAL DE INSTALACAO")return 230;
+  if(h==="TRAB")return 70;
   if(h==="DATA PROGRAMADA")return 132;
   if(h==="TOLERANCIA MAXIMA")return 142;
   if(h==="STATUS")return 138;
@@ -885,8 +1329,46 @@ function lteViewHasContent(v){
     normLteImageSlots(v.imagens,v.imagem).some(img=>img.url||img.text)
   );
 }
-function getEffectiveLteViewsForPresentation(){
-  const l=normalizeLteState(S.lte);
+function lteHasSheetData(view){
+  const p=to2DPlanilha(view?.planilha);
+  return !!((p.headers&&p.headers.length)||(p.rows&&p.rows.length));
+}
+function wipeLteViewPlanilhaPersist(guideId,viewIdx){
+  try{
+    const key=lteStateKeyForGuide(guideId);
+    const st=readStore(key,null);
+    if(st&&typeof st==="object"&&Array.isArray(st.views)&&st.views[viewIdx]){
+      st.views[viewIdx].planilha={headers:[],rows:[]};
+      st.views[viewIdx].filtros={dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""};
+      st.views[viewIdx].columnFilterOpen=false;
+      writeStore(key,st);
+    }
+  }catch(_){}
+  try{
+    const app=readStore(APP_STATE_KEY,null);
+    if(app&&typeof app==="object"){
+      if(app.lteGuideStates&&app.lteGuideStates[guideId]&&Array.isArray(app.lteGuideStates[guideId].views)&&app.lteGuideStates[guideId].views[viewIdx]){
+        app.lteGuideStates[guideId].views[viewIdx].planilha={headers:[],rows:[]};
+        app.lteGuideStates[guideId].views[viewIdx].filtros={dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""};
+        app.lteGuideStates[guideId].views[viewIdx].columnFilterOpen=false;
+      }
+      // compatibilidade snapshots antigos
+      if(guideId==="sonda_lte"&&app.lteState&&Array.isArray(app.lteState.views)&&app.lteState.views[viewIdx]){
+        app.lteState.views[viewIdx].planilha={headers:[],rows:[]};
+        app.lteState.views[viewIdx].filtros={dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""};
+        app.lteState.views[viewIdx].columnFilterOpen=false;
+      }
+      if(guideId==="sonda_net"&&app.netState&&Array.isArray(app.netState.views)&&app.netState.views[viewIdx]){
+        app.netState.views[viewIdx].planilha={headers:[],rows:[]};
+        app.netState.views[viewIdx].filtros={dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""};
+        app.netState.views[viewIdx].columnFilterOpen=false;
+      }
+      writeStore(APP_STATE_KEY,app);
+    }
+  }catch(_){}
+}
+function getEffectiveLteViewsForPresentation(state){
+  const l=normalizeLteState(state||S.lte);
   const d0=l.views[3];
   const d0Active=!!(d0&&d0.enabled&&lteViewHasContent(d0));
   return l.views.filter((v,i)=>{
@@ -896,13 +1378,15 @@ function getEffectiveLteViewsForPresentation(){
   });
 }
 function ensureLteView(i){
-  if(!S.lte||typeof S.lte!=="object")S.lte=buildDefaultLteState();
-  S.lte=normalizeLteState(S.lte);
-  if(!S.lte.views[i])S.lte.views[i]=buildDefaultLteState().views[i];
-  return S.lte.views[i];
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
+  const st=getLteGuideState(gid);
+  if(!st.views[i])st.views[i]=buildDefaultLteState().views[i];
+  setLteGuideState(gid,st);
+  return getLteGuideState(gid).views[i];
 }
 function saveLteState(){
-  const state=normalizeLteState(S.lte);
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
+  const state=normalizeLteState(getLteGuideState(gid));
   const compact={
     tempoSolicitado:state.tempoSolicitado,
     statusOptions:state.statusOptions,
@@ -912,29 +1396,36 @@ function saveLteState(){
       imagens:normLteImageSlots(v.imagens).map(img=>({url:"",name:img.name||"",text:(img.text||"").slice(0,200)}))
     }))
   };
-  writeStore(LTE_STATE_KEY,compact);
-  S.lte=state;
+  writeStore(lteStateKeyForGuide(gid),compact);
+  setLteGuideState(gid,state);
+  saveAppState();
 }
 function loadLteState(){
-  const st=readStore(LTE_STATE_KEY,null);
-  S.lte=normalizeLteState(st||buildDefaultLteState());
+  LTE_STRUCT_GUIDES.forEach(id=>{
+    const st=readStore(lteStateKeyForGuide(id),null);
+    setLteGuideState(id,st||buildDefaultLteState());
+  });
 }
 function hydrateLteImagesFromLocal(){
-  S.lte=normalizeLteState(S.lte);
-  S.lte.views.forEach((v,i)=>{
-    v.imagens=normLteImageSlots(v.imagens);
-    for(let j=0;j<LTE_IMAGE_SLOT_COUNT;j++){
-      const img=normLteImage(readStore(`${LTE_IMG_SLOT_PREFIX}${i}_${j}`,null));
-      if(img)v.imagens[j]={...v.imagens[j],...img,text:v.imagens[j]?.text||img.text||""};
-    }
-    const legacy=normLteImage(readStore(LTE_IMG_SLOT_PREFIX+i,null));
-    if(legacy&&!v.imagens.some(x=>x.url))v.imagens[0]={...v.imagens[0],...legacy,text:v.imagens[0]?.text||legacy.text||""};
+  LTE_STRUCT_GUIDES.forEach(id=>{
+    const st=getLteGuideState(id);
+    st.views.forEach((v,i)=>{
+      v.imagens=normLteImageSlots(v.imagens);
+      for(let j=0;j<LTE_IMAGE_SLOT_COUNT;j++){
+        const img=normLteImage(readStore(lteImgKeyForGuide(id,i,j),null));
+        if(img)v.imagens[j]={...v.imagens[j],...img,text:v.imagens[j]?.text||img.text||""};
+      }
+      const legacy=normLteImage(readStore((id==="sonda_lte"?LTE_IMG_SLOT_PREFIX+i:`${NET_IMG_SLOT_PREFIX}${id}_${i}`),null));
+      if(legacy&&!v.imagens.some(x=>x.url))v.imagens[0]={...v.imagens[0],...legacy,text:v.imagens[0]?.text||legacy.text||""};
+    });
+    setLteGuideState(id,st);
   });
 }
 function saveLteImageSlot(i,j=0){
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
   const v=ensureLteView(i);
   v.imagens=normLteImageSlots(v.imagens);
-  const key=`${LTE_IMG_SLOT_PREFIX}${i}_${j}`;
+  const key=lteImgKeyForGuide(gid,i,j);
   const img=normLteImage(v.imagens[j]);
   writeStore(key,img);
   if(img)idbSet(key,img).catch(()=>{});
@@ -942,27 +1433,119 @@ function saveLteImageSlot(i,j=0){
 }
 async function syncLteImagesFromIdbOnBoot(){
   try{
-    S.lte=normalizeLteState(S.lte);
     let changed=false;
-    for(let i=0;i<S.lte.views.length;i++){
-      S.lte.views[i].imagens=normLteImageSlots(S.lte.views[i].imagens);
-      for(let j=0;j<LTE_IMAGE_SLOT_COUNT;j++){
-        const img=normLteImage(await idbGet(`${LTE_IMG_SLOT_PREFIX}${i}_${j}`));
-        if(img){
-          S.lte.views[i].imagens[j]={...S.lte.views[i].imagens[j],...img,text:S.lte.views[i].imagens[j]?.text||img.text||""};
-          writeStore(`${LTE_IMG_SLOT_PREFIX}${i}_${j}`,S.lte.views[i].imagens[j]);
-          changed=true;
+    for(const id of LTE_STRUCT_GUIDES){
+      const st=getLteGuideState(id);
+      for(let i=0;i<st.views.length;i++){
+        st.views[i].imagens=normLteImageSlots(st.views[i].imagens);
+        for(let j=0;j<LTE_IMAGE_SLOT_COUNT;j++){
+          const k=lteImgKeyForGuide(id,i,j);
+          const img=normLteImage(await idbGet(k));
+          if(img){
+            st.views[i].imagens[j]={...st.views[i].imagens[j],...img,text:st.views[i].imagens[j]?.text||img.text||""};
+            writeStore(k,st.views[i].imagens[j]);
+            changed=true;
+          }
         }
       }
-      const legacy=normLteImage(await idbGet(LTE_IMG_SLOT_PREFIX+i));
-      if(legacy&&!S.lte.views[i].imagens.some(x=>x.url)){
-        S.lte.views[i].imagens[0]={...S.lte.views[i].imagens[0],...legacy,text:S.lte.views[i].imagens[0]?.text||legacy.text||""};
-        writeStore(`${LTE_IMG_SLOT_PREFIX}${i}_0`,S.lte.views[i].imagens[0]);
-        changed=true;
+      setLteGuideState(id,st);
+    }
+    if(changed)re();
+  }catch(_){}
+}
+function saveKpisState(){
+  S.kpis=normalizeKpisState(S.kpis);
+  const compact={
+    instrucoes:S.kpis.instrucoes,
+    instrucoesBase:S.kpis.instrucoesBase,
+    views:S.kpis.views.map(v=>({
+      id:v.id,enabled:v.enabled,observacoes:v.observacoes,textoLivre:v.textoLivre,
+      imagens:v.imagens.map(img=>({url:"",name:img.name||"",text:(img.text||"").slice(0,200)}))
+    }))
+  };
+  writeStore(KPIS_STATE_KEY,compact);
+}
+function loadKpisState(){
+  const st=readStore(KPIS_STATE_KEY,null);
+  if(st&&typeof st==="object"){S.kpis=normalizeKpisState(st);return;}
+  S.kpis=normalizeKpisState(S.kpis||buildDefaultKpisState());
+}
+function saveKpisImageSlot(vIdx,i){
+  S.kpis=normalizeKpisState(S.kpis);
+  const key=`${KPIS_IMG_SLOT_PREFIX}${vIdx}_${i}`;
+  const img=normKpisImage(S.kpis.views[vIdx]?.imagens?.[i]);
+  writeStore(key,img);
+  if(img)idbSet(key,img).catch(()=>{});
+  else idbDelete(key).catch(()=>{});
+}
+function hydrateKpisImagesFromLocal(){
+  S.kpis=normalizeKpisState(S.kpis);
+  for(let v=0;v<KPIS_VIEWS_META.length;v++){
+    for(let i=0;i<KPIS_IMAGE_SLOT_COUNT;i++){
+      const img=normKpisImage(readStore(`${KPIS_IMG_SLOT_PREFIX}${v}_${i}`,null));
+      if(img)S.kpis.views[v].imagens[i]={...S.kpis.views[v].imagens[i],...img,text:S.kpis.views[v].imagens[i]?.text||img.text||""};
+    }
+  }
+}
+async function syncKpisImagesFromIdbOnBoot(){
+  try{
+    S.kpis=normalizeKpisState(S.kpis);
+    let changed=false;
+    for(let v=0;v<KPIS_VIEWS_META.length;v++){
+      for(let i=0;i<KPIS_IMAGE_SLOT_COUNT;i++){
+        const img=normKpisImage(await idbGet(`${KPIS_IMG_SLOT_PREFIX}${v}_${i}`));
+        if(img){
+          S.kpis.views[v].imagens[i]={...S.kpis.views[v].imagens[i],...img,text:S.kpis.views[v].imagens[i]?.text||img.text||""};
+          writeStore(`${KPIS_IMG_SLOT_PREFIX}${v}_${i}`,S.kpis.views[v].imagens[i]);
+          changed=true;
+        }
       }
     }
     if(changed)re();
   }catch(_){}
+}
+function toFsKpisFields(obj){
+  const k=normalizeKpisState(obj);
+  return{
+    instrucoesBase:{stringValue:k.instrucoesBase||""},
+    updatedAt:{timestampValue:new Date().toISOString()},
+    updatedBy:{stringValue:S.role==="admin"?"admin":"editor"}
+  };
+}
+async function loadKpisBaseCloud(){
+  try{
+    const r=await fetch(fsDocUrl(KPIS_BASE_DOC_PATH),{cache:"no-store"});
+    if(!r.ok)return null;
+    const j=await r.json();
+    if(!j||!j.fields)return null;
+    const m=fromFsFields(j.fields);
+    return typeof m.instrucoesBase==="string"?m.instrucoesBase:null;
+  }catch(_){
+    return null;
+  }
+}
+async function saveKpisBaseCloud(){
+  try{
+    const payload={fields:toFsKpisFields(S.kpis)};
+    const r=await firebaseJsonRequest(fsDocUrl(KPIS_BASE_DOC_PATH),{
+      method:"PATCH",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    },"admin_write");
+    return r;
+  }catch(_){
+    return{ok:false,status:0,statusText:"network_error"};
+  }
+}
+async function syncKpisBaseFromCloudOnBoot(){
+  const base=await loadKpisBaseCloud();
+  if(typeof base==="string"&&base.trim()){
+    S.kpis=normalizeKpisState(S.kpis);
+    S.kpis.instrucoesBase=base;
+    if(!S.kpis.instrucoes.trim())S.kpis.instrucoes=base;
+    saveKpisState();
+    re();
+  }
 }
 const isNonEmptyText=v=>typeof v==="string"&&v.trim().length>0;
 function normalizeEvacFields(obj){
@@ -987,6 +1570,101 @@ function hydrateEvacFields(baseFields){
 function fsDocUrl(path){
   return `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(FB_CFG.projectId)}/databases/(default)/documents/${path}?key=${encodeURIComponent(FB_CFG.apiKey)}`;
 }
+function readFbAuth(){
+  try{
+    const raw=localStorage.getItem(FB_AUTH_KEY);
+    if(!raw)return null;
+    const d=JSON.parse(raw);
+    if(!d||typeof d!=="object")return null;
+    return d;
+  }catch(_){return null;}
+}
+function writeFbAuth(v){
+  try{localStorage.setItem(FB_AUTH_KEY,JSON.stringify(v||{}));}catch(_){}
+}
+function clearFbAuth(){
+  try{localStorage.removeItem(FB_AUTH_KEY);}catch(_){}
+}
+async function refreshFirebaseIdToken(refreshToken){
+  const url=`https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(FB_CFG.apiKey)}`;
+  const body=new URLSearchParams({grant_type:"refresh_token",refresh_token:String(refreshToken||"")}).toString();
+  const r=await fetch(url,{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body});
+  const j=await r.json();
+  if(!r.ok||!j?.id_token)throw new Error(j?.error?.message||"refresh_failed");
+  return{
+    idToken:j.id_token,
+    refreshToken:j.refresh_token||refreshToken,
+    email:j.user_id||"",
+    expAt:Date.now()+((Number(j.expires_in)||3600)-60)*1000
+  };
+}
+async function ensureFirebaseAdminAuth(){
+  let auth=readFbAuth();
+  const now=Date.now();
+  if(auth?.idToken&&Number(auth.expAt||0)>now)return auth.idToken;
+  if(auth?.refreshToken){
+    try{
+      const ref=await refreshFirebaseIdToken(auth.refreshToken);
+      auth={...auth,...ref};
+      writeFbAuth(auth);
+      return auth.idToken;
+    }catch(_){
+      clearFbAuth();
+    }
+  }
+  const email=prompt("Firebase admin email:");
+  if(email===null)throw new Error("auth_cancelled");
+  const pass=prompt("Senha Firebase:");
+  if(pass===null)throw new Error("auth_cancelled");
+  const e=String(email||"").trim().toLowerCase();
+  if(!FIREBASE_ADMIN_EMAILS.includes(e))throw new Error("email_not_allowed");
+  const signInUrl=`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${encodeURIComponent(FB_CFG.apiKey)}`;
+  const sr=await fetch(signInUrl,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({email:e,password:String(pass||""),returnSecureToken:true})
+  });
+  const sj=await sr.json();
+  if(!sr.ok||!sj?.idToken)throw new Error(sj?.error?.message||"signin_failed");
+  auth={
+    email:e,
+    idToken:sj.idToken,
+    refreshToken:sj.refreshToken||"",
+    expAt:Date.now()+((Number(sj.expiresIn)||3600)-60)*1000
+  };
+  writeFbAuth(auth);
+  return auth.idToken;
+}
+async function firebaseJsonRequest(url,options,authMode){
+  try{
+    const opts={...(options||{})};
+    opts.headers={...(opts.headers||{})};
+    if(authMode==="admin_write"){
+      const token=await ensureFirebaseAdminAuth();
+      opts.headers.Authorization=`Bearer ${token}`;
+    }
+    const r=await fetch(url,opts);
+    const text=await r.text();
+    let json=null;
+    try{json=text?JSON.parse(text):null;}catch(_){}
+    return{ok:r.ok,status:r.status,statusText:r.statusText,text,json};
+  }catch(err){
+    return{ok:false,status:0,statusText:"network_error",text:"",json:null,error:String(err?.message||err||"erro_rede")};
+  }
+}
+function explainFirebaseError(res){
+  if(!res)return"falha desconhecida";
+  const emsg=res?.json?.error?.message||res?.error||"";
+  if(String(emsg).includes("auth_cancelled"))return"autenticacao cancelada pelo usuario.";
+  if(String(emsg).includes("email_not_allowed"))return"email nao permitido para escrita administrativa.";
+  if(String(emsg).includes("INVALID_LOGIN_CREDENTIALS"))return"credenciais Firebase invalidas.";
+  if(res.status===403)return`permissao negada (Firestore Rules). ${emsg||""}`.trim();
+  if(res.status===401)return`nao autorizado (token/chave). ${emsg||""}`.trim();
+  if(res.status===404)return`documento/colecao nao encontrado. ${emsg||""}`.trim();
+  if(res.status===429)return`limite de requisicoes excedido. ${emsg||""}`.trim();
+  if(res.status===0)return`falha de rede/CORS. ${emsg||""}`.trim();
+  return`${res.status||"erro"} ${res.statusText||""} ${emsg||""}`.trim();
+}
 function fromFsFields(fields){
   const out={};
   const src=(fields&&typeof fields==="object")?fields:{};
@@ -1010,6 +1688,13 @@ function toFsFields(obj){
     updatedBy:{stringValue:S.role==="admin"?"admin":"editor"}
   };
 }
+function toFsEvacScriptField(scriptTxt){
+  return{
+    script:{stringValue:String(scriptTxt||"")},
+    updatedAt:{timestampValue:new Date().toISOString()},
+    updatedBy:{stringValue:S.role==="admin"?"admin":"editor"}
+  };
+}
 async function loadEvacFieldsBaseCloud(){
   try{
     const r=await fetch(fsDocUrl(EVAC_BASE_DOC_PATH),{cache:"no-store"});
@@ -1021,17 +1706,42 @@ async function loadEvacFieldsBaseCloud(){
     return null;
   }
 }
+async function loadEvacScriptBaseCloud(){
+  try{
+    const r=await fetch(fsDocUrl(EVAC_SCRIPT_DOC_PATH),{cache:"no-store"});
+    if(!r.ok)return null;
+    const j=await r.json();
+    if(!j||!j.fields)return null;
+    const m=fromFsFields(j.fields);
+    return typeof m.script==="string"&&m.script.trim()?m.script:null;
+  }catch(_){
+    return null;
+  }
+}
 async function saveEvacFieldsBaseCloud(){
   try{
     const payload={fields:toFsFields(S.data["plano_evac"])};
-    const r=await fetch(fsDocUrl(EVAC_BASE_DOC_PATH),{
+    const r=await firebaseJsonRequest(fsDocUrl(EVAC_BASE_DOC_PATH),{
       method:"PATCH",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify(payload)
-    });
-    return r.ok;
+    },"admin_write");
+    return r;
   }catch(_){
-    return false;
+    return{ok:false,status:0,statusText:"network_error"};
+  }
+}
+async function saveEvacScriptBaseCloud(){
+  try{
+    const payload={fields:toFsEvacScriptField(S.evacScript)};
+    const r=await firebaseJsonRequest(fsDocUrl(EVAC_SCRIPT_DOC_PATH),{
+      method:"PATCH",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    },"admin_write");
+    return r;
+  }catch(_){
+    return{ok:false,status:0,statusText:"network_error"};
   }
 }
 function loadEvacState(){
@@ -1042,8 +1752,11 @@ function loadEvacState(){
   const fieldsBase=readStore(EVAC_FIELDS_BASE_KEY,null);
   if(Array.isArray(slotImgs)&&slotImgs.length===3)S.evacImages=slotImgs;
   else if(Array.isArray(imgs)&&imgs.length===3)S.evacImages=imgs.map(normEvacImage);
-  if(typeof txt==="string"&&txt.trim())S.evacScript=txt;
-  if(typeof base!=="string"||!base.trim())writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);
+  if(typeof txt==="string"&&txt.trim())S.evacScript=normalizeEvacScriptText(txt);
+  else S.evacScript=normalizeEvacScriptText(S.evacScript);
+  if(typeof base==="string"&&base.trim())writeStore(EVAC_SCRIPT_BASE_KEY,normalizeEvacScriptText(base));
+  else writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);
+  saveEvacScript();
   hydrateEvacFields(fieldsBase);
   if(!fieldsBase||typeof fieldsBase!=="object")saveEvacFieldsBase();
 }
@@ -1064,7 +1777,7 @@ function saveEvacBase(){writeStore(EVAC_SCRIPT_BASE_KEY,S.evacScript);}
 function saveEvacFieldsBase(){writeStore(EVAC_FIELDS_BASE_KEY,normalizeEvacFields(S.data["plano_evac"]));}
 function restoreEvacBase(){
   const base=readStore(EVAC_SCRIPT_BASE_KEY,SCRIPT_SEG);
-  S.evacScript=typeof base==="string"&&base.trim()?base:SCRIPT_SEG;
+  S.evacScript=normalizeEvacScriptText(base);
   saveEvacScript();
 }
 function restoreEvacFieldsBase(){
@@ -1076,6 +1789,13 @@ async function syncEvacBaseFromCloudOnBoot(){
   if(cloudBase){
     writeStore(EVAC_FIELDS_BASE_KEY,cloudBase);
     hydrateEvacFields(cloudBase);
+    re();
+  }
+  const cloudScript=await loadEvacScriptBaseCloud();
+  if(cloudScript){
+    const next=normalizeEvacScriptText(cloudScript);
+    writeStore(EVAC_SCRIPT_BASE_KEY,next);
+    if(!S.evacScript||!S.evacScript.trim()||isLegacyEvacScriptText(S.evacScript))S.evacScript=next;
     re();
   }
 }
@@ -1094,32 +1814,36 @@ async function syncEvacImagesFromIdbOnBoot(){
 function allModalImages(){
   const evac=S.evacImages.filter(Boolean).map(x=>x.url);
   const block=Object.values(S.imgs).flat().map(x=>x.url);
-  const lte=normalizeLteState(S.lte).views.flatMap(v=>normLteImageSlots(v.imagens).map(img=>img.url).filter(Boolean));
-  return [...new Set([...evac,...block,...lte])];
+  const vps=normalizeVpsBlocks(S.vps?.blocks).map(b=>b.image?.url).filter(Boolean);
+  const lte=LTE_STRUCT_GUIDES.flatMap(id=>getLteGuideState(id).views.flatMap(v=>normLteImageSlots(v.imagens).map(img=>img.url).filter(Boolean)));
+  const kpis=normalizeKpisState(S.kpis).views.flatMap(v=>v.imagens.map(img=>img.url).filter(Boolean));
+  return [...new Set([...evac,...block,...vps,...lte,...kpis])];
 }
 function saveAppState(){
   writeStore(APP_STATE_KEY,{
     enabled:S.enabled,data:S.data,imgs:S.imgs,
     evacScript:S.evacScript,
-    theme:S.theme,role:S.role,
-    lteState:{
-      ...normalizeLteState(S.lte),
-      views:normalizeLteState(S.lte).views.map(v=>({
+    vpsState:{tempoSolicitado:String(S.vps?.tempoSolicitado||"08:00"),blocks:normalizeVpsBlocks(S.vps?.blocks)},
+    theme:S.theme,role:S.role,speechRate:Number(S.speechRate)||0.88,sidebarAutoCollapseV2:S.sidebarAutoCollapse,
+    lteGuideStates:Object.fromEntries(LTE_STRUCT_GUIDES.map(id=>{
+      const st=normalizeLteState(getLteGuideState(id));
+      return [id,{
+        ...st,
+        views:st.views.map(v=>({
+          ...v,
+          imagem:null,
+          imagens:normLteImageSlots(v.imagens).map(img=>({url:"",name:img.name||"",text:(img.text||"").slice(0,200)}))
+        }))
+      }];
+    })),
+    kpisState:{
+      ...normalizeKpisState(S.kpis),
+      views:normalizeKpisState(S.kpis).views.map(v=>({
         ...v,
-        imagem:null,
-        imagens:normLteImageSlots(v.imagens).map(img=>({url:"",name:img.name||"",text:(img.text||"").slice(0,200)}))
+        imagens:v.imagens.map(img=>({url:"",name:img.name||"",text:(img.text||"").slice(0,200)}))
       }))
     }
   });
-}
-function askAdminLogin(){
-  const u=prompt("Usuario administrador:");
-  if(u===null)return false;
-  const p=prompt("Senha do administrador:");
-  if(p===null)return false;
-  if(u===ADMIN_USER&&p===ADMIN_PASS)return true;
-  alert("Credenciais invalidas. Recuperacao: "+ADMIN_RECOVERY_EMAIL);
-  return false;
 }
 function loadAppState(){
   const st=readStore(APP_STATE_KEY,null);
@@ -1127,10 +1851,25 @@ function loadAppState(){
   if(st.enabled&&typeof st.enabled==="object")S.enabled={...S.enabled,...st.enabled};
   if(st.data&&typeof st.data==="object")S.data={...S.data,...st.data};
   if(st.imgs&&typeof st.imgs==="object")S.imgs={...S.imgs,...st.imgs};
-  if(typeof st.evacScript==="string"&&st.evacScript.trim())S.evacScript=st.evacScript;
+  if(typeof st.evacScript==="string"&&st.evacScript.trim())S.evacScript=normalizeEvacScriptText(st.evacScript);
   if(st.theme==="day"||st.theme==="night")S.theme=st.theme;
   if(st.role==="admin"||st.role==="editor")S.role=st.role;
-  if(st.lteState&&typeof st.lteState==="object")S.lte=normalizeLteState(st.lteState);
+  if(typeof st.sidebarAutoCollapseV2==="boolean")S.sidebarAutoCollapse=st.sidebarAutoCollapseV2;
+  if(Number.isFinite(Number(st.speechRate)))S.speechRate=Math.max(0.6,Math.min(1.4,Number(st.speechRate)));
+  if(st.vpsState&&typeof st.vpsState==="object"){
+    S.vps={
+      tempoSolicitado:typeof st.vpsState.tempoSolicitado==="string"&&st.vpsState.tempoSolicitado.trim()?st.vpsState.tempoSolicitado.trim():"08:00",
+      blocks:normalizeVpsBlocks(st.vpsState.blocks)
+    };
+  }
+  if(st.lteGuideStates&&typeof st.lteGuideStates==="object"){
+    LTE_STRUCT_GUIDES.forEach(id=>{
+      if(st.lteGuideStates[id])setLteGuideState(id,st.lteGuideStates[id]);
+    });
+  }
+  if(st.lteState&&typeof st.lteState==="object")setLteGuideState("sonda_lte",st.lteState);
+  if(st.netState&&typeof st.netState==="object")setLteGuideState("sonda_net",st.netState);
+  if(st.kpisState&&typeof st.kpisState==="object")S.kpis=normalizeKpisState(st.kpisState);
   if(st.weather&&typeof st.weather==="object")S.weather={...S.weather,...st.weather};
   hydrateEvacFields(readStore(EVAC_FIELDS_BASE_KEY,EVAC_DEFAULT_FIELDS));
 }
@@ -1217,13 +1956,14 @@ function updTimer(){
   if(tb){tb.style.width=pct+"%";tb.style.background=pct>90?"var(--cr)":pct>70?"var(--al)":c.ac;}
   if(totb)totb.style.width=Math.min(100,S.tSecs/Math.max(total,1)*100)+"%";
   if(totd)totd.textContent=fmt(S.tSecs)+" / "+fmt(total);
-  if(c.id==="sonda_lte"){
+  if(isLteStructGuide(c.id)){
+    const lst=getLteGuideState(c.id);
     const reqEl=document.getElementById("lte-req");
     const realEl=document.getElementById("lte-real");
     const diffEl=document.getElementById("lte-diff");
     const diffWrap=document.getElementById("lte-diff-wrap");
-    const reqSecs=parseMmssToSecs(S.lte?.tempoSolicitado||"");
-    if(reqEl)reqEl.textContent=S.lte?.tempoSolicitado||"--:--";
+    const reqSecs=parseMmssToSecs(lst?.tempoSolicitado||"");
+    if(reqEl)reqEl.textContent=lst?.tempoSolicitado||"--:--";
     if(realEl)realEl.textContent=fmt(S.bSecs);
     if(diffEl){
       diffEl.textContent=reqSecs===null?"Formato invalido":fmtSignedSecs(S.bSecs-reqSecs);
@@ -1232,6 +1972,24 @@ function updTimer(){
       diffWrap.style.color=reqSecs===null?"#B45309":((S.bSecs-reqSecs)>0?"#B91C1C":"#166534");
     }
   }
+}
+
+function renderConfigMenu(id){
+  const open=S.configOpen===id;
+  return`<div class="config-wrap">
+    <button onclick="toggleConfig('${id}')" class="top-btn" style="border-radius:20px;font-weight:700;color:var(--gv)">Configuracao</button>
+    ${open?`<div class="config-panel">
+      <div class="config-label">Tema</div>
+      <div class="config-row">
+        <div class="theme-dual" title="Tema dual">
+          <button onclick="setTheme('day')" class="${S.theme==='day'?'active':''}">Dia</button>
+          <button onclick="setTheme('night')" class="${S.theme==='night'?'active':''}">Noite</button>
+        </div>
+      </div>
+      <button onclick="toggleSidebarAutoCollapse()" class="config-action" style="border-color:#B7DCCB;background:#F7FBF9;color:#075E3C">${S.sidebarAutoCollapse?"Recolher lateral ao sair: ON":"Recolher lateral ao sair: OFF"}</button>
+      <button onclick="S.configOpen=null;resetLocalCache()" class="config-action">Reinicializar cache local</button>
+    </div>`:""}
+  </div>`;
 }
 
 //  SIDEBAR 
@@ -1245,32 +2003,25 @@ function renderSidebar(){
     const f=filled(c.id);
     const dotC=!on?"rgba(255,255,255,0.12)":done?"var(--ok)":f?"var(--gs)":"rgba(255,255,255,0.25)";
     const fn=S.view==="present"&&on?`jumpBlockById('${c.id}')`:`openWS('${c.id}')`;
-    return`<div onclick="${fn}" style="padding:5px 7px;border-radius:6px;cursor:pointer;margin-bottom:1px;background:${act?"rgba(255,255,255,0.15)":"transparent"};border-left:${act?"2px solid #fff":"2px solid transparent"};opacity:${on?1:.48}">
-      <div style="display:flex;align-items:center;gap:5px">
+    return`<div onclick="${fn}" style="padding:4px 7px;border-radius:6px;cursor:pointer;margin-bottom:1px;background:${act?"rgba(255,255,255,0.16)":"transparent"};border-left:${act?"2px solid #fff":"2px solid transparent"};opacity:${on?1:.55}">
+      <div style="display:flex;align-items:center;gap:7px;justify-content:space-between">
         <div style="width:5px;height:5px;border-radius:50%;background:${dotC};flex-shrink:0"></div>
-        <div style="font-size:11px;font-weight:${act?"500":"400"};color:${act?"#fff":"rgba(255,255,255,.65)"};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1">${done?"OK ":""}${c.name}</div>
+        <div style="font-size:11px;font-weight:${act?"700":"600"};color:${act?"#fff":"rgba(255,255,255,.92)"};white-space:nowrap;flex:1 0 auto">${done?"OK ":""}${c.name}</div>
         <button onclick="event.stopPropagation();toggleGuide('${c.id}')" title="${on?"Desligar guia":"Ligar guia"}" style="width:22px;height:14px;border-radius:20px;border:.5px solid rgba(255,255,255,.25);background:${on?"rgba(111,207,151,.35)":"rgba(255,255,255,.08)"};cursor:pointer;padding:0;display:flex;align-items:center;justify-content:${on?"flex-end":"flex-start"}">
           <span style="width:10px;height:10px;border-radius:50%;background:${on?"var(--gs)":"rgba(255,255,255,.35)"};display:block;margin:1px"></span>
         </button>
       </div>
-      <div style="font-size:9px;color:rgba(255,255,255,.35);padding-left:10px">${on?c.mins+"min":"ausente"}</div>
+      <div style="font-size:9px;color:rgba(255,255,255,.62);padding-left:12px">${on?c.mins+"min":"ausente"}</div>
     </div>`;
   }).join("");
-  return`<div style="width:148px;flex-shrink:0;background:var(--gv);padding:.85rem .5rem;min-height:520px;display:flex;flex-direction:column">
-    <div style="margin-bottom:10px;padding:0 5px">
-      <div style="font-size:9px;letter-spacing:.08em;color:rgba(255,255,255,.45);text-transform:uppercase;margin-bottom:3px">FMDS - VPS</div>
-      <div style="font-size:13px;font-weight:500;color:#fff;line-height:1.3">Infratech<br>Carajas</div>
+  const sw=S.sidebarAutoCollapse?"56px":"252px";
+  return`<div id="sidebar" class="${S.sidebarAutoCollapse?"sidebar-auto":""}" style="width:${sw};min-width:${sw};max-width:${sw};flex-shrink:0;background:var(--gv);padding:.6rem .55rem;height:100vh;overflow:hidden;display:flex;flex-direction:column">
+    <div class="sidebar-head">
+      <div class="sidebar-eyebrow">FMDS - VPS</div>
+      <div class="sidebar-title">Infratech<br>Carajas</div>
     </div>
-    <div style="height:.5px;background:rgba(255,255,255,.15);margin-bottom:7px"></div>
-    <div style="font-size:9px;letter-spacing:.05em;color:rgba(255,255,255,.4);text-transform:uppercase;margin-bottom:5px;padding-left:5px">Empresas</div>
-    ${items}
-    <div style="flex:1"></div>
-    <div style="height:.5px;background:rgba(255,255,255,.15);margin-bottom:8px"></div>
-    <div style="padding:6px 8px;background:linear-gradient(90deg,#006B3F,#2F80ED);border-radius:6px">
-      <div style="font-size:9px;color:rgba(255,255,255,.7);margin-bottom:1px">VPS Ativo</div>
-      <div style="font-size:10px;font-weight:500;color:#fff">Governanca ON</div>
-      <div id="sb-clock" style="font-size:10px;color:rgba(255,255,255,.7);font-variant-numeric:tabular-nums;margin-top:2px">--:--:--</div>
-    </div>
+    <div class="sidebar-section-label">Empresas</div>
+    <div class="sidebar-scroll">${items}</div>
   </div>`;
 }
 
@@ -1279,17 +2030,14 @@ function wsHeader(c){
   const idx=cIdx(c.id);
   const prevC=idx>0?COMPANIES[idx-1]:null;
   const on=S.enabled[c.id];
-  return`<div style="display:flex;align-items:center;gap:6px;margin-bottom:.85rem;padding-bottom:.65rem;border-bottom:.5px solid var(--cc)">
+  return`<div class="ws-sticky" style="display:flex;align-items:center;gap:6px;margin:0 -.85rem .85rem;padding:.35rem .85rem .55rem;border-bottom:.5px solid var(--cc)">
     <button onclick="goHome()" class="top-btn">Inicio</button>
     ${prevC?`<button onclick="openWS('${prevC.id}')" class="top-btn">< Voltar</button>`:""}
     <div style="flex:1;display:flex;align-items:center;gap:7px">
       <div style="width:26px;height:26px;border-radius:50%;background:${c.ac}18;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:${c.ac};flex-shrink:0">${c.init}</div>
       <div><div style="font-size:13px;font-weight:500;color:var(--gr);line-height:1.2">${c.name}</div><div style="font-size:9px;color:var(--cm)">${c.sub} - ${c.mins} min</div></div>
     </div>
-    <div class="theme-dual" title="Tema dual">
-      <button onclick="setTheme('day')" class="${S.theme==='day'?'active':''}">Dia</button>
-      <button onclick="setTheme('night')" class="${S.theme==='night'?'active':''}">Noite</button>
-    </div>
+    ${renderConfigMenu("workspace")}
     <button onclick="toggleRole()" class="top-btn" style="border-radius:20px;background:${S.role==='admin'?'#EFF6FF':'var(--bg)'};border-color:${S.role==='admin'?'#93C5FD':'var(--cc)'};color:${S.role==='admin'?'#2563EB':'var(--cm)'}">${S.role==="admin"?"Administrador":"Usuario Editor"}</button>
     ${idx<COMPANIES.length-1?`<button onclick="openWS('${COMPANIES[idx+1].id}')" class="top-btn">></button>`:""}
   </div>`;
@@ -1347,7 +2095,7 @@ function emergencyPanel(){
       <div style="background:#FEF9F0;border:.5px solid #FDE68A;border-radius:7px;padding:.5rem .65rem">
         <div style="font-size:9px;color:var(--cm);margin-bottom:2px">Ponto de Emergencia</div>
         <div style="font-size:22px;font-weight:700;color:#B45309">N 79</div>
-        <div style="font-size:9px;color:#92400E">Oficina Centralizada - Helio Grace</div>
+        <div style="font-size:9px;color:#92400E">Prédio Infratech</div>
       </div>
     </div>
   </div>`;
@@ -1423,32 +2171,132 @@ function renderGenericWS(){
     <button onclick="saveWS()" style="width:100%;padding:.55rem;border-radius:8px;background:var(--gv);border:none;color:#fff;font-weight:500;font-size:13px;cursor:pointer">Salvar</button>
   </div>`;
 }
+function renderExecutiveWS(companyId){
+  const c=COMPANIES.find(x=>x.id===companyId);
+  const isSondaAdm=companyId==="sonda_adm";
+  const accent=isSondaAdm?"#2F80ED":"#0EA5A4";
+  const soft=isSondaAdm?"#EFF6FF":"#ECFDF5";
+  const roleTitle=isSondaAdm?"Painel Executivo - Sonda ADM":"Painel Executivo - Stefanini";
+  const flds=c.fields.map(f=>`
+    <div style="margin-bottom:.55rem">
+      <div style="font-size:9px;font-weight:600;color:${accent};letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px">${f.l}</div>
+      <textarea id="f_${f.k}" rows="2" placeholder="${f.p}" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.5;resize:vertical">${S.data[c.id][f.k]||""}</textarea>
+    </div>`).join("");
+  const leadershipBlock="";
+  return`<div>
+    ${wsHeader(c)}
+    <div style="background:linear-gradient(110deg,${accent},#006B3F);border:.5px solid #9DD2FF;border-radius:10px;padding:.75rem .85rem;margin-bottom:.55rem;box-shadow:0 8px 20px rgba(2,132,199,.15)">
+      <div style="font-size:18px;font-weight:800;color:#fff;letter-spacing:.02em">${roleTitle}</div>
+      <div style="font-size:11px;color:#E5F3FF;margin-top:4px">Estrutura oficial de governanca operacional e apoio tecnico</div>
+    </div>
+    ${leadershipBlock}
+    <div style="background:var(--wh);border:.5px solid var(--cc);border-left:3px solid ${accent};border-radius:8px;padding:.75rem .8rem;margin-bottom:.55rem">
+      <div style="font-size:10px;font-weight:700;color:${accent};letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px">Campos operacionais</div>
+      ${flds}
+    </div>
+    <button onclick="saveWS()" style="width:100%;padding:.55rem;border-radius:8px;background:var(--gv);border:none;color:#fff;font-weight:500;font-size:13px;cursor:pointer">Salvar</button>
+  </div>`;
+}
+function renderKpisWS(){
+  const c=COMPANIES.find(x=>x.id==="kpis");
+  S.kpis=normalizeKpisState(S.kpis);
+  const cards=S.kpis.views.map((v,vi)=>{
+    const m=KPIS_VIEWS_META[vi];
+    const slots=v.imagens.map((imgObj,i)=>{
+      const img=imgObj?.url||"";
+      const txt=imgObj?.text||"";
+      return`<div class="lte-image-slot" style="background:#F8FCFF;border-color:${m.ac}44">
+        ${img?`<img src="${img}" class="lte-image-preview" onclick="openModal('${img}')" title="${escHtml(imgObj.name||'Imagem '+(i+1))}"/>`:`<div class="lte-image-empty">Imagem ${i+1}</div>`}
+        <div style="display:flex;gap:4px;margin-top:5px;flex-wrap:wrap">
+          <label class="lte-model-btn" style="padding:3px 7px;font-size:9px;flex:1;text-align:center;background:#ECF7FF;border-color:${m.ac}55;color:${m.ac}">
+            Inserir
+            <input type="file" accept=".png,.jpeg,.jpg,.img,image/*" style="display:none" onchange="handleKpisImage(${vi},${i},this)"/>
+          </label>
+          <button onclick="removeKpisImage(${vi},${i})" class="lte-model-btn" style="padding:3px 7px;font-size:9px;flex:1;background:#F3F8F5;border-color:${m.ac}44;color:#166534">Remover</button>
+        </div>
+        <textarea maxlength="200" class="lte-image-caption" placeholder="Texto da imagem (ate 200 caracteres)" oninput="setKpisImageText(${vi},${i},this.value)">${escHtml(txt)}</textarea>
+      </div>`;
+    }).join("");
+    return`<div style="background:var(--wh);border:.5px solid ${m.ac}66;border-left:3px solid ${m.ac};border-radius:8px;padding:.7rem .8rem;margin-bottom:.55rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:.35rem">
+        <div style="font-size:13px;font-weight:700;color:var(--gr)">${m.title}</div>
+        <button onclick="toggleKpisView(${vi})" style="font-size:9px;padding:3px 10px;border-radius:20px;border:.5px solid ${v.enabled?m.ac+'55':'#94A3B8'};background:${v.enabled?m.ac+'12':'#F8FAFC'};color:${v.enabled?m.ac:'#64748B'};cursor:pointer;font-weight:700">${v.enabled?'Ligada':'Desligada'}</button>
+      </div>
+      <div style="display:${v.enabled?'block':'none'}">
+        <div style="font-size:9px;color:${m.ac};text-transform:uppercase;margin-bottom:3px">Observacoes KPI'S</div>
+        <textarea rows="3" oninput="setKpisObservacoes(${vi},this.value)" placeholder="Observacoes KPI'S" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical;margin-bottom:.45rem">${escHtml(v.observacoes||"")}</textarea>
+        <div style="font-size:9px;color:${m.ac};text-transform:uppercase;margin-bottom:3px">Imagem</div>
+        <div class="lte-image-grid" style="grid-template-columns:repeat(4,minmax(145px,1fr));margin-bottom:.45rem">${slots}</div>
+        <div style="font-size:9px;color:${m.ac};text-transform:uppercase;margin-bottom:3px">Texto livre</div>
+        <textarea rows="3" oninput="setKpisTextoLivre(${vi},this.value)" placeholder="Digite observacoes complementares" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${escHtml(v.textoLivre||"")}</textarea>
+      </div>
+    </div>`;
+  }).join("");
+  return`<div>
+    ${wsHeader(c)}
+    <div style="background:var(--wh);border:.5px solid #8BBBEF;border-left:3px solid #2F80ED;border-radius:8px;padding:.7rem .8rem;margin-bottom:.55rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:5px">
+        <div style="font-size:9px;color:#2F80ED;text-transform:uppercase">Instrucoes (base ADM)</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <button onclick="saveKpisBase()" style="padding:3px 9px;border-radius:5px;background:#EFF6FF;border:.5px solid #BFDBFE;color:var(--bt);font-size:9px;cursor:pointer;opacity:${S.role==="admin"?1:.55}">${S.role==="admin"?"Salvar como base":"Base bloqueada (Editor)"}</button>
+          <button onclick="restoreKpisBase()" style="padding:3px 9px;border-radius:5px;background:transparent;border:.5px solid #BFDBFE;color:var(--bt);font-size:9px;cursor:pointer">Restaurar base</button>
+        </div>
+      </div>
+      <textarea rows="4" oninput="setKpisInstrucoes(this.value)" placeholder="Instrucoes operacionais do bloco KPI'S" style="width:100%;background:var(--bg);border:1px solid var(--cc);border-radius:7px;padding:.45rem .65rem;color:var(--gr);font-size:12px;line-height:1.45;resize:vertical">${escHtml(S.kpis.instrucoes||"")}</textarea>
+    </div>
+    ${cards}
+    <button onclick="saveWS()" style="width:100%;padding:.55rem;border-radius:8px;background:var(--gv);border:none;color:#fff;font-weight:500;font-size:13px;cursor:pointer">Salvar</button>
+  </div>`;
+}
 
 function renderVpsWS(){
   const c=COMPANIES.find(x=>x.id==="vale_vps");
+  const tempo=String(S.vps?.tempoSolicitado||"08:00");
   S.vps.blocks=normalizeVpsBlocks(S.vps.blocks);
-  const list=S.vps.blocks.map(b=>`<div style="background:var(--wh);border:.5px solid var(--cc);border-left:3px solid ${c.ac};border-radius:8px;padding:.7rem .8rem;margin-bottom:.45rem">
-    <div style="font-size:12px;font-weight:600;color:var(--gr)">${b.order}. ${b.title}</div>
-  </div>`).join("");
-  return`<div>
-    ${wsHeader(c)}
-    ${list}
-  </div>`;
-}
-function renderSondaLteWS(){
-  const c=COMPANIES.find(x=>x.id==="sonda_lte");
-  S.lte=normalizeLteState(S.lte);
-  const v1=`<div style="background:linear-gradient(110deg,#0B6FB8,#005E36);border:.5px solid #0EA5E9;border-radius:10px;padding:.75rem .85rem;margin-bottom:.55rem;box-shadow:0 8px 20px rgba(2,132,199,.18)">
-    <div style="font-size:19px;font-weight:800;color:#fff;letter-spacing:.03em;margin-bottom:.55rem">FMDS - SONDA LTE</div>
+  const head=`<div style="background:linear-gradient(110deg,#0B6FB8,#005E36);border:.5px solid #0EA5E9;border-radius:10px;padding:.75rem .85rem;margin-bottom:.55rem;box-shadow:0 8px 20px rgba(2,132,199,.18)">
     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
       <div style="font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.18);border:.5px solid rgba(255,255,255,.45);color:#E0F2FE">Tempo Solicitado:</div>
-      <input id="lte_tempo_solicitado" value="${escHtml(S.lte.tempoSolicitado)}" oninput="setLteTempoSolicitado(this.value)" placeholder="08:00" style="width:90px;height:28px;background:#fff;border:1px solid #BFDBFE;border-radius:7px;padding:0 .55rem;color:#0F172A;font-size:12px;font-weight:700"/>
+      <input value="${escHtml(tempo)}" oninput="setVpsTempoSolicitado(this.value)" placeholder="08:00" style="width:90px;height:28px;background:#fff;border:1px solid #BFDBFE;border-radius:7px;padding:0 .55rem;color:#0F172A;font-size:12px;font-weight:700"/>
       <div style="font-size:10px;color:#E2E8F0">mm:ss</div>
     </div>
   </div>`;
-  const cards=S.lte.views.map((row,i)=>{
+  const list=S.vps.blocks.map((b,i)=>`<div style="background:var(--wh);border:.5px solid ${b.enabled?c.ac+"55":"var(--cc)"};border-left:3px solid ${b.enabled?c.ac:"#94A3B8"};border-radius:8px;padding:.7rem .8rem;margin-bottom:.45rem;opacity:${b.enabled?1:.72}">
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+      <div style="font-size:12px;font-weight:600;color:var(--gr)">${b.order}. ${b.title}</div>
+      <button onclick="setVpsBlockEnabled(${i},${b.enabled?"false":"true"})" style="font-size:9px;padding:3px 9px;border-radius:20px;border:.5px solid ${b.enabled?c.ac+"66":"#94A3B8"};background:${b.enabled?c.ac+"14":"#F8FAFC"};color:${b.enabled?c.ac:"#64748B"};cursor:pointer;font-weight:600">${b.enabled?"Ligada":"Desligada"}</button>
+    </div>
+    <div style="display:${b.enabled?"block":"none"}">
+    <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
+      <label style="flex:1;padding:4px 0;border-radius:6px;background:#ECF7FF;border:.5px solid #B7D8F7;color:#1D4ED8;font-size:10px;font-weight:600;cursor:pointer;text-align:center">Inserir imagem
+        <input type="file" accept="image/*,.png,.jpeg,.jpg,.img" style="display:none" onchange="setVpsBlockImage(${i},this)"/>
+      </label>
+      <button onclick="removeVpsBlockImage(${i})" style="flex:1;padding:4px 0;border-radius:6px;background:${b.image?'#FEF2F2':'var(--bg)'};border:.5px solid ${b.image?'#FECACA':'var(--cc)'};color:${b.image?'var(--cr)':'var(--cm)'};font-size:10px;font-weight:600;cursor:pointer">Remover imagem</button>
+    </div>
+    ${b.image?`<div style="margin-top:6px"><img src="${b.image.url}" onclick="openModal('${b.image.url}')" style="width:180px;height:64px;object-fit:cover;border-radius:6px;border:.5px solid var(--cc);cursor:pointer"/></div>`:""}
+    </div>
+  </div>`).join("");
+  return`<div>
+    ${wsHeader(c)}
+    ${head}
+    ${list}
+    <button onclick="saveWS()" style="width:100%;padding:.55rem;border-radius:8px;background:var(--gv);border:none;color:#fff;font-weight:500;font-size:13px;cursor:pointer">Salvar</button>
+  </div>`;
+}
+function renderSondaLteWS(){
+  const c=COMPANIES.find(x=>x.id===S.selId);
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
+  const cur=getLteGuideState(gid);
+  const v1=`<div style="background:linear-gradient(110deg,#0B6FB8,#005E36);border:.5px solid #0EA5E9;border-radius:10px;padding:.75rem .85rem;margin-bottom:.55rem;box-shadow:0 8px 20px rgba(2,132,199,.18)">
+    <div style="font-size:19px;font-weight:800;color:#fff;letter-spacing:.03em;margin-bottom:.55rem">${escHtml(c.name).toUpperCase()}</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <div style="font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(255,255,255,.18);border:.5px solid rgba(255,255,255,.45);color:#E0F2FE">Tempo Solicitado:</div>
+      <input id="lte_tempo_solicitado" value="${escHtml(cur.tempoSolicitado)}" oninput="setLteTempoSolicitado(this.value)" placeholder="08:00" style="width:90px;height:28px;background:#fff;border:1px solid #BFDBFE;border-radius:7px;padding:0 .55rem;color:#0F172A;font-size:12px;font-weight:700"/>
+      <div style="font-size:10px;color:#E2E8F0">mm:ss</div>
+    </div>
+  </div>`;
+  const cards=cur.views.map((row,i)=>{
     const meta=LTE_VIEWS_META[i];
-    upsertLteStatusAndDueColumns(row);
+    if(lteHasSheetData(row))upsertLteStatusAndDueColumns(row);
     const p=to2DPlanilha(row.planilha);
     const headers=p.headers;
     const filteredRows=p.rows.map((r,idx)=>({r,idx}));
@@ -1547,13 +2395,15 @@ function renderSondaLteWS(){
             <button class="lte-model-btn" onclick="removeLteTable(${i})">Remover Planilha</button>
             ${(()=>{const st=getLteSheetStats(row);return`<span class="lte-model-count">${st.total} linhas · ${st.reviewed} revisadas · ${st.pending} pendentes</span>`;})()}
           </div>
-          ${columnPanel}
+          ${(headers.length?columnPanel:"")}
           <div class="lte-model-wrap">
+            ${headers.length?`
             <table class="lte-model-table">
               <colgroup>${gridCols}</colgroup>
               <thead><tr>${gridHead}<th style="border:.5px solid #163556;padding:5px;background:#062540;width:32px"></th></tr></thead>
               <tbody>${gridBody||`<tr><td colspan="${visibleIndexes.length+1}" style="padding:10px;text-align:center;font-size:10px;color:#93C5FD;background:#081a2d">Sem linhas na planilha.</td></tr>`}</tbody>
             </table>
+            `:`<div style="padding:12px;text-align:center;font-size:11px;color:#6B7280">Sem planilha carregada.</div>`}
           </div>
         </div>
       </div>`:""}
@@ -1579,12 +2429,6 @@ function renderSondaLteWS(){
 //  PORTAL 
 function renderPortal(){
   const f=fCount();
-  const weatherCards=S.weather.items.map(w=>`<div style="background:var(--wh);border:.5px solid var(--cc);border-radius:8px;padding:.6rem .7rem">
-    <div style="font-size:12px;font-weight:700;color:var(--gr);margin-bottom:4px">${w.name}</div>
-    <div style="font-size:15px;font-weight:700;color:var(--gv)">${w.now}</div>
-    <div style="font-size:12px;color:var(--cm);margin-top:2px">Temp: ${w.temp} | Umidade: ${w.hum}</div>
-    <div style="font-size:12px;color:var(--cm)">Vento: ${w.wind} | Prox. 3h: ${w.next3h}</div>
-  </div>`).join("");
   const cards=COMPANIES.map(c=>{
     const ok=filled(c.id);
     const on=S.enabled[c.id];
@@ -1599,39 +2443,26 @@ function renderPortal(){
     </div>`;
   }).join("");
   return`<div>
-    <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-bottom:.65rem">
-      <button onclick="startFMDS()" class="top-btn" style="background:var(--gv);border-color:var(--gv);color:#fff;padding:5px 12px;border-radius:8px;font-weight:600">Iniciar FMDS ></button>
-      <div class="theme-dual" title="Tema dual">
-        <button onclick="setTheme('day')" class="${S.theme==='day'?'active':''}">Dia</button>
-        <button onclick="setTheme('night')" class="${S.theme==='night'?'active':''}">Noite</button>
-      </div>
-      ${S.role==="admin"
-        ?`<button onclick="resetLocalCache()" class="top-btn" style="border-radius:20px;border-color:#FECACA;color:#B91C1C;background:#FFF1F2">Reinicializar cache local</button>`
-        :""}
-    </div>
-    <div style="background:linear-gradient(90deg,var(--gv),var(--bt));padding:.75rem 1rem;border-radius:8px;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between">
-      <div>
-        <div style="font-size:10px;color:rgba(255,255,255,.65);letter-spacing:.06em;text-transform:uppercase">Sistema de Apresentacao</div>
-        <div style="font-size:15px;font-weight:500;color:#fff">FMDS - Infratech Carajas</div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-size:10px;color:rgba(255,255,255,.6)">${f} de ${activeCompanies().length} ativas prontas</div>
-        <div style="font-size:13px;font-weight:500;color:#fff">${fmt(totalSecs())} total</div>
-      </div>
-    </div>
-    <div style="background:var(--bg);border:.5px solid var(--cc);border-radius:8px;padding:.7rem;margin-bottom:1rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:.45rem">
-        <div style="font-size:15px;font-weight:700;color:var(--gr)">Clima e Tempo Operacional</div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <button onclick="toggleWeatherPanel()" class="top-btn" style="padding:3px 8px">${S.weather.collapsed?"Mostrar":"Recolher"}</button>
-          <div style="font-size:11px;color:var(--cm)">${S.weather.loading?"Atualizando...":(S.weather.updatedAt?`Atualizado: ${S.weather.updatedAt}`:"Sem atualizacao")}</div>
+    <div class="shell-sticky" style="margin:0 -.85rem 1rem;padding:0 .85rem .65rem">
+      <div class="portal-hero">
+        <div class="portal-hero-main">
+          <div class="portal-kicker">Painel principal</div>
+          <div class="portal-hero-title">FMDS - Infratech Carajas</div>
+        </div>
+        <div class="portal-hero-meta">
+          <div style="font-size:10px;color:rgba(255,255,255,.6)">${f} de ${activeCompanies().length} ativas prontas</div>
+          <div style="font-size:13px;font-weight:500;color:#fff">${fmt(totalSecs())} total</div>
         </div>
       </div>
-      ${S.weather.collapsed?"":`
-      ${S.weather.error?`<div style="font-size:12px;color:#B45309;background:#FFFBEB;border:.5px solid #FDE68A;border-radius:6px;padding:.45rem .6rem;margin-bottom:.5rem">${S.weather.error}</div>`:""}
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">${weatherCards}</div>
-      <div style="font-size:11px;color:var(--cm);margin-top:.45rem">Fonte: ${S.weather.source} (governo federal). Faixa operacional: agora + tendencia 3h.</div>
-      `}
+      <div class="portal-titlebar" style="margin:.65rem -.85rem 0;padding:0 .85rem">
+        <div></div>
+        <div class="portal-title">Sistema de Apresentacao FMDS</div>
+        <div style="display:flex;align-items:center;justify-content:flex-end;gap:8px">
+          <button onclick="startFMDS()" class="top-btn" style="background:var(--gv);border-color:var(--gv);color:#fff;padding:5px 12px;border-radius:8px;font-weight:600">Iniciar FMDS ></button>
+          ${renderConfigMenu("portal")}
+          <button onclick="exitApp()" class="top-btn" title="Sair" style="border-radius:20px;border-color:#D1D5DB;color:#334155;background:#F8FAFC;font-weight:700">⏻ Sair</button>
+        </div>
+      </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem">${cards}</div>
   </div>`;
@@ -1651,7 +2482,8 @@ function renderPresent(){
   const c=actives[S.presIdx];
   const isEvac=c.id==="plano_evac";
   const isVps=c.id==="vale_vps";
-  const isLte=c.id==="sonda_lte";
+  const isLte=isLteStructGuide(c.id);
+  const isKpis=c.id==="kpis";
   const flds=c.fields.filter(f=>S.data[c.id][f.k]?.trim());
   const evacBlock=isEvac?`
     <div style="background:#F0F7FF;border:.5px solid #BFDBFE;border-radius:7px;padding:.6rem .75rem;margin-bottom:.5rem">
@@ -1669,20 +2501,32 @@ function renderPresent(){
           </div>`
       ).join("")}
     </div>`:"";
-  const vpsHTML=isVps?`<div style="max-height:260px;overflow-y:auto;padding-right:2px">
-    ${normalizeVpsBlocks(S.vps.blocks).map((b,i)=>`<div style="background:var(--bg);border-radius:6px;padding:.4rem .65rem;border-left:2px solid ${c.ac}55;margin-bottom:4px">
+  const vpsHTML=isVps?(()=>{
+    const reqSecs=parseMmssToSecs(S.vps?.tempoSolicitado||"");
+    const diff=(reqSecs===null)?null:(S.bSecs-reqSecs);
+    return `<div style="max-height:260px;overflow-y:auto;padding-right:2px">
+    <div style="background:linear-gradient(105deg,#0B6FB8,#005E36);border:.5px solid #0EA5E9;border-radius:8px;padding:.5rem .65rem;margin-bottom:.45rem;box-shadow:0 6px 16px rgba(2,132,199,.18)">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div style="font-size:10px;color:#DBEAFE"><b>Tempo solicitado:</b> ${escHtml(S.vps?.tempoSolicitado||"--:--")}</div>
+        <div style="font-size:10px;color:#F8FAFC"><b>Tempo real:</b> ${fmt(S.bSecs)}</div>
+        <div style="font-size:10px;color:${diff===null?'#FDE68A':(diff>0?'#FECACA':'#BBF7D0')}"><b>Diferenca:</b> ${diff===null?'Formato invalido':fmtSignedSecs(diff)}</div>
+      </div>
+    </div>
+    ${normalizeVpsBlocks(S.vps.blocks).filter(b=>b.enabled!==false).map((b,i)=>`<div style="background:var(--bg);border-radius:6px;padding:.4rem .65rem;border-left:2px solid ${c.ac}55;margin-bottom:4px">
       <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap">
         <div style="font-size:9px;font-weight:500;color:${c.ac};text-transform:uppercase;letter-spacing:.05em">${b.order}. ${b.title}</div>
         ${[8,9,11].includes(i)?`<div style="font-size:8px;padding:1px 6px;border-radius:999px;background:#EFF6FF;border:.5px solid #BFDBFE;color:#1D4ED8">${currentMonthLabel()}</div>`:""}
       </div>
       ${b.text?.trim()?`<div style="font-size:10px;color:var(--gr);line-height:1.35;white-space:pre-wrap;margin-top:2px">${escHtml(b.text).slice(0,240)}</div>`:`<div style="font-size:10px;color:var(--cm)">Sem texto</div>`}
+      ${b.image?.url?`<img src="${b.image.url}" onclick="openModal('${b.image.url}')" style="margin-top:4px;width:140px;height:48px;object-fit:cover;border-radius:5px;border:.5px solid var(--cc);cursor:pointer"/>`:""}
     </div>`).join("")}
-  </div>`:"";
+  </div>`;
+  })():"";
   const lteHTML=isLte?(()=>{
-    const l=normalizeLteState(S.lte);
+    const l=getLteGuideState(c.id);
     const reqSecs=parseMmssToSecs(l.tempoSolicitado);
     const diff=(reqSecs===null)?null:(S.bSecs-reqSecs);
-    const effective=getEffectiveLteViewsForPresentation();
+    const effective=getEffectiveLteViewsForPresentation(l);
     const d0Active=!!(l.views[3]&&l.views[3].enabled&&lteViewHasContent(l.views[3]));
     const metric=`<div style="background:linear-gradient(105deg,#0B6FB8,#005E36);border:.5px solid #0EA5E9;border-radius:8px;padding:.5rem .65rem;margin-bottom:.45rem;box-shadow:0 6px 16px rgba(2,132,199,.18)">
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
@@ -1712,12 +2556,36 @@ function renderPresent(){
     const badge=d0Active?`<div style="font-size:9px;color:#92400E;background:#FFFBEB;border:.5px solid #FDE68A;border-radius:6px;padding:.3rem .5rem;margin-bottom:.35rem">D0 ativo: views D-3, D-2 e D-1 ocultadas na apresentacao.</div>`:"";
     return`<div style="max-height:260px;overflow-y:auto;padding-right:2px">${metric}${badge}${rows||`<div style="font-size:10px;color:var(--cm);font-style:italic">Nenhuma view LTE ligada para exibicao.</div>`}</div>`;
   })():"";
-  const dataHTML=isVps?vpsHTML:(isLte?lteHTML:(flds.length?flds.map(f=>`
+  const kpisHTML=isKpis?(()=>{
+    const k=normalizeKpisState(S.kpis);
+    return`<div style="max-height:260px;overflow-y:auto;padding-right:2px">
+      ${k.instrucoes?.trim()?`<div style="background:var(--bg);border-radius:6px;padding:.4rem .65rem;border-left:2px solid ${c.ac}55;margin-bottom:4px"><div style="font-size:9px;font-weight:500;color:${c.ac};text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px">Instrucoes</div><div style="font-size:11px;color:var(--gr);line-height:1.45;white-space:pre-wrap">${escHtml(k.instrucoes)}</div></div>`:""}
+      ${k.views.filter(v=>v.enabled).map((v,vi)=>{
+        const m=KPIS_VIEWS_META[vi];
+        const imgs=v.imagens.filter(img=>img.url||img.text);
+        return `<div style="background:var(--bg);border:.5px solid ${m.ac}44;border-left:2px solid ${m.ac};border-radius:6px;padding:.4rem .65rem;margin-bottom:4px">
+          <div style="font-size:9px;font-weight:700;color:${m.ac};text-transform:uppercase;letter-spacing:.04em">${m.title}</div>
+          ${v.observacoes?.trim()?`<div style="font-size:10px;color:var(--gr);white-space:pre-wrap;margin-top:2px">${escHtml(v.observacoes)}</div>`:""}
+          ${v.textoLivre?.trim()?`<div style="font-size:10px;color:var(--cm);white-space:pre-wrap;margin-top:2px">${escHtml(v.textoLivre)}</div>`:""}
+          ${imgs.length?`<div style="display:grid;grid-template-columns:repeat(4,minmax(95px,1fr));gap:4px;margin-top:4px">${imgs.map(x=>`<div style="background:#fff;border:.5px solid var(--cc);border-radius:5px;padding:3px"><img src="${x.url}" onclick="openModal('${x.url}')" style="width:100%;height:50px;object-fit:cover;border-radius:4px;cursor:pointer"/>${x.text?`<div style="font-size:8px;color:var(--cm);line-height:1.2;margin-top:2px">${escHtml(x.text)}</div>`:""}</div>`).join("")}</div>`:""}
+        </div>`;
+      }).join("")}
+    </div>`;
+  })():"";
+  const dataHTML=isVps
+    ?vpsHTML
+    :isLte
+      ?lteHTML
+      :isKpis
+        ?kpisHTML
+        :flds.length
+          ?flds.map(f=>`
     <div style="background:var(--bg);border-radius:6px;padding:.4rem .65rem;border-left:2px solid ${c.ac}55;margin-bottom:4px">
       <div style="font-size:9px;font-weight:500;color:${c.ac};text-transform:uppercase;letter-spacing:.05em;margin-bottom:1px">${f.l}</div>
       <div style="font-size:12px;color:var(--gr);line-height:1.5;white-space:pre-wrap">${S.data[c.id][f.k]}</div>
-    </div>`).join(""):(isEvac?"":(`<div style="font-size:11px;color:var(--cm);font-style:italic">Script padrao do agente.</div>`))));
-  const imgH=(isLte||isVps)?"":(S.imgs[c.id]?.length?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">${S.imgs[c.id].map((img,i)=>`<img src="${img.url}" onclick="openModal('${img.url}')" style="height:48px;border-radius:6px;border:.5px solid var(--cc);cursor:pointer"/>`).join("")}</div>`:"");
+    </div>`).join("")
+          :(isEvac?"":`<div style="font-size:11px;color:var(--cm);font-style:italic">Script padrao do agente.</div>`);
+  const imgH=(isLte||isVps||isKpis)?"":(S.imgs[c.id]?.length?`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px">${S.imgs[c.id].map((img,i)=>`<img src="${img.url}" onclick="openModal('${img.url}')" style="height:48px;border-radius:6px;border:.5px solid var(--cc);cursor:pointer"/>`).join("")}</div>`:"");
   const ovH=S.overflow?`<div style="background:#FFFBEB;border:.5px solid var(--al);border-radius:8px;padding:.65rem;margin-bottom:.65rem">
     <div style="font-size:11px;font-weight:500;color:#92400E;margin-bottom:2px">Tempo Overflow Session</div>
     <div style="font-size:10px;color:#B45309">Tempo excedido. Sugestao: +10 min. Registre na ata.</div>
@@ -1754,7 +2622,10 @@ function renderPresent(){
           <div style="font-size:10px;color:${S.manual?"#92400E":"var(--bt)"};font-weight:500">${S.manual?"Apresentador conduz":"Agente virtual ativo"}</div>
           <div id="sp-wv" class="wv" style="display:${S.speaking?"inline-flex":"none"}"><span></span><span></span><span></span><span></span><span></span></div>
         </div>
-        <button id="sp-btn" onclick="toggleSpeak()" style="padding:3px 10px;border-radius:20px;background:${S.speaking?"var(--bt)":"transparent"};border:1px solid var(--bt);color:${S.speaking?"#fff":"var(--bt)"};font-size:10px;cursor:pointer;font-weight:500">${S.speaking?"Parar":"Narrador Virtual"}</button>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+          <button onclick="cycleSpeechRate()" title="Controle de velocidade do narrador" style="padding:3px 9px;border-radius:20px;background:#F7FBF9;border:1px solid #B7DCCB;color:#075E3C;font-size:10px;cursor:pointer;font-weight:600">Velocidade ${speechRateLabel()}</button>
+          <button id="sp-btn" onclick="toggleSpeak()" style="padding:3px 10px;border-radius:20px;background:${S.speaking?"var(--bt)":"transparent"};border:1px solid var(--bt);color:${S.speaking?"#fff":"var(--bt)"};font-size:10px;cursor:pointer;font-weight:500">${S.speaking?"Parar":"Narrador Virtual"}</button>
+        </div>
       </div>
       ${evacBlock}${dataHTML}${imgH}
     </div>
@@ -1796,7 +2667,9 @@ function renderMain(){
   if(S.view==="workspace"){
     if(S.selId==="plano_evac")return renderEvacWS();
     if(S.selId==="vale_vps")return renderVpsWS();
-    if(S.selId==="sonda_lte")return renderSondaLteWS();
+    if(isLteStructGuide(S.selId))return renderSondaLteWS();
+    if(S.selId==="sonda_adm"||S.selId==="stefanini")return renderExecutiveWS(S.selId);
+    if(S.selId==="kpis")return renderKpisWS();
     return renderGenericWS();
   }
   if(S.view==="present")return renderPresent();
@@ -1812,8 +2685,9 @@ function re(){
   const selEnd=(ae&&typeof ae.selectionEnd==="number")?ae.selectionEnd:null;
   document.body.classList.toggle("night",S.theme==="night");
   const app=document.getElementById("app");
+  const mainOffset=S.sidebarAutoCollapse?"56px":"0";
   app.innerHTML=renderSidebar()
-    +`<div id="main" class="fade" style="flex:1;padding:.85rem;overflow-y:auto;background:var(--bg)">${renderMain()}</div>`
+    +`<div id="main" class="fade" style="flex:1;padding:0;background:var(--bg);margin-left:${mainOffset}">${renderMain()}</div>`
     +renderModal();
   const nextMain=document.getElementById("main");
   if(nextMain)nextMain.scrollTop=prevScroll;
@@ -1872,9 +2746,108 @@ function removeVpsImg(n){
   saveEvacImages();
   re();
 }
+function setVpsTempoSolicitado(v){
+  S.vps.tempoSolicitado=String(v||"").replace(/[^\d:]/g,"").slice(0,5);
+  re();
+}
+async function setVpsBlockImage(i,inp){
+  const f=inp?.files?.[0];
+  if(!f)return;
+  try{
+    const dataUrl=await readImageOptimized(f);
+    S.vps.blocks=normalizeVpsBlocks(S.vps.blocks);
+    S.vps.blocks[i].image={url:dataUrl,name:f.name};
+    re();
+  }catch(_){
+    alert("Falha ao inserir imagem no VPS.");
+  }finally{
+    inp.value="";
+  }
+}
+function removeVpsBlockImage(i){
+  S.vps.blocks=normalizeVpsBlocks(S.vps.blocks);
+  S.vps.blocks[i].image=null;
+  re();
+}
+function setVpsBlockEnabled(i,on){
+  S.vps.blocks=normalizeVpsBlocks(S.vps.blocks);
+  if(!S.vps.blocks[i])return;
+  S.vps.blocks[i].enabled=!!on;
+  re();
+}
+function setKpisTextoLivre(vIdx,v){
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.views[vIdx].textoLivre=String(v||"");
+  saveKpisState();
+}
+function setKpisObservacoes(vIdx,v){
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.views[vIdx].observacoes=String(v||"");
+  saveKpisState();
+}
+function setKpisInstrucoes(v){
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.instrucoes=String(v||"");
+  saveKpisState();
+}
+function setKpisImageText(vIdx,i,v){
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.views[vIdx].imagens[i]={...S.kpis.views[vIdx].imagens[i],text:String(v||"").slice(0,200)};
+  saveKpisState();
+}
+async function handleKpisImage(vIdx,i,inp){
+  const f=inp?.files?.[0];
+  if(!f)return;
+  try{
+    const dataUrl=await readImageOptimized(f);
+    S.kpis=normalizeKpisState(S.kpis);
+    S.kpis.views[vIdx].imagens[i]={...(S.kpis.views[vIdx].imagens[i]||{}),url:dataUrl,name:f.name,text:S.kpis.views[vIdx].imagens[i]?.text||""};
+    saveKpisImageSlot(vIdx,i);
+    saveKpisState();
+    re();
+  }catch(_){
+    alert("Falha ao inserir imagem na guia KPI'S.");
+  }finally{
+    inp.value="";
+  }
+}
+function removeKpisImage(vIdx,i){
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.views[vIdx].imagens[i]={url:"",name:"",text:S.kpis.views[vIdx].imagens[i]?.text||""};
+  saveKpisImageSlot(vIdx,i);
+  saveKpisState();
+  re();
+}
+function toggleKpisView(vIdx){
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.views[vIdx].enabled=!S.kpis.views[vIdx].enabled;
+  saveKpisState();
+  re();
+}
+async function saveKpisBase(){
+  if(S.role!=="admin"){
+    alert("Somente Administrador pode salvar como base.");
+    return;
+  }
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.instrucoesBase=S.kpis.instrucoes;
+  saveKpisState();
+  const res=await saveKpisBaseCloud();
+  if(!res?.ok)alert("Base KPI'S salva no cache local. Firebase: "+explainFirebaseError(res));
+  re();
+}
+function restoreKpisBase(){
+  S.kpis=normalizeKpisState(S.kpis);
+  S.kpis.instrucoes=S.kpis.instrucoesBase||"";
+  saveKpisState();
+  re();
+}
 function setLteTempoSolicitado(v){
   const txt=String(v||"").replace(/[^\d:]/g,"").slice(0,5);
-  S.lte.tempoSolicitado=txt;
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
+  const st=getLteGuideState(gid);
+  st.tempoSolicitado=txt;
+  setLteGuideState(gid,st);
   saveLteState();
 }
 function setLteObservacoes(i,v){
@@ -1914,7 +2887,13 @@ async function handleLteTableFile(i,inp){
 }
 function removeLteTable(i){
   const row=ensureLteView(i);
+  const ok=confirm("Remover planilha deste bloco?");
+  if(!ok)return;
   row.planilha={headers:[],rows:[]};
+  row.filtros={dataProgramada:"",localInstalacao:"",toleranciaMax:"",dataVencimento:"",status:""};
+  row.columnFilterOpen=false;
+  const gid=isLteStructGuide(S.selId)?S.selId:"sonda_lte";
+  wipeLteViewPlanilhaPersist(gid,i);
   saveLteState();
   re();
 }
@@ -2034,14 +3013,29 @@ async function saveScriptBase(){
   }
   saveEvacBase();
   saveEvacFieldsBase();
-  const cloudOk=await saveEvacFieldsBaseCloud();
-  if(!cloudOk)alert("Base salva no cache local. A sincronizacao com Firebase nao respondeu.");
+  const [cloudFieldsRes,cloudScriptRes]=await Promise.all([saveEvacFieldsBaseCloud(),saveEvacScriptBaseCloud()]);
+  if(!cloudFieldsRes?.ok&&!cloudScriptRes?.ok){
+    const e1=explainFirebaseError(cloudFieldsRes);
+    const e2=explainFirebaseError(cloudScriptRes);
+    alert("Base salva no cache local. Firebase nao sincronizou.\nCampos: "+e1+"\nPremissas: "+e2);
+  }
   re();
 }
 function handleImg(id,inp){Array.from(inp.files).forEach(f=>{const r=new FileReader();r.onload=e=>{S.imgs[id].push({name:f.name,url:e.target.result});re();};r.readAsDataURL(f);});}
 function rmImg(id,i){S.imgs[id].splice(i,1);re();}
 function openWS(id){stopSpeak();S.selId=id;S.view="workspace";re();}
 function goHome(){stopSpeak();stopTimer();S.view="portal";S.presIdx=0;S.bSecs=0;S.tSecs=0;S.running=false;S.manual=false;S.overflow=false;S.speaking=false;re();}
+function exitApp(){
+  stopSpeak();
+  stopTimer();
+  clearFbAuth();
+  S.role="editor";
+  S.view="portal";
+  S.selId=null;
+  S.modalImg=null;S.modalList=[];S.modalIdx=0;
+  S.presIdx=0;S.bSecs=0;S.tSecs=0;S.running=false;S.manual=false;S.overflow=false;S.speaking=false;S.speechRate=0.88;
+  re();
+}
 function saveWS(){S.view="portal";re();}
 function startFMDS(){stopSpeak();S.view="present";S.presIdx=0;S.bSecs=0;S.tSecs=0;S.running=false;S.manual=false;S.overflow=false;S.speaking=false;re();setTimeout(()=>{startTimer();updTimer();},100);}
 function nextBlock(){stopSpeak();S.presIdx++;S.bSecs=0;S.manual=false;S.overflow=false;stopTimer();re();if(S.presIdx<activeCompanies().length)setTimeout(()=>{startTimer();updTimer();},100);}
@@ -2051,43 +3045,58 @@ function jumpBlockById(id){const i=activeCompanies().findIndex(c=>c.id===id);if(
 function toggleRun(){if(S.running)stopTimer();else startTimer();re();}
 function toggleManual(){S.manual=!S.manual;re();}
 function toggleOverflow(){S.overflow=!S.overflow;re();}
-function setTheme(mode){if(mode!=="day"&&mode!=="night")return;S.theme=mode;re();}
-function toggleTheme(){S.theme=S.theme==="night"?"day":"night";re();}
+function setTheme(mode){if(mode!=="day"&&mode!=="night")return;S.theme=mode;S.configOpen=null;re();}
+function toggleTheme(){S.theme=S.theme==="night"?"day":"night";S.configOpen=null;re();}
+function toggleConfig(id){S.configOpen=S.configOpen===id?null:id;re();}
+function setSidebarCollapsed(v){if(!S.sidebarAutoCollapse)return;S.sidebarCollapsed=!!v;re();}
+function toggleSidebarAutoCollapse(){S.sidebarAutoCollapse=!S.sidebarAutoCollapse;S.sidebarCollapsed=false;S.configOpen=null;saveAppState();re();}
 function resetLocalCache(){
-  if(S.role!=="admin")return;
-  const ok=confirm("Reinicializar cache local desta aplicacao? Esta acao limpa bases, edicoes e imagens salvas no navegador.");
+  const ok=confirm("Reinicializar cache local deste navegador? Esta acao limpa somente os dados locais deste usuario: edicoes, imagens e estados salvos no display atual.");
   if(!ok)return;
   const evacSlotKeys=[0,1,2].map(i=>EVAC_IMG_SLOT_PREFIX+i);
-  const lteImgKeys=[
-    ...LTE_VIEWS_META.map((_,i)=>LTE_IMG_SLOT_PREFIX+i),
-    ...LTE_VIEWS_META.flatMap((_,i)=>Array.from({length:LTE_IMAGE_SLOT_COUNT},(__,j)=>`${LTE_IMG_SLOT_PREFIX}${i}_${j}`))
-  ];
+  const lteImgKeys=LTE_STRUCT_GUIDES.flatMap(id=>Array.from({length:LTE_VIEWS_META.length},(_,i)=>Array.from({length:LTE_IMAGE_SLOT_COUNT},(__,j)=>lteImgKeyForGuide(id,i,j))).flat());
+  const kpisImgKeys=KPIS_VIEWS_META.flatMap((_,v)=>Array.from({length:KPIS_IMAGE_SLOT_COUNT},(__,i)=>`${KPIS_IMG_SLOT_PREFIX}${v}_${i}`));
+  const lteStateKeys=LTE_STRUCT_GUIDES.map(id=>lteStateKeyForGuide(id));
   [
-    EVAC_IMG_KEY,EVAC_SCRIPT_KEY,EVAC_SCRIPT_BASE_KEY,EVAC_FIELDS_BASE_KEY,LTE_STATE_KEY,APP_STATE_KEY,...evacSlotKeys,...lteImgKeys
+    EVAC_IMG_KEY,EVAC_SCRIPT_KEY,EVAC_SCRIPT_BASE_KEY,EVAC_FIELDS_BASE_KEY,LTE_STATE_KEY,NET_STATE_KEY,KPIS_STATE_KEY,APP_STATE_KEY,...lteStateKeys,...evacSlotKeys,...lteImgKeys,...kpisImgKeys
   ].forEach(k=>{try{localStorage.removeItem(k);}catch(_){}});
   idbDelete(EVAC_IMG_KEY).catch(()=>{});
   evacSlotKeys.forEach(k=>idbDelete(k).catch(()=>{}));
   lteImgKeys.forEach(k=>idbDelete(k).catch(()=>{}));
+  kpisImgKeys.forEach(k=>idbDelete(k).catch(()=>{}));
   S.enabled=Object.fromEntries(COMPANIES.map(c=>[c.id,true]));
   S.data=Object.fromEntries(COMPANIES.map(c=>[c.id,Object.fromEntries(c.fields.map(f=>[f.k,""]))]));
   S.data["plano_evac"]={...EVAC_DEFAULT_FIELDS,...S.data["plano_evac"]};
   S.imgs=Object.fromEntries(COMPANIES.map(c=>[c.id,[]]));
   S.evacImages=[null,null,null];
   S.evacScript=SCRIPT_SEG;
-  S.vps={blocks:buildDefaultVpsBlocks()};
-  S.lte=buildDefaultLteState();
+S.vps={tempoSolicitado:"08:00",blocks:buildDefaultVpsBlocks()};
+S.lte=buildDefaultLteState();
+S.lteClones={};
+LTE_STRUCT_GUIDES.filter(id=>id!=="sonda_lte").forEach(id=>{S.lteClones[id]=buildDefaultLteState();});
+S.kpis=buildDefaultKpisState();
   S.theme="day";
   S.view="portal";
   S.selId=null;
-  S.presIdx=0;S.bSecs=0;S.tSecs=0;S.running=false;S.manual=false;S.overflow=false;S.speaking=false;
+  S.presIdx=0;S.bSecs=0;S.tSecs=0;S.running=false;S.manual=false;S.overflow=false;S.speaking=false;S.speechRate=0.88;
   saveAppState();
   saveEvacScript();
   re();
 }
 function toggleWeatherPanel(){S.weather.collapsed=!S.weather.collapsed;re();}
-function toggleRole(){
-  if(S.role==="admin"){S.role="editor";re();return;}
-  if(askAdminLogin()){S.role="admin";re();}
+async function toggleRole(){
+  if(S.role==="admin"){
+    S.role="editor";
+    re();
+    return;
+  }
+  try{
+    await ensureFirebaseAdminAuth();
+    S.role="admin";
+    re();
+  }catch(err){
+    alert("Login administrativo Firebase nao autorizado: "+explainFirebaseError({status:0,error:String(err?.message||err||"erro_auth")}));
+  }
 }
 function toggleGuide(id){
   S.enabled[id]=!S.enabled[id];
@@ -2098,19 +3107,34 @@ function toggleGuide(id){
   }
   re();
 }
+function cycleSpeechRate(){
+  const rates=[0.75,0.88,1.0,1.15,1.3];
+  const cur=Number(S.speechRate)||0.88;
+  const idx=rates.findIndex(r=>Math.abs(r-cur)<0.02);
+  S.speechRate=rates[(idx+1+rates.length)%rates.length];
+  saveAppState();
+  if(S.speaking){
+    const c=activeCompanies()[S.presIdx];
+    if(c)doSpeak(buildScript(c));
+  }
+  re();
+}
 function toggleSpeak(){if(S.speaking){stopSpeak();return;}const c=activeCompanies()[S.presIdx];if(c)doSpeak(buildScript(c));}
 
 const _re=re;
 re=function(){_re();saveAppState();};
-loadAppState();
 loadLteState();
+loadAppState();
 hydrateLteImagesFromLocal();
+loadKpisState();
+hydrateKpisImagesFromLocal();
 loadEvacState();
 syncEvacImagesFromIdbOnBoot();
 syncLteImagesFromIdbOnBoot();
 syncEvacBaseFromCloudOnBoot();
-fetchWeatherFromInmet();
+syncKpisImagesFromIdbOnBoot();
+syncKpisBaseFromCloudOnBoot();
 clearInterval(wInt);
-wInt=setInterval(fetchWeatherFromInmet,15*60*1000);
+wInt=null;
 re();
 </script>
