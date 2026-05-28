@@ -633,7 +633,7 @@ function migrateLtePlanilhaSchema(planilha){
   const aliases={
     "TEXTO BREVE DA OPERACAO":["TEXTO BREVE DA OPERACAO","TEXTO BREVE","DESCRICAO"],
     "TRAB":["TRAB","HH PLANEJADO","HH"],
-    "TOLERANCIA MAXIMA":["TOLERANCIA MAXIMA","TOLERANCIA MAX","DATA DE VENCIMENTO","SEVERIDADE"]
+    "TOLERANCIA MAXIMA":["TOLERANCIA MAXIMA","TOLERANCIA MAX","DATA DE VENCIMENTO"]
   };
   const findModelIdx=h=>{
     const keys=(aliases[h]||[h]).map(normalizeHeaderKey);
@@ -643,7 +643,7 @@ function migrateLtePlanilhaSchema(planilha){
   const canMap=wanted.some(idx=>idx>-1);
   if(!canMap&&!headers.some(h=>/DATA DE EXECUCAO|HH PLANEJADO|DURACAO|NUM|TOLERANCIA MINIMA/i.test(h)))return{headers,rows};
   const statusIdx=headers.findIndex(h=>/status/i.test(h));
-  const dueIdx=headers.findIndex(h=>/data de vencimento/i.test(h));
+  const dueIdx=headers.findIndex(h=>/data de vencimento|severidade/i.test(h));
   const nextHeaders=[...LTE_MODEL_BASE_HEADERS];
   if(statusIdx>-1)nextHeaders.push("Status");
   if(dueIdx>-1)nextHeaders.push("Severidade");
@@ -1144,8 +1144,16 @@ function getLteProgrammedDateIndex(headers){
   }
   return -1;
 }
+function getLteSeverityDateIndex(headers){
+  const terms=["tolerancia maxima","tolerancia max","data de vencimento","vencimento"];
+  for(const t of terms){
+    const idx=findLteColumnByHeader(headers,t);
+    if(idx>-1)return idx;
+  }
+  return getLteProgrammedDateIndex(headers);
+}
 function inferVencimentoDays(row,headers){
-  const idx=getLteProgrammedDateIndex(headers);
+  const idx=getLteSeverityDateIndex(headers);
   if(idx<0)return "";
   const dt=parseBrDate(row[idx]);
   if(!dt)return "";
