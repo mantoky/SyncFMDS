@@ -520,6 +520,83 @@ body.night .portal-title{color:#D9FFF0;text-shadow:0 0 18px rgba(111,207,151,.22
   text-shadow:0 2px 0 rgba(0,0,0,.08),0 0 22px rgba(191,234,255,.22)
 }
 .portal-hero-meta{position:relative;z-index:1;text-align:right;min-width:150px}
+.portal-card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(238px,1fr));
+  gap:10px;
+  margin-bottom:1rem
+}
+.portal-team-card{
+  position:relative;
+  overflow:hidden;
+  aspect-ratio:1.618/1;
+  min-height:122px;
+  background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(248,251,249,.96));
+  border:.5px solid var(--cc);
+  border-left:4px solid var(--team-ac);
+  border-radius:7px;
+  padding:.8rem .9rem;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  box-shadow:0 10px 24px rgba(15,23,42,.045);
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease
+}
+.portal-team-card::after{
+  content:"";
+  position:absolute;
+  right:-18%;
+  bottom:-36%;
+  width:52%;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:color-mix(in srgb,var(--team-ac) 12%,transparent);
+  pointer-events:none
+}
+.portal-team-card:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in srgb,var(--team-ac) 48%,var(--cc));
+  box-shadow:0 15px 34px rgba(15,23,42,.08)
+}
+.portal-team-top{display:flex;align-items:center;justify-content:space-between;gap:8px;position:relative;z-index:1}
+.portal-team-badge{
+  width:30px;
+  height:30px;
+  border-radius:7px;
+  background:color-mix(in srgb,var(--team-ac) 14%,white);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:850;
+  color:var(--team-ac);
+  letter-spacing:.02em
+}
+.portal-team-state{
+  font-size:10px;
+  padding:3px 8px;
+  border-radius:999px;
+  background:color-mix(in srgb,var(--team-ac) 12%,white);
+  border:.5px solid color-mix(in srgb,var(--team-ac) 38%,var(--cc));
+  color:var(--team-ac);
+  font-weight:800;
+  cursor:pointer;
+  white-space:nowrap
+}
+.portal-team-body{position:relative;z-index:1}
+.portal-team-name{
+  font-size:18px;
+  line-height:1.12;
+  font-weight:850;
+  color:var(--gr);
+  letter-spacing:.005em
+}
+.portal-team-sub{font-size:12px;color:var(--cm);margin-top:5px;font-weight:600}
+.portal-team-time{position:relative;z-index:1;font-size:11px;color:#718096;font-weight:800}
+body.night .portal-team-card{background:linear-gradient(135deg,#101B2C,#0F172A);box-shadow:0 14px 30px rgba(0,0,0,.24)}
+body.night .portal-team-badge,
+body.night .portal-team-state{background:rgba(255,255,255,.08)}
 .lte-model-shell{
   border:.5px solid #B7DCCB;
   border-radius:10px;
@@ -2748,19 +2825,22 @@ function renderAccessScreen(){
 //  PORTAL 
 function renderPortal(){
   const f=fCount();
-  const cards=COMPANIES.map(c=>{
+  const visibleCompanies=COMPANIES.filter(c=>S.enabled[c.id]);
+  const cards=visibleCompanies.map(c=>{
     const ok=filled(c.id);
-    const on=S.enabled[c.id];
-    return`<div onclick="openWS('${c.id}')" style="background:var(--wh);border:.5px solid ${ok?c.ac+"66":"var(--cc)"};border-left:3px solid ${c.ac};border-radius:8px;padding:.65rem .85rem;cursor:pointer;opacity:${on?1:.55}">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-        <div style="width:24px;height:24px;border-radius:50%;background:${c.ac}18;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:${c.ac}">${c.init}</div>
-        <button onclick="event.stopPropagation();toggleGuide('${c.id}')" style="font-size:9px;padding:1px 6px;border-radius:20px;background:${on?c.ac+"15":"var(--bg)"};border:.5px solid ${on?c.ac+"44":"var(--cc)"};color:${on?c.ac:"var(--cm)"};font-weight:500;cursor:pointer">${on?(ok?"OK pronto":"ligada"):"ausente"}</button>
+    return`<div class="portal-team-card" onclick="openWS('${c.id}')" style="--team-ac:${c.ac}">
+      <div class="portal-team-top">
+        <div class="portal-team-badge">${c.init}</div>
+        <button onclick="event.stopPropagation();toggleGuide('${c.id}')" class="portal-team-state">${ok?"OK pronto":"ligada"}</button>
       </div>
-      <div style="font-size:12px;font-weight:500;color:var(--gr)">${c.name}</div>
-      <div style="font-size:10px;color:var(--cm);margin-top:1px">${c.sub}</div>
-      <div style="font-size:9px;color:#9CA3AF;margin-top:3px">${c.mins} min</div>
+      <div class="portal-team-body">
+        <div class="portal-team-name">${escHtml(c.name)}</div>
+        <div class="portal-team-sub">${escHtml(c.sub)}</div>
+      </div>
+      <div class="portal-team-time">${c.mins} min</div>
     </div>`;
   }).join("");
+  const empty=visibleCompanies.length?cards:`<div style="grid-column:1/-1;background:var(--wh);border:.5px dashed #B7DCCB;border-radius:8px;padding:1rem;text-align:center;color:var(--cm);font-weight:700">Todas as guias estao marcadas como ausentes.</div>`;
   return`<div>
     <div class="shell-sticky" style="margin:0 -.85rem 1rem;padding:0 .85rem .65rem">
       <div class="portal-hero">
@@ -2783,7 +2863,7 @@ function renderPortal(){
         </div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1rem">${cards}</div>
+    <div class="portal-card-grid">${empty}</div>
   </div>`;
 }
 
