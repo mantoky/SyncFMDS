@@ -10,11 +10,6 @@
 !inmet_proxy.py
 !run_vps_sync.ps1
 !vps_connector.py
-!vps_publish/
-!vps_publish/**
-!netlify.vps.toml
-!firebase.vps.json
-!DEPLOY_VPS.md
 !data/
 !data/vps/
 !data/vps/**
