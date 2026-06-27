@@ -20,6 +20,11 @@ Netlify:
 Site: `syncfmds` (`d44d77bd-ae7e-43a6-b3d8-ca850b513267`)
 URL: `https://syncfmds.netlify.app`
 
+VPS FMDS Editor:
+URL: `https://vps-fmds-editor.netlify.app/`
+Pacote versionado: `vps_publish/`
+Documentacao: `DEPLOY_VPS.md`
+
 Publicacao manual enxuta:
 ```powershell
 New-Item -ItemType Directory -Force -Path .\netlify_publish | Out-Null
